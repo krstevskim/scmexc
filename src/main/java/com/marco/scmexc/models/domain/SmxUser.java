@@ -37,6 +37,7 @@ public class SmxUser {
     private boolean activated;
 
     @Enumerated(EnumType.ORDINAL)
+    @Column(name = "role_id")
     private Role role;
 
     @ManyToMany(mappedBy = "courseModerators")

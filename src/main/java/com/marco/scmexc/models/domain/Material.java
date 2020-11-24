@@ -23,6 +23,7 @@ public class Material {
     private Material parent;
 
     @Enumerated(EnumType.ORDINAL)
+    @Column(name = "type")
     private Type type;
 
     @ManyToOne
