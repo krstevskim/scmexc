@@ -21,14 +21,14 @@ public class Comment {
     private Integer downvotes;
 
     @ManyToOne
-    @Column(name = "created_by")
+    @JoinColumn(name = "created_by")
     private SmxUser createdBy;
 
     @Column(name = "date_posted")
     private ZonedDateTime datePosted;
 
     @ManyToOne
-    @Column(name = "material_id")
+    @JoinColumn(name = "material_id")
     private Material material;
 
 
