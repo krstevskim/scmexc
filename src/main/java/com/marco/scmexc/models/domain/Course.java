@@ -26,6 +26,9 @@ public class Course {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
+    @Column(name = "date_last_modified")
+    private LocalDate dateLastModified;
+
     @JsonIgnore
     @ManyToMany
     @JoinTable(
@@ -83,4 +86,11 @@ public class Course {
         this.dateCreated = dateCreated;
     }
 
+    public LocalDate getDateLastModified() {
+        return dateLastModified;
+    }
+
+    public void setDateLastModified(LocalDate dateLastModified) {
+        this.dateLastModified = dateLastModified;
+    }
 }
