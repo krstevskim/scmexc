@@ -3,7 +3,8 @@ CREATE TABLE "courses" (
   "name" varchar(255),
   "code" varchar(255),
   "description" text,
-  "date_created" date
+  "date_created" date,
+  "date_last_modified" date
 );
 
 CREATE TABLE "course_moderator" (
@@ -15,17 +16,14 @@ CREATE TABLE "course_moderator" (
 CREATE TABLE "materials" (
   "id" BIGSERIAL PRIMARY KEY,
   "title" varchar(255),
-  "is_parent" boolean,
-  "parent_id" bigint,
-  "type" bigint,
   "created_by" bigint,
   "date_created" date,
   "is_published" boolean,
   "description" text,
   "approved_by" bigint,
   "course_id" bigint,
-  "file_id" bigint,
-  "question_id" bigint
+  "up_votes" int default 0,
+  "down_votes" int default
 );
 
 CREATE TABLE "questions" (
@@ -47,6 +45,8 @@ CREATE TABLE "files" (
 CREATE TABLE "users" (
   "id" BIGSERIAL PRIMARY KEY,
   "username" varchar(255),
+  "first_name" text not null ,
+  "last_name" text not null ,
   "password" varchar(255),
   "email" varchar(255),
   "date_created" datetime,
@@ -58,7 +58,7 @@ CREATE TABLE "comments" (
   "id" BIGSERIAL PRIMARY KEY,
   "description" text,
   "upvotes" int,
-  "downvotes" int,
+  "downVotes" int,
   "created_by" bigint,
   "date_posted" datetime,
   "material_id" bigint
@@ -74,21 +74,22 @@ CREATE TABLE "types" (
   "name" varchar(255)
 );
 
+CREATE TABLE "items" (
+    "id" bigserial primary key not null,
+    "type" bigint references types("id"),
+    "material_id" bigint references materials("id"),
+    "question_id" bigint references questions("id")
+)
+
 ALTER TABLE "course_moderator" ADD FOREIGN KEY ("user_id") REFERENCES "users" ("id");
 
 ALTER TABLE "course_moderator" ADD FOREIGN KEY ("course_id") REFERENCES "courses" ("id");
-
-ALTER TABLE "materials" ADD FOREIGN KEY ("type") REFERENCES "types" ("id");
 
 ALTER TABLE "materials" ADD FOREIGN KEY ("created_by") REFERENCES "users" ("id");
 
 ALTER TABLE "materials" ADD FOREIGN KEY ("approved_by") REFERENCES "users" ("id");
 
 ALTER TABLE "materials" ADD FOREIGN KEY ("course_id") REFERENCES "courses" ("id");
-
-ALTER TABLE "materials" ADD FOREIGN KEY ("file_id") REFERENCES "files" ("id");
-
-ALTER TABLE "materials" ADD FOREIGN KEY ("question_id") REFERENCES "questions" ("id");
 
 ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
 
