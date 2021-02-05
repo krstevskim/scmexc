@@ -2,11 +2,9 @@ package com.marco.scmexc.api;
 
 
 import com.marco.scmexc.models.domain.Material;
+import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.services.MaterialService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -25,4 +23,8 @@ public class MaterialController {
         return service.getAllMaterialsByCourse(courseId);
     }
 
+    @PostMapping("/create")
+    public Material createNewMaterial(@RequestBody MaterialRequest request) {
+        return null;
+    }
 }

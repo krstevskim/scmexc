@@ -16,6 +16,9 @@ public class Question {
     @Column(name = "answer")
     private String answer;
 
+    @OneToOne(mappedBy = "question")
+    private Item item;
+
     public Long getId() {
         return id;
     }
@@ -38,5 +41,13 @@ public class Question {
 
     public void setAnswer(String answer) {
         this.answer = answer;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

@@ -15,17 +15,6 @@ public class Material {
     @Column(name = "title")
     private String title;
 
-    @Column(name = "is_parent")
-    private boolean is_parent;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "parent_id")
-    private Material parent;
-
-    @Enumerated(EnumType.ORDINAL)
-    @Column(name = "type")
-    private Type type;
-
     @ManyToOne
     @JoinColumn(name = "created_by")
     private SmxUser createdBy;
@@ -43,27 +32,21 @@ public class Material {
     @JoinColumn(name = "approved_by")
     private SmxUser approvedBy;
 
-    @Column(name = "upvotes")
-    private Integer upvotes;
+    @Column(name = "up_votes")
+    private Integer upVotes;
 
-    @Column(name = "downvotes")
-    private Integer downvotes;
+    @Column(name = "down_votes")
+    private Integer downVotes;
 
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
-    @ManyToOne
-    @JoinColumn(name = "file_id")
-    private SmxFile file;
-
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
-
     @OneToMany(mappedBy = "material")
     private List<Comment> comments;
 
+    @OneToMany(mappedBy = "material")
+    private List<Item> items;
 
     public List<Comment> getComments() {
         return comments;
@@ -87,30 +70,6 @@ public class Material {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public boolean isIs_parent() {
-        return is_parent;
-    }
-
-    public void setIs_parent(boolean is_parent) {
-        this.is_parent = is_parent;
-    }
-
-    public Material getParent() {
-        return parent;
-    }
-
-    public void setParent(Material parent) {
-        this.parent = parent;
-    }
-
-    public Type getType() {
-        return type;
-    }
-
-    public void setType(Type type) {
-        this.type = type;
     }
 
     public SmxUser getCreatedBy() {
@@ -161,35 +120,19 @@ public class Material {
         this.course = course;
     }
 
-    public SmxFile getFile() {
-        return file;
+    public Integer getUpVotes() {
+        return upVotes;
     }
 
-    public void setFile(SmxFile file) {
-        this.file = file;
+    public void setUpVotes(Integer upvotes) {
+        this.upVotes = upvotes;
     }
 
-    public Question getQuestion() {
-        return question;
+    public Integer getDownVotes() {
+        return downVotes;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
-    }
-
-    public Integer getUpvotes() {
-        return upvotes;
-    }
-
-    public void setUpvotes(Integer upvotes) {
-        this.upvotes = upvotes;
-    }
-
-    public Integer getDownvotes() {
-        return downvotes;
-    }
-
-    public void setDownvotes(Integer downvotes) {
-        this.downvotes = downvotes;
+    public void setDownVotes(Integer downVotes) {
+        this.downVotes = downVotes;
     }
 }
