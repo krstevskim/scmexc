@@ -1,0 +1,19 @@
+<div class="flex">
+  <mat-form-field appearance="outline">
+    <mat-label>Search courses..</mat-label>
+    <input [(ngModel)]="search" (ngModelChange)="searchInputChange($event)" matInput placeholder="Search courses..">
+    <mat-icon matSuffix>search</mat-icon>
+  </mat-form-field>
+  <p>{{search}}</p>
+</div>
+
+<div class="flex-wrap">
+<mat-card class="card-size" *ngFor="let course of dataDisplayed"  [routerLink]="course.id">
+  <mat-card-title>{{course.name}} {{course.code}} ({{course.id}})</mat-card-title>
+  <mat-card-content class="card-content">
+    {{course.description}}
+  </mat-card-content>
+  <mat-card-footer class="card-footer"><span class="margin-left">Number of materials: {{course.numMaterials}}</span>
+  </mat-card-footer>
+</mat-card>
+</div>
