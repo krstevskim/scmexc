@@ -19,7 +19,7 @@ public class Item {
     private Material material;
 
     @OneToOne
-    @Column(name = "question_id", nullable = true)
+    @JoinColumn(name = "question_id", nullable = true)
     private Question question;
 
     public Long getId() {

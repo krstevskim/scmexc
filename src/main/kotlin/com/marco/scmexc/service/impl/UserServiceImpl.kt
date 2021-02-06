@@ -18,10 +18,11 @@ class UserServiceImpl(
     private val passwordEncoder: PasswordEncoder
 ) : UserService {
 
+//TODO IMPLEMENT EDIT OF USER BY ADMIN
 
     //    @PreAuthorize("hasAuthority('ADMINISTRATOR')")
     override fun createUser(newUser: UserDto): SmxUser {
-        repository.findSmxUserByEmail(newUser.email).ifPresent { throw UserAlreadyExistsException() }
+        repository.findSmxUserByEmailOrUsername(newUser.email, newUser.username).ifPresent { throw UserAlreadyExistsException() }
         var role = Role.BASIC
         if (newUser.role != null) {
             role = Role.valueOf(newUser.role)

@@ -7,6 +7,7 @@ import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.service.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,6 +20,7 @@ public class UserController {
         this.userService = userService;
     }
 
+//    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
     @PostMapping
     private ResponseEntity<SmxUser> createUser(@RequestBody UserDto userDto){
         return ResponseEntity.ok(userService.createUser(userDto));

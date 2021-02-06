@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface SmxUserRepository extends JpaRepository<SmxUser, Long> {
+    Optional<SmxUser> findSmxUserByEmailOrUsername(String email, String username);
     Optional<SmxUser> findSmxUserByEmail(String email);
 }

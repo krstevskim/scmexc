@@ -18,7 +18,7 @@ public class CourseService {
     }
 
     public List<Course> getAllCourses(String name) {
-    return courseRepository.findAllByName(name);
+    return courseRepository.findAll();
     }
 
     public Course getCourseById(Long id){
