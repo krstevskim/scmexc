@@ -3,5 +3,5 @@ export interface Course {
   name: string;
   code: string;
   description: string;
-  numMaterials: number;
+  numMaterials?: number;
 }

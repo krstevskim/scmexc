@@ -18,7 +18,7 @@ public class CourseController {
     }
 
     @GetMapping("/all")
-    public List<CourseResponse> getAllCourses(@RequestParam String name) {
+    public List<CourseResponse> getAllCourses(@RequestParam(required = false) String name) {
         return mapper.getAllCoursesByName(name);
     }
 
