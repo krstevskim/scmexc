@@ -1,5 +1,7 @@
 package com.marco.scmexc.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -16,6 +18,7 @@ public class Item {
 
     @ManyToOne
     @JoinColumn(name = "material_id")
+    @JsonIgnore
     private Material material;
 
     @OneToOne

@@ -1,5 +1,7 @@
 package com.marco.scmexc.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +19,7 @@ public class Question {
     private String answer;
 
     @OneToOne(mappedBy = "question")
+    @JsonIgnore
     private Item item;
 
     public Long getId() {

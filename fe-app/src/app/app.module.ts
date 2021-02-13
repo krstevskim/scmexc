@@ -24,7 +24,12 @@ import {UserService} from "./services/user.service";
 import {UserStateService} from "./services/user-state.service";
 import {BasicAuthHttpInterceptor} from "./services/auth/basic-auth-http.interceptor";
 import { MenuComponent } from './components/menu/menu.component';
-
+import { CommentWrapperView } from './components/comment-wrapper/comment-wrapper.view';
+import { CommentView } from './components/comment/comment.view';
+import { MaterialView } from './components/material/material.view';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {TruncatePipe} from "./interfaces/truncate-pipe";
+import { ItemWrapperView } from './components/item-wrapper/item-wrapper.view';
 
 @NgModule({
   declarations: [
@@ -33,7 +38,12 @@ import { MenuComponent } from './components/menu/menu.component';
     CoursePageComponent,
     LoginPageComponent,
     RegisterPageComponent,
-    MenuComponent
+    MenuComponent,
+    CommentWrapperView,
+    CommentView,
+    MaterialView,
+    TruncatePipe,
+    ItemWrapperView
   ],
   imports: [
     BrowserModule,
@@ -50,6 +60,7 @@ import { MenuComponent } from './components/menu/menu.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatExpansionModule,
   ],
   providers: [AuthenticationService,
     UserService,

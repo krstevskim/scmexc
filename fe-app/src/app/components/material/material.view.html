@@ -1,0 +1,12 @@
+<mat-card-title>{{material.title}}</mat-card-title>
+<mat-card-content class="material-card-content-height">{{material.description}}</mat-card-content>
+<!--Here should be items-->
+  <item-wrapper class="flex-column" [items]="material.items"></item-wrapper>
+<mat-card-footer class="mat-card-footer">
+    <div class="flex-likes">
+      <div class="flex-row"><mat-icon class="like">thumb_up_alt</mat-icon><span class="votes-margin">{{material.upVotes}}</span></div>
+      <div class="flex-row"><mat-icon class="dislike">thumb_down_alt</mat-icon><span class="votes-margin">{{material.downVotes}}</span></div>
+  </div>
+</mat-card-footer>
+<hr>
+<comment-wrapper [comments]="material.comments"></comment-wrapper>

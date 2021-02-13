@@ -42,6 +42,7 @@ public class Material {
     @JoinColumn(name = "course_id")
     private Course course;
 
+
     @OneToMany(mappedBy = "material")
     private List<Comment> comments;
 
@@ -134,5 +135,13 @@ public class Material {
 
     public void setDownVotes(Integer downVotes) {
         this.downVotes = downVotes;
+    }
+
+    public List<Item> getItems() {
+        return items;
+    }
+
+    public void setItems(List<Item> items) {
+        this.items = items;
     }
 }

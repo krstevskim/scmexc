@@ -1,0 +1,48 @@
+.material-card-content-height {
+  min-height: 5vh;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-likes {
+  display: flex;
+  flex-direction: row;
+}
+
+.mat-card-footer {
+  margin-top: 10px;
+  margin-right: 10px;
+  min-height: 5vh;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.like {
+  color: green;
+
+  &:hover {
+    font-size: 32px;
+    cursor: pointer;
+  }
+}
+
+.dislike {
+  color: red;
+
+  &:hover {
+    font-size: 32px;
+    cursor: pointer;
+  }
+}
+
+.votes-margin {
+  margin-left: 5px;
+}

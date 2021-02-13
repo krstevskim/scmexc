@@ -8,9 +8,9 @@
       <mat-form-field appearance="fill" class="full-width-input">
         <mat-label>Input your username</mat-label>
         <input matInput
-               id="username"
-               name="username"
-               placeholder="Username"
+               id="email"
+               name="email"
+               placeholder="Email"
                formControlName="email">
         <mat-icon matPrefix>person</mat-icon>
         <mat-error *ngIf="f.email.invalid && f.email.touched">You must input a valid username.</mat-error>
@@ -37,8 +37,10 @@
       <button mat-flat-button color="accent" type="submit">Log In</button>
       <button mat-flat-button color="primary" >Forgot Password</button>
     </div>
-
     <hr>
-
+    <div class="register-text">
+      <p routerLink="/register">Click here to register</p>
+    </div>
+    <hr>
   </form>
 </div>

@@ -1,5 +1,8 @@
 package com.marco.scmexc.models.domain;
 
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 
@@ -29,6 +32,7 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "material_id")
+    @JsonIgnore
     private Material material;
 
 

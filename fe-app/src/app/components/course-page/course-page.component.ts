@@ -1,4 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {Course} from "../../interfaces/course.interface";
+import {CourseService} from "../../services/course.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {MaterialService} from "../../services/material.service";
+import {Observable} from "rxjs";
+import {Material} from "../../interfaces/material.interface";
 
 @Component({
   selector: 'app-course-page',
@@ -7,11 +13,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoursePageComponent implements OnInit {
 
-  constructor() {
+  course: Course;
+  courseId: number;
+  materials$: Observable<Material[]>
+  materials: Material[];
+  constructor(private service: CourseService,
+              private router: Router,
+              private route: ActivatedRoute,
+              private materialService: MaterialService) {
     console.log("INIT")
   }
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+      console.log(params);
+      this.courseId = +params['id'];
+      this.service.getCourseById(this.courseId).subscribe(el => {
+        this.course = el;
+      })
+      this.materials$ = this.materialService.getMaterialsByCourseId(this.courseId);
+    });
   }
 
 }
