@@ -53,3 +53,15 @@ footer a {
   text-decoration: none;
 }
 
+.flex-l {
+  flex-grow: 3;
+}
+
+.flex-c {
+  flex-grow :4;
+}
+
+.flex-r {
+  flex-grow: 2;
+  text-align: end;
+}

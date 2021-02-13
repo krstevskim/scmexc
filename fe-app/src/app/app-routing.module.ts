@@ -24,6 +24,15 @@ const routes: Routes = [
     path: 'courses/:id',
     component: CoursePageComponent,
     canActivate: [AuthGuard]
+  },
+  {
+    path: '',
+    redirectTo: 'courses',
+    pathMatch: 'full'
+  },
+  {
+    path: '**',
+    redirectTo: '',
   }
 ];
 

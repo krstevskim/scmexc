@@ -1,1 +1,14 @@
-<p>course-page works!</p>
+<div class="flex">
+
+  <div>
+    <h2>{{course.name}}({{course.code}})</h2>
+    <p>{{course.description}}</p>
+  </div>
+
+
+  <div class="materials">
+    <mat-card class="material-card-height material-margin" *ngFor="let mat of materials$ | async">
+      <material [material]="mat"></material>
+    </mat-card>
+  </div>
+</div>

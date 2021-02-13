@@ -1,0 +1,27 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.push {
+  margin-left: auto;
+}
+
+.align-left {
+  align-items: start;
+  //text-align: center;
+  justify-content: left;
+}
+.flex-likes {
+  display: flex;
+  flex-direction: column;
+  width: 50px
+}
+
+.width {
+  max-width: 960px;
+  min-width: 600px;
+}
+.flex-1 {
+  flex:1;
+}

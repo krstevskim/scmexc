@@ -1,7 +1,7 @@
 <div class="bg-img">
 <div class="toolbar" role="banner">
-  <div class="push"></div>
-  <a class="link-style" routerLink="/">
+  <div class="flex-l"></div>
+  <a class="link-style flex-c" routerLink="/">
   <div>
   <span>
     <mat-icon>school</mat-icon>
@@ -9,8 +9,8 @@
     School Material Exchange
   </div>
   </a>
-  <div class="push">
-    <span>Welcome {{user.username}}</span>
+  <div class="flex-r">
+    <span *ngIf="user?.username">Welcome {{user.username}}</span>
     <app-menu [user]="user"></app-menu>
   </div>
 </div>

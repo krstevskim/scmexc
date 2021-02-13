@@ -1,0 +1,32 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+.align-left {
+  align-items: start;
+  //text-align: center;
+  justify-content: left;
+}
+.full-width-input {
+  width: 100%;
+  min-width: 100%;
+}
+
+.width {
+  max-width: 960px;
+  min-width: 600px;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.align-center {
+  margin-bottom: auto;
+  margin-top: 0;
+}
+
+.comment-margin {
+  margin-bottom: 15px;
+
+}
