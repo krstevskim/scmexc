@@ -32,12 +32,6 @@ export class MenuComponent implements OnInit {
       icon: 'book',
       route: '/courses',
       canAccess: true
-    },
-    {
-      name: 'Logout',
-      icon: 'logout',
-      route: '/logout',
-      canAccess: true
     }
   ]
 
@@ -60,6 +54,10 @@ export class MenuComponent implements OnInit {
 
   isAuthenticated() {
     return this.authService.isUserLoggedIn();
+  }
+
+  logout() {
+    this.authService.logOut();
   }
 
 }

@@ -26,7 +26,7 @@ public class CourseMapperImpl implements CourseMapper {
     }
 
     private CourseResponse mapCourseToCourseResponse(Course course) {
-        return CourseResponse.of(course.getId(), course.getName(), course.getCode(), course.getDescription(), course.getDateCreated());
+        return CourseResponse.of(course.getId(), course.getName(), course.getCode(), course.getDescription(), course.getDateCreated(), course.getCourseModerators());
     }
 
     @Override
