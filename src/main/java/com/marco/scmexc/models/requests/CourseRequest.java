@@ -2,6 +2,7 @@ package com.marco.scmexc.models.requests;
 
 
 public class CourseRequest {
+
     public final Long id;
     public final String name;
     public final String code;
