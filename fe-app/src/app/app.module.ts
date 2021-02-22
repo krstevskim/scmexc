@@ -30,6 +30,57 @@ import { MaterialView } from './components/material/material.view';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {TruncatePipe} from "./interfaces/truncate-pipe";
 import { ItemWrapperView } from './components/item-wrapper/item-wrapper.view';
+import { MaterialCreateComponent } from './components/material-create/material-create.component';
+import { ItemCreateWrapperComponent } from './components/item-create-wrapper/item-create-wrapper.component';
+import { CourseCreateComponent } from './components/course-create/course-create.component';
+import {NotifierModule, NotifierOptions} from "angular-notifier";
+import { MaterialListComponent } from './components/admin-pages/material-list/material-list.component';
+import { UserListComponent } from './components/admin-pages/user-list/user-list.component';
+import {MatPaginatorModule} from "@angular/material/paginator";
+import {MatSortModule} from "@angular/material/sort";
+import {MatTableModule} from "@angular/material/table";
+
+
+const customNotifierOptions: NotifierOptions = {
+  position: {
+    horizontal: {
+      position: 'right',
+      distance: 12
+    },
+    vertical: {
+      position: 'top',
+      distance: 12,
+      gap: 10
+    }
+  },
+  theme: 'material',
+  behaviour: {
+    autoHide: 5000,
+    onClick: 'hide',
+    onMouseover: 'pauseAutoHide',
+    showDismissButton: true,
+    stacking: 4
+  },
+  animations: {
+    enabled: true,
+    show: {
+      preset: 'slide',
+      speed: 300,
+      easing: 'ease'
+    },
+    hide: {
+      preset: 'fade',
+      speed: 300,
+      easing: 'ease',
+      offset: 50
+    },
+    shift: {
+      speed: 300,
+      easing: 'ease'
+    },
+    overlap: 150
+  }
+};
 
 @NgModule({
   declarations: [
@@ -43,7 +94,12 @@ import { ItemWrapperView } from './components/item-wrapper/item-wrapper.view';
     CommentView,
     MaterialView,
     TruncatePipe,
-    ItemWrapperView
+    ItemWrapperView,
+    MaterialCreateComponent,
+    ItemCreateWrapperComponent,
+    CourseCreateComponent,
+    MaterialListComponent,
+    UserListComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +117,10 @@ import { ItemWrapperView } from './components/item-wrapper/item-wrapper.view';
     ReactiveFormsModule,
     HttpClientModule,
     MatExpansionModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NotifierModule.withConfig(customNotifierOptions)
   ],
   providers: [AuthenticationService,
     UserService,

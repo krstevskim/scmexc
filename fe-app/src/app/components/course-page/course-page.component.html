@@ -1,12 +1,16 @@
-<div class="flex">
+<div class="default-page-flex">
 
-  <div>
-    <h2>{{course.name}}({{course.code}})</h2>
-    <p>{{course.description}}</p>
-  </div>
+  <mat-card class="text-center width-50">
+    <mat-card-title class="">
+      <h2>{{course.name}}({{course.code}})</h2>
+    </mat-card-title>
+    <mat-card-content>
+      <p>{{course.description}}</p>
+    </mat-card-content>
+  </mat-card>
 
 
-  <div class="materials">
+  <div class="width-50">
     <mat-card class="material-card-height material-margin" *ngFor="let mat of materials$ | async">
       <material [material]="mat"></material>
     </mat-card>

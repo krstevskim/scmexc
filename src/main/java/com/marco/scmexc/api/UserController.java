@@ -6,8 +6,12 @@ import com.marco.scmexc.models.dto.UserDto;
 import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.service.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,5 +33,10 @@ public class UserController {
     @GetMapping
     private ResponseEntity<SmxUser> getCurrentUser(@CurrentUser UserPrincipal userPrincipal){
         return ResponseEntity.ok(userService.getUserById(userPrincipal.getId()));
+    }
+    @GetMapping("/paged")
+    private ResponseEntity<Page<SmxUser>> getAllUsersPaged(@RequestParam(required = false, defaultValue = "", name = "q") String searchQuery,
+             Pageable pageable) {
+        return ResponseEntity.ok(userService.getAllUsersPaged(pageable, searchQuery));
     }
 }

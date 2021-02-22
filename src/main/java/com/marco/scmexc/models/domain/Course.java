@@ -29,7 +29,6 @@ public class Course {
     @Column(name = "date_last_modified")
     private LocalDate dateLastModified;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(
             name = "course_moderator",

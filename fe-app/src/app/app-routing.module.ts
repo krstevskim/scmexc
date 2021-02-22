@@ -5,6 +5,10 @@ import {CoursePageComponent} from "./components/course-page/course-page.componen
 import {LoginPageComponent} from "./components/login-page/login-page.component";
 import {RegisterPageComponent} from "./components/register-page/register-page.component";
 import {AuthGuard} from "./guards/auth.guard";
+import {CourseCreateComponent} from "./components/course-create/course-create.component";
+import {AdminGuard} from "./guards/admin.guard";
+import {UserListComponent} from "./components/admin-pages/user-list/user-list.component";
+import {MaterialListComponent} from "./components/admin-pages/material-list/material-list.component";
 
 const routes: Routes = [
   {
@@ -17,13 +21,39 @@ const routes: Routes = [
   },
   {
     path: 'courses',
-    component: CourseListComponent,
+    children: [
+      {
+        path: 'create/:id',
+        component: CourseCreateComponent //admin guard
+      },
+      {
+        path: 'create',
+        component: CourseCreateComponent
+      },
+      {
+        path: ':id',
+        component: CoursePageComponent
+      },
+      {
+        path: '',
+        component: CourseListComponent,
+      },
+    ],
     canActivate: [AuthGuard]
   },
   {
-    path: 'courses/:id',
-    component: CoursePageComponent,
-    canActivate: [AuthGuard]
+    path: 'admin',
+    children: [
+      {
+        path: 'users',
+        component: UserListComponent
+      },
+      {
+        path: 'materials',
+        component: MaterialListComponent
+      }
+    ],
+    canActivate: [AuthGuard, AdminGuard] //adminguard
   },
   {
     path: '',

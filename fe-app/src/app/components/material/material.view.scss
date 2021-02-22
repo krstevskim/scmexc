@@ -2,21 +2,6 @@
   min-height: 5vh;
 }
 
-.flex-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.flex-row {
-  display: flex;
-  flex-direction: row;
-}
-
-.flex-likes {
-  display: flex;
-  flex-direction: row;
-}
-
 .mat-card-footer {
   margin-top: 10px;
   margin-right: 10px;
@@ -45,4 +30,8 @@
 
 .votes-margin {
   margin-left: 5px;
+}
+
+.push {
+  margin-left: auto;
 }

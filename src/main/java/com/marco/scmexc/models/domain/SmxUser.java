@@ -1,6 +1,6 @@
 package com.marco.scmexc.models.domain;
 
-import net.minidev.json.annotate.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
@@ -40,6 +40,7 @@ public class SmxUser {
     @Column(name = "role_id")
     private Role role;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "courseModerators")
     private Set<Course> moderatingCourses;
 
