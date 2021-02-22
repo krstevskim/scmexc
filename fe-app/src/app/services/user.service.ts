@@ -61,10 +61,6 @@ export class UserService {
         })
     }
 
-    getMentoredByUser(): Observable<User[]> {
-        return this.http.get<User[]>(`${this.url}/mentorees`)
-    }
-
     // modifyUser(userId: number, userDto: ModifyUserDto): Observable<User> {
     //     return this.http.put<User>(`${this.url}/${userId}`, userDto)
     // }
@@ -76,17 +72,4 @@ export class UserService {
     registerUser(newUser: User): Observable<User>{
         return this.http.post<User>('/api/auth/register', newUser)
     }
-
-    assignMentor(userId: number, mentorId: number): Observable<User> {
-        return this.http.patch<User>(`${this.url}/mentor`,
-            new HttpParams()
-                .set('userId', userId.toString())
-                .set('mentorId', mentorId.toString())
-        )
-    }
-
-    removeMentor(userId: number): Observable<User> {
-        return this.http.delete<User>(`${this.url}/${userId}/mentor/`)
-    }
-
 }

@@ -8,6 +8,9 @@ import com.marco.scmexc.models.exceptions.user.UserNotFoundException
 import com.marco.scmexc.repository.SmxUserRepository
 import com.marco.scmexc.security.UserPrincipal
 import com.marco.scmexc.service.UserService
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.SortDefault
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
@@ -45,6 +48,13 @@ class UserServiceImpl(
 
     override fun saveUser(user: SmxUser): SmxUser {
         return repository.save(user)
+    }
+
+    override fun getAllUsersPaged(pageable:Pageable, searchQuery: String): Page<SmxUser> {
+        return when {
+            searchQuery.isEmpty() -> repository.findAll(pageable)
+            else -> repository.getPagedUsersByNameContains(searchQuery, pageable)
+        }
     }
 
     override fun modifyUser(userPrincipal: UserPrincipal, modifiedUser: UserDto): SmxUser {

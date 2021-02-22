@@ -6,14 +6,14 @@
 
     <p>
       <mat-form-field appearance="fill" class="full-width-input">
-        <mat-label>Input your username</mat-label>
+        <mat-label>Input your email</mat-label>
         <input matInput
                id="email"
                name="email"
                placeholder="Email"
                formControlName="email">
         <mat-icon matPrefix>person</mat-icon>
-        <mat-error *ngIf="f.email.invalid && f.email.touched">You must input a valid username.</mat-error>
+        <mat-error *ngIf="f.email.invalid && f.email.touched">You must input a valid email.</mat-error>
       </mat-form-field>
     </p>
 

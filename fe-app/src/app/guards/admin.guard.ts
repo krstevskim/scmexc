@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot} from '@angular/router';
+import {ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot} from '@angular/router';
 import {UserService} from '../services/user.service';
 import {Role} from "../interfaces/user/Role";
 
@@ -15,7 +15,11 @@ export class AdminGuard implements CanActivate {
     canActivate(
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): boolean {
-        return this.userService.getCurrentUser().role == Role.ROLE_SUPER_ADMIN;
+        return this.matchAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN])
     }
 
+    private matchAnyRole(roles: Role[]): boolean {
+      console.log(this.userService.getCurrentUser())
+      return roles.filter(el => this.userService.getCurrentUser().role == el).length != 0;
+    }
 }

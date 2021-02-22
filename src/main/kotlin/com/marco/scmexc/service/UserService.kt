@@ -20,5 +20,7 @@ interface UserService {
 
     fun saveUser(user: SmxUser): SmxUser
 
+    fun getAllUsersPaged(pageable: Pageable, searchQuery: String): Page<SmxUser>
+
 
 }
