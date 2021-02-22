@@ -1,5 +1,7 @@
 package com.marco.scmexc.models.domain;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;

@@ -1,7 +1,11 @@
 package com.marco.scmexc.models.requests;
 
 public class MaterialRequest {
+
+    public Long id;
     public String title;
-    private String description;
-    private Long courseId;
+    public String description;
+    public Long courseId;
+    public String createdByEmail;
+
 }
