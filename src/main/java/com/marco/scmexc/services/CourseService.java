@@ -18,11 +18,11 @@ public class CourseService {
     }
 
     public List<Course> getAllCourses(String name) {
-    return courseRepository.findAll();
+        return courseRepository.findAll();
     }
 
     public Course getCourseById(Long id){
-        return courseRepository.findById(id).orElseThrow();
+        return courseRepository.findById(id).orElse(null);
     }
 
     public Course addNewCourse(CourseRequest request) {

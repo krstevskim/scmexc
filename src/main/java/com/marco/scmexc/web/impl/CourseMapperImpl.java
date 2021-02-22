@@ -22,7 +22,10 @@ public class CourseMapperImpl implements CourseMapper {
 
     @Override
     public List<CourseResponse> getAllCoursesByName(String name) {
-        return courseService.getAllCourses(name).stream().map(this::mapCourseToCourseResponse).collect(toList());
+        return courseService.getAllCourses(name)
+                .stream()
+                .map(this::mapCourseToCourseResponse)
+                .collect(toList());
     }
 
     private CourseResponse mapCourseToCourseResponse(Course course) {
