@@ -1,15 +1,15 @@
 package com.marco.scmexc.services;
 
-import com.marco.scmexc.models.domain.Course;
-import com.marco.scmexc.models.domain.Material;
-import com.marco.scmexc.models.domain.SmxUser;
+import com.marco.scmexc.models.domain.*;
 import com.marco.scmexc.models.requests.MaterialRequest;
-import com.marco.scmexc.repository.CourseRepository;
-import com.marco.scmexc.repository.MaterialRepository;
-import com.marco.scmexc.repository.SmxUserRepository;
+import com.marco.scmexc.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -22,6 +22,12 @@ public class MaterialService {
     private SmxUserRepository userRepository;
     @Autowired
     private CourseRepository courseRepository;
+
+    @Autowired
+    private ItemRepository itemRepository;
+
+    @Autowired
+    private SmxFileRepository fileRepository;
 
     public List<Material> findAll(){
         return materialRepository.findAll();
@@ -60,5 +66,29 @@ public class MaterialService {
             material.setPublished(true);
         }
         return materialRepository.save(material);
+    }
+
+    public Material addItem(Long materialID,MultipartFile file) throws IOException {
+        //add exception
+        Material material = materialRepository.findById(materialID).orElse(null);
+        SmxFile smxFile = new SmxFile();
+        smxFile.setData(file.getBytes());
+        smxFile.setFileName(StringUtils.cleanPath(file.getOriginalFilename()));
+        smxFile.setDateUploaded(ZonedDateTime.now());
+        smxFile = fileRepository.save(smxFile);
+        Item item = new Item();
+        item.setSmxFile(smxFile);
+        if(file.getContentType().contains("jpeg") || file.getContentType().contains("png") ||
+                file.getContentType().contains("gif") || file.getContentType().contains("jpg")) {
+            item.setType(Type.IMAGE);
+        }
+        else {
+            item.setType(Type.FILE);
+        }
+        item = itemRepository.save(item);
+
+        material.getItems().add(item);
+        return materialRepository.save(material);
+
     }
 }
