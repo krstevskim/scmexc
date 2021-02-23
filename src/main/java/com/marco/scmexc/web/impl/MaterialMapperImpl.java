@@ -8,7 +8,9 @@ import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -68,6 +70,8 @@ public class MaterialMapperImpl implements MaterialMapper {
     public MaterialResponse approve(Long materialID, Long userID) {
         return mapMaterialToMaterialResponse(materialService.approve(materialID,userID));
     }
+
+
 
     private MaterialResponse mapMaterialToMaterialResponse(Material material){
         return MaterialResponse.of(material.getId(),material.getTitle(),material.getCreatedBy() != null ? material.getCreatedBy().getUsername() : null,

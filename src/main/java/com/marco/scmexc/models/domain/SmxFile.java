@@ -1,5 +1,6 @@
 package com.marco.scmexc.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javassist.bytecode.ByteArray;
 import org.hibernate.annotations.Type;
 
@@ -33,6 +34,10 @@ public class SmxFile {
     @Column(name = "safe")
     private boolean safe;
 
+    @OneToOne(mappedBy = "smxFile")
+    @JsonIgnore
+    private Item item;
+
     public Long getId() {
         return id;
     }
@@ -55,6 +60,14 @@ public class SmxFile {
 
     public void setDownloadUrl(String downloadUrl) {
         this.downloadUrl = downloadUrl;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
+    public void setItem(Item item) {
+        this.item = item;
     }
 
     public byte[] getData() {
