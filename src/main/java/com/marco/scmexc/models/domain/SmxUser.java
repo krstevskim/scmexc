@@ -37,7 +37,7 @@ public class SmxUser {
     private boolean activated;
 
     @Enumerated(EnumType.ORDINAL)
-    @Column(name = "role_id")
+    @Column(name = "role")
     private Role role;
 
     @JsonIgnore

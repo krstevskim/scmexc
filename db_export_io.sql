@@ -51,32 +51,32 @@ CREATE TABLE "users" (
   "email" varchar(255),
   "date_created" datetime,
   "is_activated" boolean,
-  "role_id" bigint
+  "role" int
 );
 
 CREATE TABLE "comments" (
   "id" BIGSERIAL PRIMARY KEY,
   "description" text,
-  "upvotes" int,
-  "downVotes" int,
+  "up_votes" int,
+  "down_votes" int,
   "created_by" bigint,
   "date_posted" datetime,
   "material_id" bigint
 );
 
 CREATE TABLE "roles" (
-  "id" BIGSERIAL PRIMARY KEY,
+  "id" serial PRIMARY KEY,
   "role_name" varchar(255)
 );
 
 CREATE TABLE "types" (
-  "id" BIGSERIAL PRIMARY KEY,
+  "id" serial PRIMARY KEY,
   "name" varchar(255)
 );
 
 CREATE TABLE "items" (
     "id" bigserial primary key not null,
-    "type" bigint references types("id"),
+    "type" int references types("id"),
     "material_id" bigint references materials("id"),
     "question_id" bigint references questions("id")
 )
@@ -96,3 +96,5 @@ ALTER TABLE "users" ADD FOREIGN KEY ("role_id") REFERENCES "roles" ("id");
 ALTER TABLE "comments" ADD FOREIGN KEY ("created_by") REFERENCES "users" ("id");
 
 ALTER TABLE "comments" ADD FOREIGN KEY ("material_id") REFERENCES "materials" ("id");
+
+insert into roles(id,name) values (0, 'SUPER_ADMIN'), (1, 'ADMIN'), (2, 'MODERATOR'), (3, 'BASIC'),
