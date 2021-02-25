@@ -1,6 +1,7 @@
 package com.marco.scmexc.services;
 
 import com.marco.scmexc.models.domain.*;
+import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,9 @@ public class MaterialService {
 
     @Autowired
     private ItemRepository itemRepository;
+
+    @Autowired
+    private QuestionRepository questionRepository;
 
     @Autowired
     private SmxFileRepository fileRepository;
@@ -78,6 +82,7 @@ public class MaterialService {
         smxFile = fileRepository.save(smxFile);
         Item item = new Item();
         item.setSmxFile(smxFile);
+        item.setMaterial(material);
         if(file.getContentType().contains("jpeg") || file.getContentType().contains("png") ||
                 file.getContentType().contains("gif") || file.getContentType().contains("jpg")) {
             item.setType(Type.IMAGE);
@@ -89,6 +94,19 @@ public class MaterialService {
 
         material.getItems().add(item);
         return materialRepository.save(material);
+    }
 
+    public Material addQuestion(AddQuestionRequest request) {
+        Material material = this.materialRepository.findById(request.materialID).orElse(null);
+        Question question = new Question();
+        question.setDescription(request.description);
+        question = this.questionRepository.save(question);
+        Item item = new Item();
+        item.setQuestion(question);
+        item.setMaterial(material);
+        item.setType(Type.QUESTION);
+        item = this.itemRepository.save(item);
+        material.getItems().add(item);
+        return materialRepository.save(material);
     }
 }
