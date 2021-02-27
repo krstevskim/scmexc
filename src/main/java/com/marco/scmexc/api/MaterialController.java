@@ -1,8 +1,10 @@
 package com.marco.scmexc.api;
 
+import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.models.response.MaterialResponse;
 import com.marco.scmexc.models.response.ResponseMessage;
+import com.marco.scmexc.services.ItemService;
 import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -20,6 +21,8 @@ public class MaterialController {
 
     @Autowired
     private MaterialService service;
+    @Autowired
+    private ItemService itemService;
     @Autowired
     private MaterialMapper materialMapper;
 
@@ -59,8 +62,8 @@ public class MaterialController {
                                             @RequestParam Long userID){
         return materialMapper.approve(materialID,userID);
     }
-    @PostMapping("/{id}/addItem")
-    public ResponseEntity<ResponseMessage> addItem(@PathVariable Long id, @RequestParam MultipartFile file) {
+    @PostMapping("/{id}/addFile")
+    public ResponseEntity<ResponseMessage> addFile(@PathVariable Long id, @RequestParam MultipartFile file) {
        String message ;
         try {
              service.addItem(id, file);
@@ -72,4 +75,11 @@ public class MaterialController {
         }
 
     }
+
+    @PostMapping("/addQuestion")
+    public ResponseEntity<ResponseMessage> addQuestion(@RequestBody AddQuestionRequest request){
+        service.addQuestion(request);
+        return  ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Question has been added"));
+    }
+
 }

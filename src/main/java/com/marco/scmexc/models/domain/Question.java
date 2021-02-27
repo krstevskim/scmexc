@@ -3,6 +3,7 @@ package com.marco.scmexc.models.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(schema = "public", name = "questions")
@@ -15,8 +16,9 @@ public class Question {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "answer")
-    private String answer;
+    @OneToMany(mappedBy = "question")
+    @JsonIgnore
+    private List<Answer> answers;
 
     @OneToOne(mappedBy = "question")
     @JsonIgnore
@@ -38,12 +40,12 @@ public class Question {
         this.description = description;
     }
 
-    public String getAnswer() {
-        return answer;
+    public List<Answer> getAnswers() {
+        return answers;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
     }
 
     public Item getItem() {
