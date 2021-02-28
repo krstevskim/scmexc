@@ -39,7 +39,10 @@ import { UserListComponent } from './components/admin-pages/user-list/user-list.
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
-
+import {MatSelectModule} from "@angular/material/select";
+import {NgxMatFileInputModule} from "@angular-material-components/file-input";
+import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MaterialPageComponent } from './components/material-page/material-page.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -99,29 +102,33 @@ const customNotifierOptions: NotifierOptions = {
     ItemCreateWrapperComponent,
     CourseCreateComponent,
     MaterialListComponent,
-    UserListComponent
+    UserListComponent,
+    MaterialPageComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatIconModule,
-    MatMenuModule,
-    MatCardModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatGridListModule,
-    MatRippleModule,
-    MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    MatExpansionModule,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    NotifierModule.withConfig(customNotifierOptions)
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatIconModule,
+        MatMenuModule,
+        MatCardModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatGridListModule,
+        MatRippleModule,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        HttpClientModule,
+        MatExpansionModule,
+        MatPaginatorModule,
+        MatSortModule,
+        MatTableModule,
+        NotifierModule.withConfig(customNotifierOptions),
+        MatSelectModule,
+        NgxMatFileInputModule,
+        MatProgressBarModule
+    ],
   providers: [AuthenticationService,
     UserService,
     {

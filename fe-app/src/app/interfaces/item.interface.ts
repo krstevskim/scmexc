@@ -1,8 +1,16 @@
 import {ItemType} from "./item-type.enum";
 import {Question} from "./question.interface";
+import {SmxFile} from "./smx-file.interface";
 
 export interface Item {
-  id: number;
+  // id: number;
+  // type: ItemType;
+  // question: Question;
+  // file: SmxFile;
+  name: string;
+  question: string;
+  url: string;
   type: ItemType;
-  question: Question;
+  timePosted: Date;
+  itemID: number;
 }

@@ -1,0 +1,74 @@
+<div class="page-width">
+  <div>
+    <mat-form-field appearance="fill" class="full-width-input">
+      <input matInput
+             class="input-lg"
+             type="text"
+             placeholder="Search for user.. "
+             [formControl]="search">
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </div>
+
+  <div>
+    <mat-table [dataSource]="dataSource"
+               matSort matSortActive="id" matSortDirection="asc" matSortDisableClear>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>#</mat-header-cell>
+        <mat-cell *matCellDef="let eval">{{eval.id}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="title">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Title</mat-header-cell>
+        <mat-cell *matCellDef="let eval">
+          {{eval?.title}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="createdBy">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Created by</mat-header-cell>
+        <mat-cell *matCellDef="let eval">
+          {{eval?.createdBy}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="dateCreated">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Date created</mat-header-cell>
+        <mat-cell *matCellDef="let eval">
+          {{eval.dateCreated}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="published">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Published</mat-header-cell>
+        <mat-cell *matCellDef="let eval">
+          {{eval.published}}
+        </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="publishAction">
+        <mat-header-cell *matHeaderCellDef mat-sort-header>Action</mat-header-cell>
+        <mat-cell *matCellDef="let eval">
+          <button *ngIf="eval.published" mat-fab color="warn" (click)="unPublish(eval)">
+            <mat-icon>unpublished</mat-icon>
+          </button>
+          <button *ngIf="!eval.published" mat-fab color="primary" (click)="publish(eval)">
+            <mat-icon>publish</mat-icon>
+          </button>
+        </mat-cell>
+      </ng-container>
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+      <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onUserClick(row)"></mat-row>
+
+    </mat-table>
+
+    <div *ngIf="dataSource.loading$ | async">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <mat-paginator [length]="dataSource.pagedUsers?.totalElements" [pageSize]="dataSource.pagedUsers?.size" [pageSizeOptions]="[10, 25, 50]"></mat-paginator>
+
+  </div>
+</div>

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpEvent, HttpParams, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Course} from "../interfaces/course.interface";
 import {Material} from "../interfaces/material.interface";
@@ -17,7 +17,51 @@ export class MaterialService {
   }
 
   getMaterialsByCourseId(courseId: number): Observable<Material[]> {
-    return this.http.get<Material[]>(`${this.url}/all/${courseId}`)
+    return this.http.get<Material[]>(`${this.url}/all/approved/${courseId}`)
+  }
+
+  getMaterialById(id: number) : Observable<Material> {
+    return this.http.get<Material>(`${this.url}/${id}`);
+  }
+
+  addOrUpdateMaterial(material: any): Observable<any> {
+    return this.http.post(`${this.url}/create`, material);
+  }
+
+  postFile(materialId:number, fileToUpload: File): Observable<string> {
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    return this.http
+      .post<string>(`${this.url}/${materialId}/addFile`, formData);
+  }
+
+  deleteItem(itemId: number) :Observable<any> {
+    return this.http.delete(`${this.url}/items/${itemId}`);
+  }
+
+  addQuestion(request): Observable<string> {
+    return this.http.post<string>(`${this.url}/addQuestion`, request);
+  }
+
+  unpublish(materialId: number): Observable<string> {
+    return this.http.post<string>(`${this.url}/unpublish/${materialId}`, null);
+  }
+
+  upload(materialId:number, file: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+
+    formData.append('file', file);
+
+    const req = new HttpRequest('POST', `${this.url}/${materialId}/addFile`, formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+
+    return this.http.request(req);
+  }
+
+  canAccessMaterial(materialId:number): Observable<boolean> {
+    return this.http.post<boolean>(`${this.url}/can-access/${materialId}`, null);
   }
 
   getAllMaterialsPaged(

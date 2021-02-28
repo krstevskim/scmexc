@@ -4,6 +4,7 @@ import com.marco.scmexc.models.domain.*;
 import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
+import com.marco.scmexc.security.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -94,6 +95,12 @@ public class MaterialService {
 
         material.getItems().add(item);
         return materialRepository.save(material);
+    }
+
+    public Boolean canUserAccessEditMaterial(Long materialId, UserPrincipal userPrincipal) {
+        if(userPrincipal.hasRole(Role.ADMIN) || userPrincipal.hasRole(Role.SUPER_ADMIN) || userPrincipal.hasRole(Role.MODERATOR)) return  true;
+        Material material = materialRepository.findById(materialId).orElseThrow();
+        return material.getCreatedBy().getUsername() == userPrincipal.getUsername();
     }
 
     public Material addQuestion(AddQuestionRequest request) {

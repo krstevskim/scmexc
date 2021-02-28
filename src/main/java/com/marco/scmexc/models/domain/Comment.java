@@ -17,10 +17,10 @@ public class Comment {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "upvotes")
+    @Column(name = "up_votes")
     private Integer upvotes;
 
-    @Column(name = "downvotes")
+    @Column(name = "down_votes")
     private Integer downvotes;
 
     @ManyToOne

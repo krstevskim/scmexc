@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Comment} from "../../interfaces/comment.interface";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../services/auth/authentication.service";
+import {CommentService} from "../../services/comment.service";
+import {NotifierService} from "angular-notifier";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'comment-wrapper',
@@ -10,18 +13,21 @@ import {AuthenticationService} from "../../services/auth/authentication.service"
 })
 export class CommentWrapperView implements OnInit {
 
-  @Input() comments: Comment[];
-
+  @Input() materialId: number;
   commentForm: FormGroup;
+  comments$: Observable<Comment[]>;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthenticationService) { }
+    private authService: AuthenticationService,
+    private service: CommentService,
+    private notifierService: NotifierService) { }
 
   ngOnInit(): void {
     this.commentForm = this.formBuilder.group({
-      comment: ['', [Validators.required]]
+      description: ['', [Validators.required]]
     });
+    this.comments$ = this.service.getAllCommentsByMaterialId(this.materialId);
   }
 
   get f() {
@@ -30,5 +36,13 @@ export class CommentWrapperView implements OnInit {
 
   submit() {
     //submit comment
+    let commentData = this.commentForm.value;
+    commentData.materialId = this.materialId;
+    this.service.addNewComment(commentData).subscribe(el => {
+      this.notifierService.notify('success', 'Successfully added new comment.')
+      location.reload();
+    }, error => {
+      this.notifierService.notify('error', 'Error adding new comment.')
+    })
   }
 }

@@ -1,3 +1,3 @@
 export enum ItemType {
-  QUESTION
+  QUESTION = 'QUESTION', FILE = 'FILE', IMAGE = 'IMAGE'
 }

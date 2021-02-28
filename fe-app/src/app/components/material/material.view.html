@@ -1,19 +1,23 @@
-<mat-card-title class="flex-row">
-  <div>
-  {{material.title}}
-  </div>
-  <div class="push">
-    <button mat-icon-button><mat-icon class="dislike">block</mat-icon></button>
-  </div>
+<div class="mat-width">
+<mat-card-title [class.hover]="canOpenFull" (click)="openFullPage()" class="flex-row">
+    {{material.title}}
+    <button *ngIf="hasUnPublishPermission" mat-icon-button class="push" (click)="unpublishMaterial()">
+      <mat-icon class="dislike">block</mat-icon>
+    </button>
 </mat-card-title>
 <mat-card-content class="material-card-content-height">{{material.description}}</mat-card-content>
 <!--Here should be items-->
-  <item-wrapper class="flex-column" [items]="material.items"></item-wrapper>
+<item-wrapper class="flex-column" [items]="material.items"></item-wrapper>
 <mat-card-footer class="mat-card-footer">
-    <div class="flex-row">
-      <div class="flex-row"><mat-icon class="like">thumb_up_alt</mat-icon><span class="votes-margin">{{material.upVotes}}</span></div>
-      <div class="flex-row"><mat-icon class="dislike">thumb_down_alt</mat-icon><span class="votes-margin">{{material.downVotes}}</span></div>
+  <div class="flex-row">
+    <button mat-icon-button> <mat-icon>thumb_up_alt</mat-icon>
+      <span>{{material.upVotes}}</span>
+    </button>
+    <button class="button-spacing" mat-icon-button> <mat-icon>thumb_down_alt</mat-icon>
+      <span>{{material.downVotes}}</span>
+    </button>
   </div>
 </mat-card-footer>
 <hr>
-<comment-wrapper [comments]="material.comments"></comment-wrapper>
+<comment-wrapper [materialId]="material.id"></comment-wrapper>
+</div>

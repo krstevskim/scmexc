@@ -1,9 +1,19 @@
-<mat-card class="flex-row">
-<div>{{comment.description}}</div>
-  <div class="push">
-    <div class="flex-column width-50">
-      <div class="flex-row"><mat-icon>thumb_up_alt</mat-icon><span>{{comment.upvotes}}</span></div>
-      <div class="flex-row"><mat-icon>thumb_down_alt</mat-icon><span>{{comment.downvotes}}</span></div>
+<mat-card>
+   <div class="flex-row">
+    <h2>{{comment.description}}</h2>
+   </div>
+  <div class="flex-row align-center">
+    <div class="flex-column">
+      <span>Posted by: {{comment.createdBy}}</span>
+      <span>Date posted: {{comment.datePosted | date: 'dd-mm-yyyy H:m'}}</span>
+    </div>
+    <div class="push">
+      <button mat-icon-button> <mat-icon>thumb_up_alt</mat-icon>
+        <span>{{comment.upVotes}}</span>
+      </button>
+      <button class="button-spacing" mat-icon-button> <mat-icon>thumb_down_alt</mat-icon>
+        <span>{{comment.downVotes}}</span>
+      </button>
     </div>
   </div>
 </mat-card>

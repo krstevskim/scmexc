@@ -9,10 +9,9 @@
     </mat-card-content>
   </mat-card>
 
-
   <div class="width-50">
     <mat-card class="material-card-height material-margin" *ngFor="let mat of materials$ | async">
-      <material [material]="mat"></material>
+      <material [canOpenFull]="true" [courseId]="courseId" [material]="mat"></material>
     </mat-card>
   </div>
 </div>
