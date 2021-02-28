@@ -1,12 +1,16 @@
-<mat-accordion>
-  <mat-expansion-panel *ngFor="let item of items">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        {{item.question.description | truncate}}
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <h3>{{item.question.description}}</h3>
-    <hr>
-    <h3>{{item.question.answer}}</h3>
-  </mat-expansion-panel>
-</mat-accordion>
+<div class="item-card-bottom-spacing" *ngFor="let item of items">
+  <mat-card>
+    <div *ngIf="item.type == itemTypes.QUESTION">
+      <h2>{{item.question}}</h2>
+    </div>
+
+    <div *ngIf="item.type == itemTypes.FILE">
+      <h2>{{item.name}}</h2>
+      <button mat-flat-button color="primary" (click)="downloadFile(item)">Download</button>
+    </div>
+
+    <div *ngIf="item.type == itemTypes.IMAGE">
+      <img matCardImage class="" [src]="item.url" [alt]="item.name">
+    </div>
+  </mat-card>
+</div>

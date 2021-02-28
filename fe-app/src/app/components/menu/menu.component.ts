@@ -32,6 +32,18 @@ export class MenuComponent implements OnInit {
       icon: 'book',
       route: '/courses',
       canAccess: true
+    },
+    {
+      name: 'Admin Pages',
+      icon: 'admin',
+      route: '/admin',
+      canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]),
+      children: [{
+        name: 'Users',
+        icon: 'managed_accounts',
+        route: '/admin/users',
+        canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]),
+      }]
     }
   ]
 
@@ -45,11 +57,13 @@ export class MenuComponent implements OnInit {
   }
 
   hasRole(role: Role) {
-    return this.roleAuthenticatorService.hasRole(role);
+    return true;
+    // return this.roleAuthenticatorService.hasRole(role);
   }
 
   hasAnyRole(roles: Role[]) {
-    return this.roleAuthenticatorService.hasAnyRole(roles)
+    return true;
+    // return this.roleAuthenticatorService.hasAnyRole(roles)
   }
 
   isAuthenticated() {

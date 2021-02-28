@@ -5,6 +5,9 @@ import {User} from "../../interfaces/user/User";
 import {UserService} from "../../services/user.service";
 import {RoleAuthenticatorService} from "../../services/role-authenticator.service";
 import {Role} from "../../interfaces/user/Role";
+import {Observable} from "rxjs";
+import {MaterialService} from "../../services/material.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'material',
@@ -14,10 +17,14 @@ import {Role} from "../../interfaces/user/Role";
 export class MaterialView implements OnInit {
 
   @Input() material: Material;
+  @Input() canOpenFull: boolean;
+  @Input() courseId: number;
   user: User;
   constructor(
     private roleAuthenticatorService: RoleAuthenticatorService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private service: MaterialService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
@@ -27,5 +34,18 @@ export class MaterialView implements OnInit {
     return this.roleAuthenticatorService.hasAnyRole(roles)
   }
 
+  get hasUnPublishPermission() {
+    return this.hasAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR]);
+  }
 
+
+  unpublishMaterial() {
+
+  }
+
+  openFullPage() {
+    if(this.canOpenFull) {
+      this.router.navigate(['/courses', this.courseId, 'material', this.material.id]);
+    }
+  }
 }

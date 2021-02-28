@@ -1,6 +1,6 @@
 <div class="flex-column">
   <a >Show all comments</a>
-  <div class="comment-margin"  *ngFor="let comment of comments" >
+  <div class="comment-margin"  *ngFor="let comment of (comments$ | async) " >
   <comment [comment]="comment"></comment>
   </div>
   <div class="">
@@ -9,10 +9,10 @@
       <mat-label>Enter Comment</mat-label>
       <textarea matInput
              type="text"
-             id="comment"
-             name="comment"
+             id="description"
+             name="description"
              placeholder="Enter comment... "
-             formControlName="comment">
+             formControlName="description">
       </textarea>
       <button mat-icon-button matSuffix class="align-center" type="submit"><mat-icon>send</mat-icon></button>
     </mat-form-field>

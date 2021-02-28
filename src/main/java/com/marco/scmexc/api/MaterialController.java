@@ -4,6 +4,8 @@ import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.models.response.MaterialResponse;
 import com.marco.scmexc.models.response.ResponseMessage;
+import com.marco.scmexc.security.CurrentUser;
+import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.services.ItemService;
 import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
@@ -80,6 +82,13 @@ public class MaterialController {
     public ResponseEntity<ResponseMessage> addQuestion(@RequestBody AddQuestionRequest request){
         service.addQuestion(request);
         return  ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Question has been added"));
+    }
+
+    @PostMapping("can-access/{id}")
+    public ResponseEntity<Boolean> canAccessMaterial(@PathVariable Long id,
+            @CurrentUser UserPrincipal userPrincipal) {
+        boolean canAccess = service.canUserAccessEditMaterial(id, userPrincipal);
+                return canAccess ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
 }

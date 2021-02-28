@@ -78,6 +78,8 @@ class SecurityConfig : WebSecurityConfigurerAdapter() {
                 .permitAll()
                 .antMatchers("/api/auth/**")
                 .permitAll()
+                .antMatchers("/api/files/getFile/**")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
         }

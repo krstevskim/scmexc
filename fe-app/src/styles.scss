@@ -21,6 +21,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   flex-direction: column;
 }
 
+.flex-end {
+  align-content: end;
+}
+
+.row-reverse {
+  flex-direction: row-reverse;
+}
+
 .align-center {
   align-items: center;
 }

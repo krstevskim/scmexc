@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { Routes, RouterModule } from '@angular/router';
+import {NgModule} from '@angular/core';
+import {Routes, RouterModule} from '@angular/router';
 import {CourseListComponent} from "./components/course-list/course-list.component";
 import {CoursePageComponent} from "./components/course-page/course-page.component";
 import {LoginPageComponent} from "./components/login-page/login-page.component";
@@ -9,14 +9,17 @@ import {CourseCreateComponent} from "./components/course-create/course-create.co
 import {AdminGuard} from "./guards/admin.guard";
 import {UserListComponent} from "./components/admin-pages/user-list/user-list.component";
 import {MaterialListComponent} from "./components/admin-pages/material-list/material-list.component";
+import {MaterialCreateComponent} from "./components/material-create/material-create.component";
+import {MaterialPageComponent} from "./components/material-page/material-page.component";
+import {MaterialEditGuard} from "./guards/material-edit.guard";
 
 const routes: Routes = [
   {
-    path:'login',
+    path: 'login',
     component: LoginPageComponent
   },
   {
-    path:'register',
+    path: 'register',
     component: RegisterPageComponent
   },
   {
@@ -32,12 +35,51 @@ const routes: Routes = [
       },
       {
         path: ':id',
-        component: CoursePageComponent
+        children: [
+          {
+            path: 'material',
+            children: [
+              {
+                path: 'create',
+                component: MaterialCreateComponent
+              },
+              {
+                path: 'create/:matId',
+                component: MaterialCreateComponent,
+                canActivate: [MaterialEditGuard]
+              },
+              {
+                path: ':matId',
+                //TODO ADD PAGE
+                component: MaterialPageComponent
+              },
+
+            ]
+          },
+          {
+            path: '',
+            component: CoursePageComponent,
+          }
+        ]
       },
       {
         path: '',
         component: CourseListComponent,
       },
+      {
+        path: 'material',
+        children: [
+          {
+            path: ':id',
+            //TODO ADD PAGE
+            component: MaterialCreateComponent
+          },
+          {
+            path: 'create/:id',
+            component: MaterialCreateComponent
+          }
+        ]
+      }
     ],
     canActivate: [AuthGuard]
   },
@@ -70,4 +112,5 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}
