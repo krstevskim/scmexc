@@ -24,6 +24,10 @@ public class Question {
     @JsonIgnore
     private Item item;
 
+    @OneToOne
+    @JoinColumn(name = "answer_id", nullable = true)
+    private Answer usefulAnswer;
+
     public Long getId() {
         return id;
     }
@@ -54,5 +58,13 @@ public class Question {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public Answer getUsefulAnswer() {
+        return usefulAnswer;
+    }
+
+    public void setUsefulAnswer(Answer usefulAnswer) {
+        this.usefulAnswer = usefulAnswer;
     }
 }

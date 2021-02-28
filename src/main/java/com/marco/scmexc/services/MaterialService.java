@@ -1,6 +1,8 @@
 package com.marco.scmexc.services;
 
 import com.marco.scmexc.models.domain.*;
+import com.marco.scmexc.models.exceptions.FileIsNullException;
+import com.marco.scmexc.models.exceptions.MaterialNotFoundException;
 import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
@@ -75,7 +77,10 @@ public class MaterialService {
 
     public Material addItem(Long materialID,MultipartFile file) throws IOException {
         //add exception
-        Material material = materialRepository.findById(materialID).orElse(null);
+        Material material = materialRepository.findById(materialID).orElseThrow(() -> new MaterialNotFoundException(materialID));
+        if(file==null) {
+            throw new FileIsNullException();
+        }
         SmxFile smxFile = new SmxFile();
         smxFile.setData(file.getBytes());
         smxFile.setFileName(StringUtils.cleanPath(file.getOriginalFilename()));
@@ -91,10 +96,10 @@ public class MaterialService {
         else {
             item.setType(Type.FILE);
         }
-        item = itemRepository.save(item);
+       itemRepository.save(item);
 
-        material.getItems().add(item);
-        return materialRepository.save(material);
+
+        return material;
     }
 
     public Boolean canUserAccessEditMaterial(Long materialId, UserPrincipal userPrincipal) {
@@ -104,7 +109,7 @@ public class MaterialService {
     }
 
     public Material addQuestion(AddQuestionRequest request) {
-        Material material = this.materialRepository.findById(request.materialID).orElse(null);
+        Material material = this.materialRepository.findById(request.materialID).orElseThrow(()->new MaterialNotFoundException(request.materialID));
         Question question = new Question();
         question.setDescription(request.description);
         question = this.questionRepository.save(question);
@@ -112,8 +117,7 @@ public class MaterialService {
         item.setQuestion(question);
         item.setMaterial(material);
         item.setType(Type.QUESTION);
-        item = this.itemRepository.save(item);
-        material.getItems().add(item);
-        return materialRepository.save(material);
+        this.itemRepository.save(item);
+        return  material;
     }
 }
