@@ -1,4 +1,3 @@
-<div class="mat-width">
 <mat-card-title [class.hover]="canOpenFull" (click)="openFullPage()" class="flex-row">
     {{material.title}}
     <button *ngIf="hasUnPublishPermission" mat-icon-button class="push" (click)="unpublishMaterial()">
@@ -20,4 +19,3 @@
 </mat-card-footer>
 <hr>
 <comment-wrapper [materialId]="material.id"></comment-wrapper>
-</div>
