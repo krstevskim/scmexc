@@ -31,7 +31,7 @@ public class AnswerController {
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Your answer has been added!!!"));
     }
 
-    @GetMapping("/{questionID}/getAnswers")
+    @GetMapping("/question/{questionID}")
     public ResponseEntity<List<AnswerResponse>> getAnswerByQuestion(@PathVariable Long questionID) {
         List<AnswerResponse> answerResponses = this.service.getAllByQuestion(questionID).stream()
                 .map(answer -> {
@@ -40,21 +40,21 @@ public class AnswerController {
         return ResponseEntity.status(HttpStatus.OK).body(answerResponses);
     }
 
-    @PostMapping("/{answerID}/incUpVotes")
+    @PostMapping("/{answerID}/upvote")
     public ResponseEntity<AnswerResponse> incUpVotes(@PathVariable Long answerID,@CurrentUser UserPrincipal userPrincipal) {
         Answer answer = this.service.incUpVotes(answerID,userPrincipal.getId());
         AnswerResponse response=AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @PostMapping("/{answerID}/incDownVotes")
+    @PostMapping("/{answerID}/downvote")
     public ResponseEntity<AnswerResponse> incDownVotes(@PathVariable Long answerID, @CurrentUser UserPrincipal userPrincipal) {
         Answer answer = this.service.incDownVotes(answerID, userPrincipal.getId());
         AnswerResponse response=AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
-    @DeleteMapping("/delete/{answerID}")
+    @DeleteMapping("/{answerID}/delete")
     public AnswerResponse deleteAnswer(@PathVariable Long answerID) {
         Answer answer = this.service.deleteAnswerByID(answerID);
         return AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());
@@ -66,7 +66,7 @@ public class AnswerController {
         return AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());
     }
 
-    @GetMapping("/{answerID}/getAnswer")
+    @GetMapping("/{answerID}")
     public AnswerResponse viewAnswer(@PathVariable Long answerID){
         Answer answer = this.service.viewAnswerByID(answerID);
         return AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());
@@ -78,7 +78,7 @@ public class AnswerController {
         return AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());
     }
 
-    @GetMapping("/{questionID}/getCorrectAnswer")
+    @GetMapping("/question/{questionID}/correct")
     public AnswerResponse getCorrectAnswer(@PathVariable Long questionID) {
         Answer answer = this.service.getCorrectAnswer(questionID);
         return AnswerResponse.of(answer.getQuestion().getDescription(), answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(),answer.getAnsweredBy().getEmail(),answer.getDatePosted());

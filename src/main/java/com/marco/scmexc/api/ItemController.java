@@ -26,7 +26,7 @@ public class ItemController {
         this.itemService = itemService;
     }
 
-    @GetMapping("/{materialID}")
+    @GetMapping("/material/{materialID}")
     public List<ItemResponse> getItemsByMaterial(@PathVariable Long materialID){
         List<ItemResponse> items = this.itemService.getItemsByMaterial(materialID)
                 .stream().map(item -> {
@@ -46,7 +46,7 @@ public class ItemController {
         return items;
     }
 
-    @DeleteMapping("/delete/{itemID}")
+    @DeleteMapping("/{itemID}/delete")
     public ResponseEntity<ResponseMessage> deleteItem(@PathVariable Long itemID) {
         this.itemService.deleteItemByID(itemID);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Item has been Deleted!!!"));
@@ -69,7 +69,7 @@ public class ItemController {
         }
     }
 
-    @GetMapping("/getItem/{itemID}")
+    @GetMapping("/{itemID}")
     public ItemResponse getItem(@PathVariable Long itemID) {
         Item item = this.itemService.getItemByID(itemID);
         if(item.getType()==Type.QUESTION) {
