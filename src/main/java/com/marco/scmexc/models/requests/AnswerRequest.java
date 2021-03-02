@@ -4,4 +4,5 @@ public class AnswerRequest {
 
     public Long questionID;
     public String answer;
+    public Long answerID;
 }

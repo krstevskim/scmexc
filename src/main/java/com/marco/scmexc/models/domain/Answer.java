@@ -1,6 +1,8 @@
 package com.marco.scmexc.models.domain;
 
 import javax.persistence.*;
+import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 @Table(schema = "public",name = "answers")
@@ -21,6 +23,30 @@ public class Answer {
     @ManyToOne
     @JoinColumn(name = "question_id")
     private Question question;
+
+    @ManyToOne
+    @JoinColumn(name = "answered_by")
+    private SmxUser answeredBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "upVotedAnswers",
+            joinColumns = @JoinColumn(name = "answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<SmxUser> upVotedBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "downVotedAnswers",
+            joinColumns = @JoinColumn(name = "answer_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<SmxUser> downVotedBy;
+
+    @Column(name = "date_answered")
+    private ZonedDateTime datePosted;
+
 
     public Long getId() {
         return id;
@@ -60,5 +86,37 @@ public class Answer {
 
     public void setQuestion(Question question) {
         this.question = question;
+    }
+
+    public SmxUser getAnsweredBy() {
+        return answeredBy;
+    }
+
+    public void setAnsweredBy(SmxUser answeredBy) {
+        this.answeredBy = answeredBy;
+    }
+
+    public ZonedDateTime getDatePosted() {
+        return datePosted;
+    }
+
+    public void setDatePosted(ZonedDateTime datePosted) {
+        this.datePosted = datePosted;
+    }
+
+    public Set<SmxUser> getDownVotedBy() {
+        return downVotedBy;
+    }
+
+    public Set<SmxUser> getUpVotedBy() {
+        return upVotedBy;
+    }
+
+    public void setUpVotedBy(Set<SmxUser> upVotedBy) {
+        this.upVotedBy = upVotedBy;
+    }
+
+    public void setDownVotedBy(Set<SmxUser> downVotedBy) {
+        this.downVotedBy = downVotedBy;
     }
 }

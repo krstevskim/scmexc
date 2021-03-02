@@ -44,6 +44,14 @@ public class SmxUser {
     @ManyToMany(mappedBy = "courseModerators")
     private Set<Course> moderatingCourses;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "upVotedBy")
+    private Set<Answer> upVotedFor;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "downVotedBy")
+    private Set<Answer> downVotedFor;
+
     public Set<Course> getModeratingCourses() {
         return moderatingCourses;
     }
