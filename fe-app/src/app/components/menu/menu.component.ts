@@ -24,7 +24,7 @@ export class MenuComponent implements OnInit {
     {
       name: 'Account',
       icon: 'supervisor_account',
-      route: '/edit-account',
+      route: '/update-user',
       canAccess: this.isAuthenticated()
     },
     {
@@ -37,13 +37,13 @@ export class MenuComponent implements OnInit {
       name: 'Admin Pages',
       icon: 'admin',
       route: '/admin',
+      canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN])
+    },
+    {
+      name: 'Users',
+      icon: 'managed_accounts',
+      route: '/admin/users',
       canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]),
-      children: [{
-        name: 'Users',
-        icon: 'managed_accounts',
-        route: '/admin/users',
-        canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]),
-      }]
     }
   ]
 

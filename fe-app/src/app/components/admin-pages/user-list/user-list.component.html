@@ -47,6 +47,13 @@
       </mat-cell>
     </ng-container>
 
+    <ng-container matColumnDef="edit" class="width-5">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>Edit</mat-header-cell>
+      <mat-cell *matCellDef="let eval">
+        <button mat-icon-button color="primary" (click)="onUserClick(eval)"><mat-icon>mode_edit</mat-icon></button>
+      </mat-cell>
+    </ng-container>
+
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
 
     <mat-row *matRowDef="let row; columns: displayedColumns" (click)="onUserClick(row)"></mat-row>

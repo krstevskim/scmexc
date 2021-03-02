@@ -8,6 +8,7 @@ import {
 import {Router} from "@angular/router";
 import {UserService} from "../../services/user.service";
 import {AuthenticationService} from "../../services/auth/authentication.service";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-register-page',
@@ -45,7 +46,7 @@ export class RegisterPageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthenticationService,
-    // private notifierService: NotifierService
+    private notifierService: NotifierService
   ) {
 
     const currentYear = new Date().getFullYear();
@@ -63,16 +64,15 @@ export class RegisterPageComponent implements OnInit {
   onSubmit() {
     let newUser = this.userForm.value;
 
-    // this.notifierService.notify('info', NotifierMessages.SENDING_DATA);
-
     this.authService.registerUser(newUser).subscribe(
       success => {
+        this.notifierService.notify('success', 'Registered.');
         this.router.navigate(['/courses']).then(
           () => console.log("registered"));
       },
       error => {
         console.error(error);
-        // this.notifierService.notify('error', NotifierMessages.CHECK_DATA);
+        this.notifierService.notify('error', 'Error registering.');
 
       }
     );

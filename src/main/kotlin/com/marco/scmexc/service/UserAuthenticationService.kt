@@ -15,7 +15,9 @@ interface UserAuthenticationService {
 
     fun checkPassword(userPrincipal: UserPrincipal, password: String): Boolean
 
-    fun changePassword(userPrincipal: UserPrincipal, password: ChangePasswordPayload): SmxUser
+    fun changePassword(userPrincipal: UserPrincipal, password: ChangePasswordPayload): UserResponse
 
     fun registerUser(newUser: UserDto) : UserResponse
+
+    fun updateUserDetails(user: UserDto, userPrincipal: UserPrincipal): UserResponse
 }

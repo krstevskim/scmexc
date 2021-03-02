@@ -12,6 +12,8 @@ import {MaterialListComponent} from "./components/admin-pages/material-list/mate
 import {MaterialCreateComponent} from "./components/material-create/material-create.component";
 import {MaterialPageComponent} from "./components/material-page/material-page.component";
 import {MaterialEditGuard} from "./guards/material-edit.guard";
+import {UserComponent} from "./components/user/user.component";
+import {ChangePasswordComponent} from "./components/change-password/change-password.component";
 
 const routes: Routes = [
   {
@@ -23,15 +25,31 @@ const routes: Routes = [
     component: RegisterPageComponent
   },
   {
+    path: 'update-user',
+    component: UserComponent,
+    canActivate: [AuthGuard]
+  },{
+    path: 'update-user/:id',
+    component: UserComponent,
+    canActivate: [AuthGuard, AdminGuard]
+  },
+  {
+    path: 'change-password',
+    component:ChangePasswordComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'courses',
     children: [
       {
         path: 'create/:id',
-        component: CourseCreateComponent //admin guard
+        component: CourseCreateComponent,
+        canActivate: [AdminGuard]
       },
       {
         path: 'create',
-        component: CourseCreateComponent
+        component: CourseCreateComponent,
+        canActivate: [AdminGuard]
       },
       {
         path: ':id',
@@ -53,7 +71,6 @@ const routes: Routes = [
                 //TODO ADD PAGE
                 component: MaterialPageComponent
               },
-
             ]
           },
           {
@@ -65,20 +82,6 @@ const routes: Routes = [
       {
         path: '',
         component: CourseListComponent,
-      },
-      {
-        path: 'material',
-        children: [
-          {
-            path: ':id',
-            //TODO ADD PAGE
-            component: MaterialCreateComponent
-          },
-          {
-            path: 'create/:id',
-            component: MaterialCreateComponent
-          }
-        ]
       }
     ],
     canActivate: [AuthGuard]
@@ -95,7 +98,7 @@ const routes: Routes = [
         component: MaterialListComponent
       }
     ],
-    canActivate: [AuthGuard, AdminGuard] //adminguard
+    canActivate: [AuthGuard, AdminGuard]
   },
   {
     path: '',
@@ -104,7 +107,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: '',
+    redirectTo: '/courses',
+    pathMatch: 'full'
   }
 ];
 
