@@ -1,17 +1,17 @@
 package com.marco.scmexc.services;
 
 import com.marco.scmexc.models.domain.*;
+import com.marco.scmexc.models.exceptions.CourseNotFoundException;
 import com.marco.scmexc.models.exceptions.FileIsNullException;
 import com.marco.scmexc.models.exceptions.MaterialNotFoundException;
+import com.marco.scmexc.models.exceptions.UserNotFoundException;
 import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
 import com.marco.scmexc.security.UserPrincipal;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
@@ -20,21 +20,28 @@ import java.util.List;
 @Service
 public class MaterialService {
 
-    @Autowired
-    private MaterialRepository materialRepository;
-    @Autowired
-    private SmxUserRepository userRepository;
-    @Autowired
-    private CourseRepository courseRepository;
 
-    @Autowired
-    private ItemRepository itemRepository;
+    private final MaterialRepository materialRepository;
 
-    @Autowired
-    private QuestionRepository questionRepository;
+    private final SmxUserRepository userRepository;
 
-    @Autowired
-    private SmxFileRepository fileRepository;
+    private final CourseRepository courseRepository;
+
+    private final ItemRepository itemRepository;
+
+    private final QuestionRepository questionRepository;
+
+
+    private final SmxFileRepository fileRepository;
+
+    public MaterialService(MaterialRepository materialRepository, SmxUserRepository userRepository, CourseRepository courseRepository, ItemRepository itemRepository, QuestionRepository questionRepository, SmxFileRepository fileRepository) {
+        this.materialRepository = materialRepository;
+        this.userRepository = userRepository;
+        this.courseRepository = courseRepository;
+        this.itemRepository = itemRepository;
+        this.questionRepository = questionRepository;
+        this.fileRepository = fileRepository;
+    }
 
     public List<Material> findAll(){
         return materialRepository.findAll();
@@ -51,7 +58,7 @@ public class MaterialService {
         material.setDescription(materialRequest.description);
         SmxUser createdBy = userRepository.findSmxUserByEmail(materialRequest.createdByEmail).orElse(null);
         material.setCreatedBy(createdBy);
-        Course course = courseRepository.findById(materialRequest.courseId).orElse(null);
+        Course course = courseRepository.findById(materialRequest.courseId).orElseThrow(()->new CourseNotFoundException(materialRequest.courseId));
         material.setCourse(course);
         material.setUpVotes(0);
         material.setDownVotes(0);
@@ -61,13 +68,13 @@ public class MaterialService {
 
     public Material findById(Long materialId){
         //TODO exception
-        return this.materialRepository.findById(materialId).orElse(null);
+        return this.materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
     }
 
     public Material approve(Long materialID,Long userID){
         // sredi exceptions posle
-        Material material = materialRepository.findById(materialID).orElse(null);
-        SmxUser user = userRepository.findById(userID).orElse(null);
+        Material material = materialRepository.findById(materialID).orElseThrow(()-> new MaterialNotFoundException(materialID));
+        SmxUser user = userRepository.findById(userID).orElseThrow(()->new UserNotFoundException(userID));
         if(material != null && user != null){
             material.setApprovedBy(user);
             material.setPublished(true);
@@ -104,7 +111,7 @@ public class MaterialService {
 
     public Boolean canUserAccessEditMaterial(Long materialId, UserPrincipal userPrincipal) {
         if(userPrincipal.hasRole(Role.ADMIN) || userPrincipal.hasRole(Role.SUPER_ADMIN) || userPrincipal.hasRole(Role.MODERATOR)) return  true;
-        Material material = materialRepository.findById(materialId).orElseThrow();
+        Material material = materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
         return material.getCreatedBy().getUsername() == userPrincipal.getUsername();
     }
 
