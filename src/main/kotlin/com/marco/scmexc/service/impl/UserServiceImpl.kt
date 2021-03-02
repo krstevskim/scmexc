@@ -3,8 +3,10 @@ package com.marco.scmexc.service.impl
 import com.marco.scmexc.models.domain.Role
 import com.marco.scmexc.models.domain.SmxUser
 import com.marco.scmexc.models.dto.UserDto
+import com.marco.scmexc.models.exceptions.user.NoPermissionException
 import com.marco.scmexc.models.exceptions.user.UserAlreadyExistsException
 import com.marco.scmexc.models.exceptions.user.UserNotFoundException
+import com.marco.scmexc.models.response.UserResponse
 import com.marco.scmexc.repository.SmxUserRepository
 import com.marco.scmexc.security.UserPrincipal
 import com.marco.scmexc.service.UserService
@@ -75,5 +77,12 @@ class UserServiceImpl(
     }
 
     override fun getUserById(id: Long): SmxUser = repository.findById(id).orElseThrow(::UserNotFoundException)
+    override fun getUserResponseById(id: Long, userPrincipal: UserPrincipal): UserResponse {
+        if(userPrincipal.hasRole(Role.SUPER_ADMIN)) {
+            val user: SmxUser = repository.findById(id).orElseThrow(::UserNotFoundException)
+            return UserResponse.of(user.id, user.username, user.firstName, user.lastName, user.email, user.role.name);
+        }
+        else throw NoPermissionException();
+    }
 
 }

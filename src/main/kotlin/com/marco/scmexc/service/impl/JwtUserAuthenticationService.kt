@@ -9,9 +9,11 @@ import com.marco.scmexc.service.UserService
 import com.marco.scmexc.models.auth.ChangePasswordPayload
 import com.marco.scmexc.models.auth.JwtAuthenticationResponse
 import com.marco.scmexc.models.auth.LoginPayload
+import com.marco.scmexc.models.domain.Role
 import com.marco.scmexc.models.dto.UserDto
+import com.marco.scmexc.models.exceptions.user.NoPermissionException
+import com.marco.scmexc.models.exceptions.user.UserNotFoundException
 import com.marco.scmexc.models.response.UserResponse
-import org.springframework.http.ResponseEntity
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
@@ -47,20 +49,40 @@ class JwtUserAuthenticationService(
         return (passwordEncoder.matches(password, user.password))
     }
 
-    override fun changePassword(userPrincipal: UserPrincipal, password: ChangePasswordPayload): SmxUser {
+    override fun changePassword(userPrincipal: UserPrincipal, password: ChangePasswordPayload): UserResponse {
         val user = userService.getUserById(userPrincipal.id)
 
         if(!passwordEncoder.matches(password.oldPassword, user.password)) throw InvalidPasswordException()
 
-        val newEncryptedPassword = passwordEncoder.encode(password.newPassword)
+        val newEncryptedPassword = passwordEncoder.encode(password.password)
         user.password = newEncryptedPassword
-        return userService.saveUser(user)
+        val updated = userService.saveUser(user)
+        return UserResponse.of(updated.id, updated.username, updated.firstName, updated.lastName, updated.email, updated.role.name);
     }
 
     override fun registerUser(newUser: UserDto): UserResponse {
         val user: SmxUser = userService.createUser(newUser)
         //send email for activation??
-        return UserResponse.of(user.username, user.firstName, user.lastName, user.email);
+        return UserResponse.of(user.id, user.username, user.firstName, user.lastName, user.email, user.role.name);
+    }
+
+    override fun updateUserDetails(user: UserDto, userPrincipal: UserPrincipal): UserResponse {
+        val currentUser: SmxUser = userService.getUserById(userPrincipal.id);
+        if(user.id != null) {
+            if(user.id == currentUser.id || userPrincipal.hasRole(Role.SUPER_ADMIN)) {
+                val userToUpdate: SmxUser = userService.getUserById(user.id);
+                userToUpdate.username = user.username;
+                userToUpdate.email = user.email;
+                userToUpdate.firstName = user.firstName
+                userToUpdate.lastName = user.lastName;
+                if(userPrincipal.hasRole(Role.SUPER_ADMIN) && user.role != null) {
+                    val role: Role = Role.valueOf(user.role);
+                    userToUpdate.role = role;
+                }
+                val updated =  userService.saveUser(userToUpdate);
+                return UserResponse.of(updated.id, updated.username, updated.firstName, updated.lastName, updated.email,updated.role.name);
+            } else throw NoPermissionException();
+        } else throw UserNotFoundException();
     }
 
 }

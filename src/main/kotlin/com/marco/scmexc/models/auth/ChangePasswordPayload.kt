@@ -7,8 +7,8 @@ data class ChangePasswordPayload (
     val oldPassword: String,
 
 //    @NotBlank
-    val newPassword: String,
+    val password: String,
 
 //    @NotBlank
-    val newPasswordConfirm: String
+    val confirmPassword: String
 )

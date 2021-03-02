@@ -3,6 +3,7 @@ package com.marco.scmexc.api;
 
 import com.marco.scmexc.models.domain.SmxUser;
 import com.marco.scmexc.models.dto.UserDto;
+import com.marco.scmexc.models.response.UserResponse;
 import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.service.*;
@@ -34,9 +35,15 @@ public class UserController {
     private ResponseEntity<SmxUser> getCurrentUser(@CurrentUser UserPrincipal userPrincipal){
         return ResponseEntity.ok(userService.getUserById(userPrincipal.getId()));
     }
+
     @GetMapping("/paged")
     private ResponseEntity<Page<SmxUser>> getAllUsersPaged(@RequestParam(required = false, defaultValue = "", name = "q") String searchQuery,
              Pageable pageable) {
         return ResponseEntity.ok(userService.getAllUsersPaged(pageable, searchQuery));
+    }
+
+    @GetMapping("{id}")
+    private UserResponse getUserById(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+        return userService.getUserResponseById(id, userPrincipal);
     }
 }

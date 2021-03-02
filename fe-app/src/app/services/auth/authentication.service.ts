@@ -72,4 +72,8 @@ export class AuthenticationService {
     document.location.href = '/';
   }
 
+  changeDetails(userData: User): Observable<User> {
+    return this.http.post<User>(`/api/auth/user/details`, userData);
+  }
+
 }

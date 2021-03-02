@@ -19,7 +19,7 @@ export class UserListComponent implements OnInit, AfterViewInit {
 
   searchQuery = '';
   dataSource: UsersDataSource;
-  displayedColumns = ['id','username', 'firstName', 'lastName', 'role'];
+  displayedColumns = ['id','username', 'firstName', 'lastName', 'role', 'edit'];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -61,7 +61,8 @@ export class UserListComponent implements OnInit, AfterViewInit {
   }
 
   onUserClick(row: any) {
-    this.router.navigate(['/', 'user', row.id]);
+    this.router.navigate(['/', 'update-user', row.id]);
   }
+
 
 }

@@ -5,6 +5,7 @@ import {Role} from "../interfaces/user/Role";
 import {MaterialService} from "../services/material.service";
 import {Observable, of} from "rxjs";
 import {catchError, map} from "rxjs/operators";
+
 @Injectable({
     providedIn: 'root'
 })
@@ -20,6 +21,7 @@ export class MaterialEditGuard implements CanActivate {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const materialId = +next.paramMap.get('matId');
+        if(this.matchAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN])) return true;
         return this.materialService.canAccessMaterial(materialId).pipe(map(el=> {
           if(el) {
             return true;

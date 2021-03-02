@@ -43,6 +43,8 @@ import {MatSelectModule} from "@angular/material/select";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { MaterialPageComponent } from './components/material-page/material-page.component';
+import { UserComponent } from './components/user/user.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -103,7 +105,9 @@ const customNotifierOptions: NotifierOptions = {
     CourseCreateComponent,
     MaterialListComponent,
     UserListComponent,
-    MaterialPageComponent
+    MaterialPageComponent,
+    UserComponent,
+    ChangePasswordComponent
   ],
     imports: [
         BrowserModule,

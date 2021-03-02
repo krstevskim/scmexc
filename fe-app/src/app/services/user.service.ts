@@ -11,7 +11,7 @@ import {SelfModifyUserDto} from '../interfaces/user/SelfModifyUserDto';
 })
 export class UserService {
 
-    url = '/api/user/';
+    url = '/api/user';
 
     private currentUser: User;
     constructor(private http: HttpClient) {
