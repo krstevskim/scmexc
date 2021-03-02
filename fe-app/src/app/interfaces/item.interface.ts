@@ -13,4 +13,5 @@ export interface Item {
   type: ItemType;
   timePosted: Date;
   itemID: number;
+  questionID: number;
 }

@@ -1,9 +1,12 @@
 <div class="default-page-flex ">
+  <div>
   <mat-form-field appearance="outline">
     <mat-label>Search courses..</mat-label>
     <input [(ngModel)]="search" (ngModelChange)="searchInputChange($event)" matInput placeholder="Search courses..">
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
+    <button mat-flat-button type="button" class="new-course-btn" color="primary" routerLink="/create">New Course</button>
+  </div>
 </div>
 
 <div class="flex-wrap">
@@ -12,7 +15,5 @@
   <mat-card-content class="card-content">
     {{course.description}}
   </mat-card-content>
-  <mat-card-footer class="card-footer"><span class="margin-left">Number of materials: {{course.numMaterials}}</span>
-  </mat-card-footer>
 </mat-card>
 </div>

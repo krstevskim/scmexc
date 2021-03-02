@@ -91,7 +91,7 @@ public class MaterialMapperImpl implements MaterialMapper {
         }
         return items.stream().map(item -> {
             if(item.getType() == Type.QUESTION) {
-                return  ItemResponse.of(null,null,Type.QUESTION, ZonedDateTime.now(),item.getQuestion().getDescription(), item.getId());
+                return  ItemResponse.of(null,null,Type.QUESTION, ZonedDateTime.now(),item.getQuestion().getDescription(), item.getId(), item.getQuestion().getId());
             }
             else {
                 String url = ServletUriComponentsBuilder
@@ -100,7 +100,7 @@ public class MaterialMapperImpl implements MaterialMapper {
                         .path(item.getSmxFile().getId().toString())
                         .toUriString();
 
-                return ItemResponse.of(item.getSmxFile().getFileName(),url,item.getType(),ZonedDateTime.now(),null, item.getId());
+                return ItemResponse.of(item.getSmxFile().getFileName(),url,item.getType(),ZonedDateTime.now(),null, item.getId(), null);
             }
         }).collect(Collectors.toList());
     }

@@ -1,6 +1,9 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
 import {Item} from "../../interfaces/item.interface";
 import {ItemType} from "../../interfaces/item-type.enum";
+import {MAT_DIALOG_DATA, MatDialog} from "@angular/material/dialog";
+import {AnswerDialogComponent} from "../answer-dialog/answer-dialog.component";
+import {User} from "../../interfaces/user/User";
 
 @Component({
   selector: 'item-wrapper',
@@ -10,11 +13,26 @@ import {ItemType} from "../../interfaces/item-type.enum";
 export class ItemWrapperView  {
 
   @Input() items: Item[];
+  @Input() materialPostedBy: User;
   itemTypes = ItemType;
-  constructor() { }
+  constructor(private dialog: MatDialog) { }
 
   downloadFile(item: Item) {
     window.open(item.url);
   }
 
+  openDialog(questionId: number) {
+    const dialogRef = this.dialog.open(AnswerDialogComponent, {
+      data: {
+        questionId: questionId,
+        postedBy: this.materialPostedBy
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }
+

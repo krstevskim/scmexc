@@ -20,7 +20,7 @@ public class Course {
     @Column(name = "code")
     private String code;
 
-    @Column(name = "description")
+    @Column(name = "description",columnDefinition="TEXT")
     private String description;
 
     @Column(name = "date_created")

@@ -1,50 +1,52 @@
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule} from '@angular/platform-browser';
 import {APP_INITIALIZER, NgModule} from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {AppRoutingModule} from './app-routing.module';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from '@angular/material/menu';
-import { MatCardModule} from "@angular/material/card";
+import {MatCardModule} from "@angular/material/card";
 
-import { CourseListComponent } from './components/course-list/course-list.component';
+import {CourseListComponent} from './components/course-list/course-list.component';
 import {MatButtonModule} from "@angular/material/button";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatGridListModule} from "@angular/material/grid-list";
 import {MAT_DATE_LOCALE, MatRippleModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { CoursePageComponent } from './components/course-page/course-page.component';
-import { LoginPageComponent } from './components/login-page/login-page.component';
-import { RegisterPageComponent } from './components/register-page/register-page.component';
+import {CoursePageComponent} from './components/course-page/course-page.component';
+import {LoginPageComponent} from './components/login-page/login-page.component';
+import {RegisterPageComponent} from './components/register-page/register-page.component';
 import {HTTP_INTERCEPTORS, HttpClient, HttpClientModule} from "@angular/common/http";
 import {AuthenticationService} from "./services/auth/authentication.service";
 import {UserService} from "./services/user.service";
 import {UserStateService} from "./services/user-state.service";
 import {BasicAuthHttpInterceptor} from "./services/auth/basic-auth-http.interceptor";
-import { MenuComponent } from './components/menu/menu.component';
-import { CommentWrapperView } from './components/comment-wrapper/comment-wrapper.view';
-import { CommentView } from './components/comment/comment.view';
-import { MaterialView } from './components/material/material.view';
+import {MenuComponent} from './components/menu/menu.component';
+import {CommentWrapperView} from './components/comment-wrapper/comment-wrapper.view';
+import {CommentView} from './components/comment/comment.view';
+import {MaterialView} from './components/material/material.view';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {TruncatePipe} from "./interfaces/truncate-pipe";
-import { ItemWrapperView } from './components/item-wrapper/item-wrapper.view';
-import { MaterialCreateComponent } from './components/material-create/material-create.component';
-import { ItemCreateWrapperComponent } from './components/item-create-wrapper/item-create-wrapper.component';
-import { CourseCreateComponent } from './components/course-create/course-create.component';
+import {ItemWrapperView} from './components/item-wrapper/item-wrapper.view';
+import {MaterialCreateComponent} from './components/material-create/material-create.component';
+import {ItemCreateWrapperComponent} from './components/item-create-wrapper/item-create-wrapper.component';
+import {CourseCreateComponent} from './components/course-create/course-create.component';
 import {NotifierModule, NotifierOptions} from "angular-notifier";
-import { MaterialListComponent } from './components/admin-pages/material-list/material-list.component';
-import { UserListComponent } from './components/admin-pages/user-list/user-list.component';
+import {MaterialListComponent} from './components/admin-pages/material-list/material-list.component';
+import {UserListComponent} from './components/admin-pages/user-list/user-list.component';
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {MatSortModule} from "@angular/material/sort";
 import {MatTableModule} from "@angular/material/table";
 import {MatSelectModule} from "@angular/material/select";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-import { MaterialPageComponent } from './components/material-page/material-page.component';
-import { UserComponent } from './components/user/user.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {MaterialPageComponent} from './components/material-page/material-page.component';
+import {UserComponent} from './components/user/user.component';
+import {ChangePasswordComponent} from './components/change-password/change-password.component';
+import {AnswerDialogComponent} from './components/answer-dialog/answer-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -107,32 +109,34 @@ const customNotifierOptions: NotifierOptions = {
     UserListComponent,
     MaterialPageComponent,
     UserComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    AnswerDialogComponent
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        BrowserAnimationsModule,
-        MatIconModule,
-        MatMenuModule,
-        MatCardModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatGridListModule,
-        MatRippleModule,
-        MatInputModule,
-        FormsModule,
-        ReactiveFormsModule,
-        HttpClientModule,
-        MatExpansionModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatTableModule,
-        NotifierModule.withConfig(customNotifierOptions),
-        MatSelectModule,
-        NgxMatFileInputModule,
-        MatProgressBarModule
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatIconModule,
+    MatMenuModule,
+    MatCardModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatGridListModule,
+    MatRippleModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    NotifierModule.withConfig(customNotifierOptions),
+    MatSelectModule,
+    NgxMatFileInputModule,
+    MatProgressBarModule,
+    MatDialogModule
+  ],
   providers: [AuthenticationService,
     UserService,
     {
@@ -142,8 +146,9 @@ const customNotifierOptions: NotifierOptions = {
       multi: true
     },
     UserStateService,
-    { provide: HTTP_INTERCEPTORS, useClass: BasicAuthHttpInterceptor, multi: true },
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
+    {provide: HTTP_INTERCEPTORS, useClass: BasicAuthHttpInterceptor, multi: true},
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

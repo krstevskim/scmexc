@@ -37,7 +37,7 @@ export class ItemCreateWrapperComponent implements OnInit {
               private service: MaterialService) { }
 
   ngOnInit(): void {
-    this.currentEditItem = {type: null, name: null, url: null, question: null, itemID: null, timePosted: null};
+    this.currentEditItem = {type: null, name: null, url: null, question: null, itemID: null, timePosted: null, questionID: null};
     this.newItemType = null;
     this.initForm();
     this.fileControl = new FormControl(this.fileToUpload, [
