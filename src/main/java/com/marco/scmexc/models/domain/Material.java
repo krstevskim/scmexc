@@ -27,7 +27,7 @@ public class Material {
     @Column(name = "is_published")
     private boolean published;
 
-    @Column(name = "description")
+    @Column(name = "description",columnDefinition="TEXT")
     private String description;
 
     @ManyToOne
@@ -43,7 +43,6 @@ public class Material {
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
-
 
     @OneToMany(mappedBy = "material")
     private List<Comment> comments;

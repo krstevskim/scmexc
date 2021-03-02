@@ -1,3 +1,13 @@
+@import "src/assets/_variables";
+
 .item-card-bottom-spacing {
   margin-bottom: 10px;
+}
+.view-answers-text {
+  display: flex;
+  flex-direction: row;
+  font-weight: bolder;
+  color: $primary;
+  cursor: pointer;
+  text-decoration: none !important;
 }

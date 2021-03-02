@@ -10,7 +10,9 @@ import com.marco.scmexc.security.UserPrincipal;
 import org.springframework.stereotype.Service;
 
 import java.time.ZonedDateTime;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AnswerService {
@@ -26,7 +28,7 @@ public class AnswerService {
     }
 
     public List<Answer> getAllByQuestion(Long questionID) {
-        return this.answerRepository.findAllByQuestion_Id(questionID);
+        return this.answerRepository.findAllByQuestion_Id(questionID).stream().sorted(Comparator.comparing(Answer::getDatePosted)).collect(Collectors.toList());
     }
 
     public Answer addAnswer(AnswerRequest request, Long userID){
@@ -42,28 +44,30 @@ public class AnswerService {
         answer.setDatePosted(ZonedDateTime.now());
         return this.answerRepository.save(answer);
     }
-    public Answer incUpVotes(Long answerID,Long userID) {
+    public boolean incUpVotes(Long answerID,Long userID) {
         SmxUser user = this.userRepository.findById(userID).orElse(null);
         Answer answer = this.answerRepository.findById(answerID).orElse(null);
         if(!answer.getUpVotedBy().contains(user)){
             int upVotes = answer.getUpVotes()+1;
             answer.getUpVotedBy().add(user);
             answer.setUpVotes(upVotes);
-            return this.answerRepository.save(answer);
+            this.answerRepository.save(answer);
+            return true;
         }
-        return answer;
+        return false;
     }
 
-    public Answer incDownVotes(Long answerID,Long userID) {
+    public boolean incDownVotes(Long answerID,Long userID) {
         SmxUser user = this.userRepository.findById(userID).orElse(null);
         Answer answer = this.answerRepository.findById(answerID).orElse(null);
         if(!answer.getDownVotedBy().contains(user)){
             int downVotes = answer.getDownVotes()+1;
             answer.getDownVotedBy().add(user);
             answer.setDownVotes(downVotes);
-            return this.answerRepository.save(answer);
+            this.answerRepository.save(answer);
+            return true;
         }
-      return answer;
+        return false;
     }
     public Answer deleteAnswerByID(Long answerID) {
         Answer answer = this.answerRepository.findById(answerID).orElse(null);
@@ -91,9 +95,11 @@ public class AnswerService {
 
     public Answer getCorrectAnswer(Long questionID) {
         Question question = this.questionRepository.findById(questionID).orElse(null);
-        Answer answer = answerRepository.findById(question.getUsefulAnswer().getId()).orElse(null);
-        return answer;
-
+        if(question.getUsefulAnswer() != null) {
+            Answer answer = answerRepository.findById(question.getUsefulAnswer().getId()).orElse(null);
+            return answer;
+        }
+        return null;
     }
 
 }

@@ -11,18 +11,20 @@ public class ItemResponse {
     public Type type;
     public ZonedDateTime timePosted;
     public long itemID;
+    public Long questionID;
 
 
-    public ItemResponse(String name,String url,Type type,ZonedDateTime timePosted,String question,long itemID){
+    public ItemResponse(String name,String url,Type type,ZonedDateTime timePosted,String question,long itemID, Long questionID){
         this.name=name;
         this.url=url;
         this.type=type;
         this.timePosted=timePosted;
         this.question=question;
         this.itemID= itemID;
+        this.questionID = questionID;
     }
 
-    public static ItemResponse of(String name,String url,Type type,ZonedDateTime timePosted,String question,long itemID){
-        return new ItemResponse(name, url, type,timePosted, question,itemID);
+    public static ItemResponse of(String name,String url,Type type,ZonedDateTime timePosted,String question,long itemID, Long questionID){
+        return new ItemResponse(name, url, type,timePosted, question,itemID, questionID);
     }
 }
