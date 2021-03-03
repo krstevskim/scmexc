@@ -1,6 +1,7 @@
 package com.marco.scmexc.services;
 
 import com.marco.scmexc.models.domain.Course;
+import com.marco.scmexc.models.exceptions.CourseNotFoundException;
 import com.marco.scmexc.models.requests.CourseRequest;
 import org.springframework.stereotype.Service;
 import com.marco.scmexc.repository.*;
@@ -22,7 +23,7 @@ public class CourseService {
     }
 
     public Course getCourseById(Long id){
-        return courseRepository.findById(id).orElse(null);
+        return courseRepository.findById(id).orElseThrow(()->new CourseNotFoundException(id));
     }
 
     public Course addNewCourse(CourseRequest request) {

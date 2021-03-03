@@ -3,11 +3,9 @@ package com.marco.scmexc.api;
 import com.marco.scmexc.models.domain.SmxFile;
 import com.marco.scmexc.models.response.SmxFileResponse;
 import com.marco.scmexc.services.SmxFileService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,8 +19,12 @@ import java.util.stream.Collectors;
 @RequestMapping("api/files")
 public class SmxFileController {
 
-    @Autowired
-    private SmxFileService service;
+
+    private final SmxFileService service;
+
+    public SmxFileController(SmxFileService service) {
+        this.service = service;
+    }
 
     @GetMapping("/all")
     public ResponseEntity<List<SmxFileResponse>> getFiles() {

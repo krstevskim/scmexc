@@ -1,8 +1,8 @@
 package com.marco.scmexc.services;
 
 import com.marco.scmexc.models.domain.SmxFile;
+import com.marco.scmexc.models.exceptions.FileNotFoundException;
 import com.marco.scmexc.repository.SmxFileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.stream.Stream;
@@ -10,12 +10,16 @@ import java.util.stream.Stream;
 @Service
 public class SmxFileService {
 
-    @Autowired
-    private SmxFileRepository repository;
+
+    private final SmxFileRepository repository;
+
+    public SmxFileService(SmxFileRepository repository) {
+        this.repository = repository;
+    }
 
     public SmxFile getFile(Long id) {
         //exception to add
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(()->new FileNotFoundException(id));
     }
 
     public Stream<SmxFile> getAllFiles() {

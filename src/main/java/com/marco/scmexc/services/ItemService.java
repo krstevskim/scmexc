@@ -4,6 +4,7 @@ import com.marco.scmexc.models.domain.Item;
 import com.marco.scmexc.models.domain.Question;
 import com.marco.scmexc.models.domain.SmxFile;
 import com.marco.scmexc.models.domain.Type;
+import com.marco.scmexc.models.exceptions.ItemNotFoundException;
 import com.marco.scmexc.models.requests.ItemRequest;
 import com.marco.scmexc.repository.*;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,13 @@ import java.util.List;
 @Service
 public class ItemService {
 
-    private final MaterialRepository materialRepository;
+
     private final ItemRepository itemRepository;
     private final QuestionRepository questionRepository;
     private final SmxFileRepository fileRepository;
     private final AnswerRepository answerRepository;
 
-    public ItemService(MaterialRepository materialRepository, ItemRepository itemRepository, QuestionRepository questionRepository, SmxFileRepository fileRepository, AnswerRepository answerRepository) {
-        this.materialRepository = materialRepository;
+    public ItemService(ItemRepository itemRepository, QuestionRepository questionRepository, SmxFileRepository fileRepository, AnswerRepository answerRepository) {
         this.itemRepository = itemRepository;
         this.questionRepository = questionRepository;
         this.fileRepository = fileRepository;
@@ -33,7 +33,7 @@ public class ItemService {
     }
 
     public void deleteItemByID(Long itemID) {
-        Item item = this.itemRepository.findById(itemID).orElse(null);
+        Item item = this.itemRepository.findById(itemID).orElseThrow(()-> new ItemNotFoundException(itemID));
         itemRepository.delete(item);
         if(item.getType()==Type.QUESTION) {
             Question question =item.getQuestion();
@@ -47,7 +47,7 @@ public class ItemService {
 
     public Item editItem(ItemRequest itemRequest) {
         //exception to add
-        Item item = this.itemRepository.findById(itemRequest.itemID).orElse(null);
+        Item item = this.itemRepository.findById(itemRequest.itemID).orElseThrow(()-> new ItemNotFoundException(itemRequest.itemID));
         if(item.getType()==Type.QUESTION) {
             Question question = item.getQuestion();
             question.setDescription(itemRequest.description);
@@ -64,7 +64,7 @@ public class ItemService {
     }
 
     public Item getItemByID(Long itemID){
-        Item item = this.itemRepository.findById(itemID).orElse(null);
+        Item item = this.itemRepository.findById(itemID).orElseThrow(()->new ItemNotFoundException(itemID));
         return item;
     }
 
