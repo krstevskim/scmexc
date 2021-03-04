@@ -39,6 +39,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'material/:matId',
+    component: MaterialPageComponent,
+    canActivate: [AuthGuard]
+  },
+  {
     path: 'courses',
     children: [
       {

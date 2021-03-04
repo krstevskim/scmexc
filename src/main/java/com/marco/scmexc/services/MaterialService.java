@@ -9,6 +9,9 @@ import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
 import com.marco.scmexc.security.UserPrincipal;
+import org.springframework.beans.support.PagedListHolder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,12 +54,23 @@ public class MaterialService {
         return this.materialRepository.findAllByCourse_Id(courseId);
     }
 
-    public Material save(MaterialRequest materialRequest){
+    public Page<Material> getAllMaterialsPaged(Pageable pageable, String searchQuery, Long course) {
+//        return course != null ? materialRepository.findAllByTitleAndCourse_id(searchQuery, course, pageable) : materialRepository.findAllByTitle(searchQuery, pageable);
+        String sq = searchQuery.equals("") ? null : searchQuery;
+        if(sq != null && course != null){
+            return materialRepository.findAllByTitleAndCourse_id(sq, course, pageable);
+        } else if(sq != null) {
+            return materialRepository.findAllByTitle(sq, pageable);
+        } else if(course != null) return materialRepository.findAllByCourse_id(course, pageable);
+        else return materialRepository.findAll(pageable);
+    }
+
+    public Material save(MaterialRequest materialRequest, UserPrincipal userPrincipal){
         Material material = new Material();
         material.setId(materialRequest.id);
         material.setTitle(materialRequest.title);
         material.setDescription(materialRequest.description);
-        SmxUser createdBy = userRepository.findSmxUserByEmail(materialRequest.createdByEmail).orElse(null);
+        SmxUser createdBy = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new UserNotFoundException(userPrincipal.getId()));
         material.setCreatedBy(createdBy);
         Course course = courseRepository.findById(materialRequest.courseId).orElseThrow(()->new CourseNotFoundException(materialRequest.courseId));
         material.setCourse(course);
@@ -71,10 +85,10 @@ public class MaterialService {
         return this.materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
     }
 
-    public Material approve(Long materialID,Long userID){
+    public Material approve(Long materialID, UserPrincipal userPrincipal){
         // sredi exceptions posle
         Material material = materialRepository.findById(materialID).orElseThrow(()-> new MaterialNotFoundException(materialID));
-        SmxUser user = userRepository.findById(userID).orElseThrow(()->new UserNotFoundException(userID));
+        SmxUser user = userRepository.findById(userPrincipal.getId()).orElseThrow(()->new UserNotFoundException(userPrincipal.getId()));
         if(material != null && user != null){
             material.setApprovedBy(user);
             material.setPublished(true);

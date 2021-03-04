@@ -2,6 +2,7 @@ package com.marco.scmexc.api;
 
 import com.marco.scmexc.models.requests.CourseRequest;
 import com.marco.scmexc.models.response.CourseResponse;
+import com.marco.scmexc.models.response.SelectOptionResponse;
 import com.marco.scmexc.web.CourseMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,11 @@ public class CourseController {
     @PostMapping("/add")
     public CourseResponse addNewCourse(@RequestBody CourseRequest request){
         return mapper.addNewCourse(request);
+    }
+
+    @GetMapping("/option")
+    public List<SelectOptionResponse> getAllCourseOption() {
+        return mapper.getAllCoursesOption();
     }
 
 }

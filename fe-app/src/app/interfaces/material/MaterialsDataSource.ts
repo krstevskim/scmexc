@@ -15,7 +15,7 @@ export class MaterialsDataSource implements DataSource<Material> {
 
     constructor(private materialService: MaterialService) {}
 
-    get pagedUsers() {
+    get pagedMaterials() {
         return this.pagedMaterialsSubject.value
     }
 
@@ -34,7 +34,7 @@ export class MaterialsDataSource implements DataSource<Material> {
         pageSize = 10,
         page = 0,
         query = '',
-        course = null
+        course = ''
     ) {
 
         this.loadingSubject.next(true);

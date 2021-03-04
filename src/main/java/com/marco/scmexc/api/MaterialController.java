@@ -1,5 +1,6 @@
 package com.marco.scmexc.api;
 
+import com.marco.scmexc.models.domain.Material;
 import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.models.response.MaterialResponse;
@@ -10,11 +11,13 @@ import com.marco.scmexc.services.ItemService;
 import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -32,6 +35,12 @@ public class MaterialController {
     @GetMapping("/all")
     public List<MaterialResponse> getAllMaterials(){
         return materialMapper.findAll();
+    }
+
+    @GetMapping("/paged")
+    public Page<Material> getAllMaterialsPaged(@RequestParam(required = false, defaultValue = "", name = "q") String searchQuery,
+                                               @RequestParam(required = false) Long course, Pageable pageable) {
+        return materialMapper.getAllMaterialsPaged(searchQuery, course, pageable);
     }
 
     @GetMapping("/all/approved/{courseId}")
@@ -55,14 +64,13 @@ public class MaterialController {
     }
 
     @PostMapping("/create")
-    public MaterialResponse createNewMaterial(@RequestBody MaterialRequest request) {
-        return materialMapper.save(request);
+    public MaterialResponse createNewMaterial(@RequestBody MaterialRequest request, @CurrentUser UserPrincipal userPrincipal) {
+        return materialMapper.save(request, userPrincipal);
     }
 
     @PostMapping("/approve")
-    public MaterialResponse approveMaterial(@RequestParam Long materialID,
-                                            @RequestParam Long userID){
-        return materialMapper.approve(materialID,userID);
+    public MaterialResponse approveMaterial(@RequestParam Long materialID, @CurrentUser UserPrincipal userPrincipal){
+        return materialMapper.approve(materialID,userPrincipal);
     }
     @PostMapping("/{id}/addFile")
     public ResponseEntity<ResponseMessage> addFile(@PathVariable Long id, @RequestParam MultipartFile file) {

@@ -6,16 +6,15 @@ import com.marco.scmexc.models.domain.Type;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.models.response.ItemResponse;
 import com.marco.scmexc.models.response.MaterialResponse;
-import com.marco.scmexc.repository.MaterialRepository;
+import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.io.IOException;
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,16 +66,21 @@ public class MaterialMapperImpl implements MaterialMapper {
     }
 
     @Override
-    public MaterialResponse save(MaterialRequest materialRequest) {
-        Material material = materialService.save(materialRequest);
+    public MaterialResponse save(MaterialRequest materialRequest, UserPrincipal userPrincipal) {
+        Material material = materialService.save(materialRequest, userPrincipal);
         return mapMaterialToMaterialResponse(material);
     }
 
     @Override
-    public MaterialResponse approve(Long materialID, Long userID) {
-        return mapMaterialToMaterialResponse(materialService.approve(materialID,userID));
+    public MaterialResponse approve(Long materialID, UserPrincipal userPrincipal) {
+        return mapMaterialToMaterialResponse(materialService.approve(materialID,userPrincipal));
     }
 
+    @Override
+    public Page<Material> getAllMaterialsPaged(String searchQuery, Long course, Pageable pageable) {
+        Page<Material> materials = materialService.getAllMaterialsPaged(pageable, searchQuery, course);
+        return materials;
+    }
 
 
     private MaterialResponse mapMaterialToMaterialResponse(Material material){

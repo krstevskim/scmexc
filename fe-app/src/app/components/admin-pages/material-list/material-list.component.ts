@@ -9,9 +9,10 @@ import {MaterialsDataSource} from "../../../interfaces/material/MaterialsDataSou
 import {MaterialService} from "../../../services/material.service";
 import {CourseService} from "../../../services/course.service";
 import {Material} from "../../../interfaces/material.interface";
+import {Option} from "../../../services/option.interface";
 
 @Component({
-  selector: 'app-material-list',
+  selector: 'material-list',
   templateUrl: './material-list.component.html',
   styleUrls: ['./material-list.component.scss']
 })
@@ -22,10 +23,10 @@ export class MaterialListComponent implements OnInit, AfterViewInit {
   option = new FormControl(null);
 
   searchQuery = '';
-  course = null;
+  course = '';
   dataSource: MaterialsDataSource;
-  displayedColumns = ['id','title', 'createdBy', 'dateCreated', 'published'];
-
+  displayedColumns = ['id','title', 'createdBy', 'approvedBy', 'dateCreated', 'published', 'publishAction'];
+  courseOption: Option[];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -36,20 +37,22 @@ export class MaterialListComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataSource = new MaterialsDataSource(this.materialService);
+    this.courseService.getAllCoursesAsOption().subscribe(el => {
+      this.courseOption = el;
+    });
     this.search.valueChanges.pipe(
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe(query => {
       this.searchQuery = query;
-      this.dataSource.loadMaterials('id', 'asc', 10, 0, query);
+      this.dataSource.loadMaterials('id', 'asc', 10, 0, query, this.course);
     })
-    this.dataSource.loadMaterials();
+    this.dataSource.loadMaterials('id', 'asc', 10, 0, '', this.course);
   }
 
   ngAfterViewInit(): void {
 
     this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
     merge(this.sort.sortChange, this.paginator.page)
       .pipe(tap(() => this.loadMaterials()))
       .subscribe();
@@ -61,12 +64,13 @@ export class MaterialListComponent implements OnInit, AfterViewInit {
       this.sort.direction,
       this.paginator.pageSize,
       this.paginator.pageIndex,
-      this.searchQuery
+      this.searchQuery,
+      this.course
     );
   }
 
-  onUserClick(row: any) {
-    // this.router.navigate(['/', 'user', row.id]);
+  onMaterialClick(row: any) {
+    this.router.navigate(['/', 'material', row.id]);
   }
 
   publish(material: Material) {
@@ -75,5 +79,10 @@ export class MaterialListComponent implements OnInit, AfterViewInit {
 
   unPublish(material: Material) {
     console.log("unpublished", material)
+  }
+
+  courseValueChange(event:any) {
+    this.course = event;
+    this.loadMaterials();
   }
 }
