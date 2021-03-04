@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -29,13 +30,8 @@ public class Course {
     @Column(name = "date_last_modified")
     private LocalDate dateLastModified;
 
-    @ManyToMany
-    @JoinTable(
-            name = "course_moderator",
-            joinColumns = @JoinColumn(name = "course_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id")
-    )
-    private Set<SmxUser> courseModerators;
+    @ManyToMany(mappedBy = "moderatingCourses", cascade = CascadeType.ALL)
+    private Set<SmxUser> courseModerators = new HashSet<>();
 
     public Set<SmxUser> getCourseModerators() {
         return courseModerators;

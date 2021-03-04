@@ -77,9 +77,8 @@ public class MaterialMapperImpl implements MaterialMapper {
     }
 
     @Override
-    public Page<Material> getAllMaterialsPaged(String searchQuery, Long course, Pageable pageable) {
-        Page<Material> materials = materialService.getAllMaterialsPaged(pageable, searchQuery, course);
-        return materials;
+    public Page<Material> getAllMaterialsPaged(String searchQuery, Long course, Pageable pageable, UserPrincipal userPrincipal) {
+        return materialService.getAllMaterialsPaged(pageable, searchQuery, course, userPrincipal);
     }
 
 

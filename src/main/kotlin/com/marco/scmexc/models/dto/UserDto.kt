@@ -7,5 +7,6 @@ data class UserDto (
     val lastName: String,
     val password: String?,
     val email: String,
-    val role: String?
+    val role: String?,
+    val moderatingCourses: List<Long>?
 )

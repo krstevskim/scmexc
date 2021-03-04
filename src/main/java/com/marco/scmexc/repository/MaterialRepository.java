@@ -20,5 +20,4 @@ public interface MaterialRepository extends JpaRepository<Material, Long> {
 
     Page<Material> findAllByTitle(String title, Pageable pageable);
 
-
 }

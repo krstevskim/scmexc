@@ -37,4 +37,12 @@ public class CourseService {
         course.setDateLastModified(LocalDate.now());
         return courseRepository.save(course);
     }
+
+    public List<Course> findAllByIdIn(List<Long> ids) {
+        return courseRepository.findAllByIdIn(ids);
+    }
+
+    public void saveAll(List<Course> courses) {
+        courseRepository.saveAll(courses);
+    }
 }

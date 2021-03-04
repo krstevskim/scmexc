@@ -7,6 +7,9 @@ import {UserService} from "../../services/user.service";
 import {User} from "../../interfaces/user/User";
 import {RoleAuthenticatorService} from "../../services/role-authenticator.service";
 import {Role} from "../../interfaces/user/Role";
+import {Option} from "../../services/option.interface";
+import {CourseService} from "../../services/course.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-user',
@@ -22,36 +25,48 @@ export class UserComponent implements OnInit {
     private notifierService: NotifierService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private roleService: RoleAuthenticatorService
-    ) { }
+    private roleService: RoleAuthenticatorService,
+    private courseService: CourseService
+  ) {
+  }
+
   currentUser: User;
   userId: number;
   hidePassword: boolean = true;
   userToUpdate: User;
   roles = Role;
   selectedRole: Role;
-  hasRoleChangePermission:boolean = false;
-
+  hasRoleChangePermission: boolean = false;
+  courseOption: Option[];
   userForm = this.formBuilder.group({
       id: [null],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       username: ['', [Validators.required]],
-      role: ['', Validators.required]
+      role: ['', Validators.required],
+      moderatingCourses: ['']
     }
   );
 
   ngOnInit(): void {
     this.currentUser = this.userService.getCurrentUser();
-    if(this.roleService.hasRole(Role.ROLE_SUPER_ADMIN)) {
+    if (this.roleService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN])) {
+      this.courseService.getAllCoursesAsOption().subscribe(el => {
+        this.courseOption = el;
+      });
       this.route.params.subscribe(params => {
         if (params['id']) {
           this.userId = +params['id'];
           this.userService.getUserById(this.userId).subscribe(el => {
             this.userToUpdate = el;
-            console.log(this.userToUpdate);
             this.userForm.patchValue(this.userToUpdate);
+            this.userService.getModeratingCoursesByUserId(this.userId)
+              .pipe(map(el => el.map(option => option.id)))
+              .subscribe(el => {
+                console.log("moderating", el);
+                this.userForm.controls.moderatingCourses.patchValue(el);
+              })
             this.selectedRole = el.role;
             this.hasRoleChangePermission = true;
           })
@@ -63,9 +78,12 @@ export class UserComponent implements OnInit {
   }
 
 
-
   get f() {
     return this.userForm.controls;
+  }
+
+  roleChange(role) {
+    this.selectedRole = role;
   }
 
   onSubmit() {
@@ -74,6 +92,9 @@ export class UserComponent implements OnInit {
     this.authService.changeDetails(newUser).subscribe(
       success => {
         this.notifierService.notify('success', 'Successfully updated user details');
+        if(this.selectedRole != Role.ROLE_MODERATOR) {
+          this.userForm.controls.moderatingCourses.reset();
+        }
       },
       error => {
         console.error(error);

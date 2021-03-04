@@ -9,6 +9,7 @@ import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
 import com.marco.scmexc.security.UserPrincipal;
+import org.apache.catalina.User;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,8 +55,7 @@ public class MaterialService {
         return this.materialRepository.findAllByCourse_Id(courseId);
     }
 
-    public Page<Material> getAllMaterialsPaged(Pageable pageable, String searchQuery, Long course) {
-//        return course != null ? materialRepository.findAllByTitleAndCourse_id(searchQuery, course, pageable) : materialRepository.findAllByTitle(searchQuery, pageable);
+    public Page<Material> getAllMaterialsPaged(Pageable pageable, String searchQuery, Long course, UserPrincipal userPrincipal) {
         String sq = searchQuery.equals("") ? null : searchQuery;
         if(sq != null && course != null){
             return materialRepository.findAllByTitleAndCourse_id(sq, course, pageable);

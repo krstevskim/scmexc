@@ -39,8 +39,8 @@ public class MaterialController {
 
     @GetMapping("/paged")
     public Page<Material> getAllMaterialsPaged(@RequestParam(required = false, defaultValue = "", name = "q") String searchQuery,
-                                               @RequestParam(required = false) Long course, Pageable pageable) {
-        return materialMapper.getAllMaterialsPaged(searchQuery, course, pageable);
+                                               @RequestParam(required = false) Long course, Pageable pageable, @CurrentUser UserPrincipal userPrincipal) {
+        return materialMapper.getAllMaterialsPaged(searchQuery, course, pageable, userPrincipal);
     }
 
     @GetMapping("/all/approved/{courseId}")
