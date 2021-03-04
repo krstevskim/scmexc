@@ -27,7 +27,7 @@ export class CourseService {
   }
 
   getAllCoursesAsOption(): Observable<Option[]> {
-    return this.http.get<Option[]>(`${this.url}/options`);
+    return this.http.get<Option[]>(`${this.url}/option`);
   }
 
 }

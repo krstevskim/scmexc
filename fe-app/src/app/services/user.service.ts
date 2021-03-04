@@ -5,6 +5,7 @@ import {User} from '../interfaces/user/User';
 import {PagedUser} from '../interfaces/user/PagedUser';
 import {tap} from 'rxjs/operators';
 import {SelfModifyUserDto} from '../interfaces/user/SelfModifyUserDto';
+import {Option} from "./option.interface";
 
 @Injectable({
     providedIn: 'root'
@@ -71,5 +72,9 @@ export class UserService {
 
     registerUser(newUser: User): Observable<User>{
         return this.http.post<User>('/api/auth/register', newUser)
+    }
+
+    getModeratingCoursesByUserId(id: number): Observable<Option[]> {
+      return this.http.get<Option[]>(`${this.url}/${id}/courses`);
     }
 }

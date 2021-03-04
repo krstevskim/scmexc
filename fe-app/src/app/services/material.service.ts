@@ -47,6 +47,10 @@ export class MaterialService {
     return this.http.post<string>(`${this.url}/unpublish/${materialId}`, null);
   }
 
+  publish(materialId: number): Observable<string> {
+    return this.http.post<string>(`${this.url}/publish/${materialId}`, null);
+  }
+
   upload(materialId:number, file: File): Observable<HttpEvent<any>> {
     const formData: FormData = new FormData();
 
@@ -70,7 +74,7 @@ export class MaterialService {
     pageSize = 10,
     page = 0,
     query = '',
-    course = null
+    course
   ): Observable<PagedMaterial> {
     return this.http.get<PagedMaterial>(`${this.url}/paged` , {
       params: new HttpParams()

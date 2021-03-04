@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -41,8 +42,13 @@ public class SmxUser {
     private Role role;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "courseModerators")
-    private Set<Course> moderatingCourses;
+    @ManyToMany
+    @JoinTable(
+            name = "course_moderator",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "course_id")
+    )
+    private Set<Course> moderatingCourses = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany(mappedBy = "upVotedBy")

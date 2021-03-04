@@ -6,7 +6,7 @@
   <mat-card-content>
     <form class="p-lg-0" [formGroup]="userForm" (ngSubmit)="onSubmit()">
       <p>
-        <mat-form-field  appearance="fill" class="full-width-input">
+        <mat-form-field appearance="fill" class="full-width-input">
           <mat-label>First Name</mat-label>
           <input matInput
                  type="text"
@@ -57,22 +57,31 @@
       <p *ngIf="hasRoleChangePermission">
         <mat-form-field appearance="fill" class="full-width-input">
           <mat-label>Role</mat-label>
-          <mat-select formControlName="role" name="role">
-            <mat-option [value]="roles.ROLE_SUPER_ADMIN">Super Admin</mat-option>
-            <mat-option [value]="roles.ROLE_ADMIN">Admin</mat-option>
+          <mat-select (valueChange)="roleChange($event)" formControlName="role" name="role">
+            <mat-option *ngIf="currentUser.role == roles.ROLE_SUPER_ADMIN" [value]="roles.ROLE_SUPER_ADMIN">Super Admin</mat-option>
+            <mat-option *ngIf="currentUser.role == roles.ROLE_SUPER_ADMIN" [value]="roles.ROLE_ADMIN">Admin</mat-option>
             <mat-option [value]="roles.ROLE_MODERATOR">Moderator</mat-option>
             <mat-option [value]="roles.ROLE_BASIC">Basic</mat-option>
           </mat-select>
-    </mat-form-field>
+        </mat-form-field>
+      </p>
+      <p *ngIf="selectedRole == roles.ROLE_MODERATOR">
+        <mat-form-field appearance="fill">
+          <mat-label>Courses</mat-label>
+          <mat-select formControlName="moderatingCourses" multiple>
+            <mat-option *ngFor="let course of courseOption" [value]="course.id">{{course.label}}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </p>
       <p>
-        <button mat-flat-button color="accent" class="btn-width-50" type="submit" [disabled]="userForm.disabled|| !userForm.valid">
+        <button mat-flat-button color="accent" class="btn-width-50" type="submit"
+                [disabled]="userForm.disabled|| !userForm.valid">
           Submit
         </button>
       </p>
     </form>
-    <div class="change-password-text">
-    <p routerLink="/change-password">Click here to change password</p>
+    <div class="change-password-text" *ngIf="!hasRoleChangePermission">
+      <p routerLink="/change-password">Click here to change password</p>
     </div>
   </mat-card-content>
 </mat-card>

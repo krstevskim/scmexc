@@ -31,6 +31,7 @@ public class MaterialResponse {
         this.downVotes = downVotes;
         this.items = null;
     }
+
     public MaterialResponse(Long id, String title, String createdBy, ZonedDateTime dateCreated, boolean published,
                             String description, String approvedBy, Integer upVotes, Integer downVotes, List<ItemResponse> items) {
         this.id = id;
@@ -46,12 +47,13 @@ public class MaterialResponse {
     }
 
     public static MaterialResponse of(Long id, String title, String createdBy, ZonedDateTime dateCreated, boolean published,
-                                      String description, String approvedBy, Integer upVotes, Integer downVotes){
-        return new MaterialResponse(id,title,createdBy,dateCreated,published,description,approvedBy,upVotes,downVotes);
+                                      String description, String approvedBy, Integer upVotes, Integer downVotes) {
+        return new MaterialResponse(id, title, createdBy, dateCreated, published, description, approvedBy, upVotes, downVotes);
     }
 
     public static MaterialResponse of(Long id, String title, String createdBy, ZonedDateTime dateCreated, boolean published,
-                                      String description, String approvedBy, Integer upVotes, Integer downVotes, List<ItemResponse> items){
-        return new MaterialResponse(id,title,createdBy,dateCreated,published,description,approvedBy,upVotes,downVotes, items);
+                                      String description, String approvedBy, Integer upVotes, Integer downVotes, List<ItemResponse> items) {
+        return new MaterialResponse(id, title, createdBy, dateCreated, published, description, approvedBy, upVotes, downVotes, items);
     }
+
 }

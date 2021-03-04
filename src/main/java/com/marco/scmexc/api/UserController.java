@@ -3,6 +3,7 @@ package com.marco.scmexc.api;
 
 import com.marco.scmexc.models.domain.SmxUser;
 import com.marco.scmexc.models.dto.UserDto;
+import com.marco.scmexc.models.response.SelectOptionResponse;
 import com.marco.scmexc.models.response.UserResponse;
 import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
@@ -14,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
@@ -45,5 +48,10 @@ public class UserController {
     @GetMapping("{id}")
     private UserResponse getUserById(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
         return userService.getUserResponseById(id, userPrincipal);
+    }
+
+    @GetMapping("{id}/courses")
+    private ResponseEntity<List<SelectOptionResponse>> getModeratingCoursesByUser(@PathVariable Long id) {
+        return ResponseEntity.ok(userService.getModeratingCourses(id));
     }
 }

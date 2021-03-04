@@ -9,6 +9,7 @@ import {User} from "../../interfaces/user/User";
 import {UserService} from "../../services/user.service";
 import {RoleAuthenticatorService} from "../../services/role-authenticator.service";
 import {Role} from "../../interfaces/user/Role";
+import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'answer-dialog',
@@ -38,9 +39,7 @@ export class AnswerDialogComponent implements OnInit {
     });
 
     this.answers$ = this.answerService.getAnswersByQuestion(this.data.questionId);
-    this.answers$.subscribe(el => {
-      this.answers = el;
-    });
+    this.loadAnswers();
     this.answerService.getMostUserfulAnswerByQuestionId(this.data.questionId).subscribe(el => {
       this.correctAnswer = el;
     });
@@ -58,7 +57,7 @@ export class AnswerDialogComponent implements OnInit {
     this.answerService.addAnswer(data).subscribe(el => {
       this.notifierService.notify('success', 'Answer saved.')
       this.answerForm.reset();
-      this.reload();
+      this.loadAnswers();
     }, error => {
       this.notifierService.notify('error', 'Error saving answer.')
     })
@@ -72,8 +71,10 @@ export class AnswerDialogComponent implements OnInit {
     return this.roleService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR, Role.ROLE_ADMIN]) || this.data.postedBy.id == this.currentUser.id;
   }
 
-  reload() {
-    this.answers$.subscribe(el => {
+  loadAnswers() {
+    this.answers$.pipe(
+      shareReplay(1)
+    ).subscribe(el => {
       this.answers = el;
     });
   }
@@ -83,7 +84,7 @@ export class AnswerDialogComponent implements OnInit {
       let data = {questionID: this.data.questionId, answerID: answer.id};
       this.answerService.setUsefulAnswer(data).subscribe(el => {
         this.notifierService.notify('success', 'Most useful answer selected.')
-        this.reload();
+        this.loadAnswers();
       }, error => {
         this.notifierService.notify('error', 'Error setting most useful answer.')
       })
@@ -96,7 +97,7 @@ export class AnswerDialogComponent implements OnInit {
     console.log(answer);
     this.answerService.upVoteAnswer(answer.id).subscribe(el => {
       this.notifierService.notify('success', 'Upvoted');
-      this.reload();
+      this.loadAnswers();
     }, error => {
       this.notifierService.notify('error', error.error);
     })
@@ -105,7 +106,7 @@ export class AnswerDialogComponent implements OnInit {
   downVoteAnswer(answer: Answer) {
     this.answerService.downVoteAnswer(answer.id).subscribe(el => {
       this.notifierService.notify('success', 'Downvoted');
-      this.reload();
+      this.loadAnswers();
     }, error => {
       this.notifierService.notify('error', error.error);
     })

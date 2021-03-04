@@ -1,5 +1,6 @@
 package com.marco.scmexc.models.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -40,16 +41,20 @@ public class Material {
     @Column(name = "down_votes")
     private Integer downVotes;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "material")
     private List<Comment> comments;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "material")
     private List<Item> items;
 
+    @JsonIgnore
     public List<Comment> getComments() {
         return comments;
     }
