@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core'
 import {UsersDataSource} from "../../../interfaces/user/UsersDataSource";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
-import {UserService} from "../../../services/user.service";
+import {UserService} from "../../../services/user-auth/user.service";
 import {merge} from "rxjs";
 import {debounceTime, distinctUntilChanged, tap} from "rxjs/operators";
 import {Router} from "@angular/router";

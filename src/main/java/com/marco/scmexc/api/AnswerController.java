@@ -4,7 +4,6 @@ import com.marco.scmexc.models.domain.Answer;
 import com.marco.scmexc.models.domain.Question;
 import com.marco.scmexc.models.requests.AnswerRequest;
 import com.marco.scmexc.models.response.AnswerResponse;
-import com.marco.scmexc.models.response.ResponseMessage;
 import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.services.AnswerService;
@@ -27,9 +26,9 @@ public class AnswerController {
     }
 
     @PostMapping("/addAnswer")
-    public ResponseEntity<ResponseMessage> addAnswer(@CurrentUser UserPrincipal user, @RequestBody AnswerRequest request) {
+    public ResponseEntity<String> addAnswer(@CurrentUser UserPrincipal user, @RequestBody AnswerRequest request) {
         this.service.addAnswer(request, user.getId());
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Your answer has been added!!!"));
+        return ResponseEntity.status(HttpStatus.OK).body("Your answer has been added!!!");
     }
 
     @GetMapping("/question/{questionID}")

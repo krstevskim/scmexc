@@ -4,13 +4,10 @@ import com.marco.scmexc.models.domain.Material;
 import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.models.response.MaterialResponse;
-import com.marco.scmexc.models.response.ResponseMessage;
 import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
-import com.marco.scmexc.services.ItemService;
 import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,12 +21,16 @@ import java.util.List;
 @RequestMapping("api/materials")
 public class MaterialController {
 
-    @Autowired
-    private MaterialService service;
-    @Autowired
-    private ItemService itemService;
-    @Autowired
-    private MaterialMapper materialMapper;
+    private final MaterialService service;
+
+
+    private final MaterialMapper materialMapper;
+
+    public MaterialController(MaterialService service, MaterialMapper materialMapper) {
+        this.service = service;
+        this.materialMapper = materialMapper;
+    }
+
 
     // cisto onaka da probam dali rabote :)
     @GetMapping("/all")
@@ -73,23 +74,23 @@ public class MaterialController {
         return materialMapper.approve(materialID,userPrincipal);
     }
     @PostMapping("/{id}/addFile")
-    public ResponseEntity<ResponseMessage> addFile(@PathVariable Long id, @RequestParam MultipartFile file) {
+    public ResponseEntity<String> addFile(@PathVariable Long id, @RequestParam MultipartFile file) {
        String message ;
         try {
              service.addItem(id, file);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(message));
+            return ResponseEntity.status(HttpStatus.OK).body(message);
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
-            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(new ResponseMessage(message));
+            return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
         }
 
     }
 
     @PostMapping("/addQuestion")
-    public ResponseEntity<ResponseMessage> addQuestion(@RequestBody AddQuestionRequest request){
+    public ResponseEntity<String> addQuestion(@RequestBody AddQuestionRequest request){
         service.addQuestion(request);
-        return  ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Question has been added"));
+        return  ResponseEntity.status(HttpStatus.OK).body("Question has been added");
     }
 
     @PostMapping("can-access/{id}")

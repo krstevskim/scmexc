@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient, HttpEvent, HttpParams, HttpRequest} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Course} from "../interfaces/course.interface";
-import {Material} from "../interfaces/material.interface";
+import {Material} from "../interfaces/material/material.interface";
 import {PagedUser} from "../interfaces/user/PagedUser";
 import {PagedMaterial} from "../interfaces/material/PagedMaterial";
 

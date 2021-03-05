@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {User} from "../../interfaces/user/User";
 import {NavItem} from "../../interfaces/nav-item.interface";
 import {Role} from "../../interfaces/user/Role";
-import {RoleAuthenticatorService} from "../../services/role-authenticator.service";
-import {AuthenticationService} from "../../services/auth/authentication.service";
+import {RoleAuthenticatorService} from "../../services/user-auth/role-authenticator.service";
+import {AuthenticationService} from "../../services/user-auth/authentication.service";
 
 @Component({
   selector: 'app-menu',

@@ -28,11 +28,10 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @PreAuthorize("hasAuthority('SUPER_ADMIN')")
-    @PostMapping
-    private ResponseEntity<SmxUser> createUser(@RequestBody UserDto userDto){
-        return ResponseEntity.ok(userService.createUser(userDto));
-    }
+//    @PostMapping
+//    private ResponseEntity<SmxUser> createUser(@RequestBody UserDto userDto){
+//        return ResponseEntity.ok(userService.createUser(userDto));
+//    }
 
     @GetMapping
     private ResponseEntity<SmxUser> getCurrentUser(@CurrentUser UserPrincipal userPrincipal){
@@ -40,6 +39,7 @@ public class UserController {
     }
 
     @GetMapping("/paged")
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
     private ResponseEntity<Page<SmxUser>> getAllUsersPaged(@RequestParam(required = false, defaultValue = "", name = "q") String searchQuery,
              Pageable pageable) {
         return ResponseEntity.ok(userService.getAllUsersPaged(pageable, searchQuery));

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
-import {UserService} from '../services/user.service';
+import {UserService} from '../services/user-auth/user.service';
 import {Role} from "../interfaces/user/Role";
 import {MaterialService} from "../services/material.service";
 import {Observable, of} from "rxjs";

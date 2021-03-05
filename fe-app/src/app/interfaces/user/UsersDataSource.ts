@@ -3,7 +3,7 @@ import {BehaviorSubject, Observable, of} from "rxjs";
 import {catchError, finalize} from "rxjs/operators";
 import {User} from './User';
 import {PagedUser} from './PagedUser';
-import {UserService} from '../../services/user.service';
+import {UserService} from '../../services/user-auth/user.service';
 
 export class UsersDataSource implements DataSource<User> {
 

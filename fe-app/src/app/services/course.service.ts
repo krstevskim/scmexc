@@ -2,7 +2,7 @@ import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Course} from "../interfaces/course.interface";
-import {Option} from "./option.interface";
+import {Option} from "../interfaces/option.interface";
 
 @Injectable({
   providedIn: 'root'

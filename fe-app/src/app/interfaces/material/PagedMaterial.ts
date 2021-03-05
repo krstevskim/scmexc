@@ -1,4 +1,4 @@
-import {Material} from "../material.interface";
+import {Material} from "./material.interface";
 
 export interface PagedMaterial {
     content: Material[];

@@ -2,7 +2,7 @@ import {CollectionViewer, DataSource} from "@angular/cdk/collections";
 import {BehaviorSubject, Observable, of} from "rxjs";
 import {catchError, finalize} from "rxjs/operators";
 import {PagedMaterial} from './PagedMaterial';
-import {Material} from "../material.interface";
+import {Material} from "./material.interface";
 import {MaterialService} from "../../services/material.service";
 
 export class MaterialsDataSource implements DataSource<Material> {

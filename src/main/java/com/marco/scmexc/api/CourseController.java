@@ -4,6 +4,7 @@ import com.marco.scmexc.models.requests.CourseRequest;
 import com.marco.scmexc.models.response.CourseResponse;
 import com.marco.scmexc.models.response.SelectOptionResponse;
 import com.marco.scmexc.web.CourseMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,6 +30,7 @@ public class CourseController {
     }
 
     @PostMapping("/add")
+    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
     public CourseResponse addNewCourse(@RequestBody CourseRequest request){
         return mapper.addNewCourse(request);
     }

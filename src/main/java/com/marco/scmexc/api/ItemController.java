@@ -4,7 +4,6 @@ import com.marco.scmexc.models.domain.Item;
 import com.marco.scmexc.models.domain.Type;
 import com.marco.scmexc.models.requests.ItemRequest;
 import com.marco.scmexc.models.response.ItemResponse;
-import com.marco.scmexc.models.response.ResponseMessage;
 import com.marco.scmexc.services.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -48,9 +47,9 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemID}/delete")
-    public ResponseEntity<ResponseMessage> deleteItem(@PathVariable Long itemID) {
+    public ResponseEntity<String> deleteItem(@PathVariable Long itemID) {
         this.itemService.deleteItemByID(itemID);
-        return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage("Item has been Deleted!!!"));
+        return ResponseEntity.status(HttpStatus.OK).body("Item has been Deleted!!!");
 
     }
     // post ili put ??
