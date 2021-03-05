@@ -1,19 +1,19 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {CourseListComponent} from "./components/course-list/course-list.component";
-import {CoursePageComponent} from "./components/course-page/course-page.component";
-import {LoginPageComponent} from "./components/login-page/login-page.component";
-import {RegisterPageComponent} from "./components/register-page/register-page.component";
+import {CourseListComponent} from "./components/course/course-list/course-list.component";
+import {CoursePageComponent} from "./components/course/course-page/course-page.component";
+import {LoginPageComponent} from "./components/user/login-page/login-page.component";
+import {RegisterPageComponent} from "./components/user/register-page/register-page.component";
 import {AuthGuard} from "./guards/auth.guard";
-import {CourseCreateComponent} from "./components/course-create/course-create.component";
+import {CourseCreateComponent} from "./components/course/course-create/course-create.component";
 import {AdminGuard} from "./guards/admin.guard";
 import {UserListComponent} from "./components/admin-pages/user-list/user-list.component";
 import {MaterialListComponent} from "./components/admin-pages/material-list/material-list.component";
-import {MaterialCreateComponent} from "./components/material-create/material-create.component";
-import {MaterialPageComponent} from "./components/material-page/material-page.component";
+import {MaterialCreateComponent} from "./components/materials/material-create/material-create.component";
+import {MaterialPageComponent} from "./components/materials/material-page/material-page.component";
 import {MaterialEditGuard} from "./guards/material-edit.guard";
-import {UserComponent} from "./components/user/user.component";
-import {ChangePasswordComponent} from "./components/change-password/change-password.component";
+import {UserEditComponent} from "./components/user/user-edit/user-edit.component";
+import {ChangePasswordComponent} from "./components/user/change-password/change-password.component";
 
 const routes: Routes = [
   {
@@ -26,11 +26,11 @@ const routes: Routes = [
   },
   {
     path: 'update-user',
-    component: UserComponent,
+    component: UserEditComponent,
     canActivate: [AuthGuard]
   },{
     path: 'update-user/:id',
-    component: UserComponent,
+    component: UserEditComponent,
     canActivate: [AuthGuard, AdminGuard]
   },
   {

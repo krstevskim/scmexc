@@ -39,7 +39,6 @@ class JwtUserAuthenticationService(
                 loginPayload.password
             )
         )
-        //add is activated check or exception
 
         SecurityContextHolder.getContext().authentication = authentication
         val jwt = jwtTokenProvider.generateToken(authentication)
@@ -65,7 +64,6 @@ class JwtUserAuthenticationService(
 
     override fun registerUser(newUser: UserDto): UserResponse {
         val user: SmxUser = userService.createUser(newUser)
-        //send email for activation??
         return UserResponse.of(user.id, user.username, user.firstName, user.lastName, user.email, user.role.name);
     }
 

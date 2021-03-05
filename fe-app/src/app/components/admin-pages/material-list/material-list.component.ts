@@ -8,8 +8,8 @@ import {merge} from "rxjs";
 import {MaterialsDataSource} from "../../../interfaces/material/MaterialsDataSource";
 import {MaterialService} from "../../../services/material.service";
 import {CourseService} from "../../../services/course.service";
-import {Material} from "../../../interfaces/material.interface";
-import {Option} from "../../../services/option.interface";
+import {Material} from "../../../interfaces/material/material.interface";
+import {Option} from "../../../interfaces/option.interface";
 
 @Component({
   selector: 'material-list',
