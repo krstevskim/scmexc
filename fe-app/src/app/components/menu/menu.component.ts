@@ -34,16 +34,16 @@ export class MenuComponent implements OnInit {
       canAccess: true
     },
     {
-      name: 'Admin Pages',
-      icon: 'admin',
-      route: '/admin',
-      canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN])
-    },
-    {
       name: 'Users',
-      icon: 'managed_accounts',
+      icon: 'groups',
       route: '/admin/users',
       canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]),
+    },
+    {
+      name: 'Materials',
+      icon: 'library_books',
+      route: '/admin/materials',
+      canAccess: this.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN, Role.ROLE_MODERATOR]),
     }
   ]
 

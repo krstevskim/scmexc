@@ -2,14 +2,14 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <div *ngFor="let item of navItems" >
+  <div class="row align-center text-center" *ngFor="let item of navItems" >
   <button mat-menu-item *ngIf="item.canAccess" [routerLink]="item.route">
-    <mat-icon>{{item.icon}}</mat-icon>
-    <span>{{item.name}}</span>
+    <span class="material-icons icon-width icon-margin">{{item.icon}}</span>
+    <span class="margin-top-bot">{{item.name}}</span>
   </button>
     </div>
   <button mat-menu-item (click)="logout()">
-    <mat-icon>logout</mat-icon>
+    <span class="material-icons icon-width icon-margin">logout</span>
     <span>Logout</span>
   </button>
 </mat-menu>

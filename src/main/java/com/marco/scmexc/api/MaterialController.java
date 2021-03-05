@@ -8,6 +8,7 @@ import com.marco.scmexc.security.CurrentUser;
 import com.marco.scmexc.security.UserPrincipal;
 import com.marco.scmexc.services.MaterialService;
 import com.marco.scmexc.web.MaterialMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +22,15 @@ import java.util.List;
 @RequestMapping("api/materials")
 public class MaterialController {
 
-    private final MaterialService service;
+    @Autowired
+    private MaterialService service;
+    @Autowired
+    private MaterialMapper materialMapper;
 
-
-    private final MaterialMapper materialMapper;
-
-    public MaterialController(MaterialService service, MaterialMapper materialMapper) {
-        this.service = service;
-        this.materialMapper = materialMapper;
-    }
+//    public MaterialController(MaterialService service, MaterialMapper materialMapper) {
+//        this.service = service;
+//        this.materialMapper = materialMapper;
+//    }
 
 
     // cisto onaka da probam dali rabote :)

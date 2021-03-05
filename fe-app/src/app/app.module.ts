@@ -43,7 +43,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {NgxMatFileInputModule} from "@angular-material-components/file-input";
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MaterialPageComponent} from './components/materials/material-page/material-page.component';
-import {UserEditComponent} from './components/user/user-edit/user.component';
+import {UserEditComponent} from './components/user/user-edit/user-edit.component';
 import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
 import {AnswerDialogComponent} from './components/materials/answer-dialog/answer-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
