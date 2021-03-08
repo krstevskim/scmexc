@@ -1,10 +1,7 @@
 package com.marco.scmexc.services;
 
 import com.marco.scmexc.models.domain.*;
-import com.marco.scmexc.models.exceptions.CourseNotFoundException;
-import com.marco.scmexc.models.exceptions.FileIsNullException;
-import com.marco.scmexc.models.exceptions.MaterialNotFoundException;
-import com.marco.scmexc.models.exceptions.UserNotFoundException;
+import com.marco.scmexc.models.exceptions.*;
 import com.marco.scmexc.models.requests.AddQuestionRequest;
 import com.marco.scmexc.models.requests.MaterialRequest;
 import com.marco.scmexc.repository.*;
@@ -140,5 +137,30 @@ public class MaterialService {
         item.setType(Type.QUESTION);
         this.itemRepository.save(item);
         return  material;
+    }
+    public boolean incUpVotes(Long materialID,Long userID) {
+        SmxUser user = this.userRepository.findById(userID).orElseThrow(()-> new UserNotFoundException(userID));
+        Material material = this.materialRepository.findById(materialID).orElseThrow(()-> new MaterialNotFoundException(materialID));
+        if(!material.getUpVotedBy().contains(user)){
+            int upVotes = material.getUpVotes()+1;
+            material.getUpVotedBy().add(user);
+            material.setUpVotes(upVotes);
+            this.materialRepository.save(material);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean incDownVotes(Long materialID,Long userID) {
+        SmxUser user = this.userRepository.findById(userID).orElseThrow(()-> new UserNotFoundException(userID));
+        Material material = this.materialRepository.findById(materialID).orElseThrow(()-> new MaterialNotFoundException(materialID));
+        if(!material.getDownVotedBy().contains(user)){
+            int downVotes = material.getDownVotes()+1;
+            material.getDownVotedBy().add(user);
+            material.setDownVotes(downVotes);
+            this.materialRepository.save(material);
+            return true;
+        }
+        return false;
     }
 }

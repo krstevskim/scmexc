@@ -58,6 +58,22 @@ public class SmxUser {
     @ManyToMany(mappedBy = "downVotedBy")
     private Set<Answer> downVotedFor;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "upVotedBy")
+    private Set<Material> materialsUpVotedFor;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "downVotedBy")
+    private Set<Material> materialsDownVotedFor;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "upVotedBy")
+    private Set<Comment> commentsUpVotedFor;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "downVotedBy")
+    private Set<Comment> commentsDownVotedFor;
+
     public Set<Course> getModeratingCourses() {
         return moderatingCourses;
     }
@@ -136,5 +152,29 @@ public class SmxUser {
 
     public void setRole(Role role) {
         this.role = role;
+    }
+
+    public Set<Material> getMaterialsDownVotedFor() {
+        return materialsDownVotedFor;
+    }
+
+    public Set<Material> getMaterialsUpVotedFor() {
+        return materialsUpVotedFor;
+    }
+
+    public void setMaterialsDownVotedFor(Set<Material> materialsDownVotedFor) {
+        this.materialsDownVotedFor = materialsDownVotedFor;
+    }
+
+    public void setUpVotedFor(Set<Answer> upVotedFor) {
+        this.upVotedFor = upVotedFor;
+    }
+
+    public void setMaterialsUpVotedFor(Set<Material> materialsUpVotedFor) {
+        this.materialsUpVotedFor = materialsUpVotedFor;
+    }
+
+    public void setDownVotedFor(Set<Answer> downVotedFor) {
+        this.downVotedFor = downVotedFor;
     }
 }

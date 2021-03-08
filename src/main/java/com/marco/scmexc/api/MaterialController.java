@@ -101,4 +101,16 @@ public class MaterialController {
                 return canAccess ? ResponseEntity.ok(true) : ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
+    @PostMapping("/{id}/upvote")
+    public ResponseEntity<String> incUpVotes(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+        boolean success = this.service.incUpVotes(id, userPrincipal.getId());
+        return success ? ResponseEntity.status(HttpStatus.OK).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already Upvoted.");
+    }
+
+    @PostMapping("/{id}/downvote")
+    public ResponseEntity<String> incDownVotes(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+        boolean success = this.service.incDownVotes(id, userPrincipal.getId());
+        return success ? ResponseEntity.status(HttpStatus.OK).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already Downvoted.");
+    }
+
 }

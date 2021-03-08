@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.time.ZonedDateTime;
+import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "comments")
@@ -34,6 +35,22 @@ public class Comment {
     @JoinColumn(name = "material_id")
     @JsonIgnore
     private Material material;
+
+    @ManyToMany
+    @JoinTable(
+            name = "upVotedComments",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<SmxUser> upVotedBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "downVotedComments",
+            joinColumns = @JoinColumn(name = "comment_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<SmxUser> downVotedBy;
 
 
     public Long getId() {
@@ -90,5 +107,13 @@ public class Comment {
 
     public void setMaterial(Material material) {
         this.material = material;
+    }
+
+    public Set<SmxUser> getDownVotedBy() {
+        return downVotedBy;
+    }
+
+    public Set<SmxUser> getUpVotedBy() {
+        return upVotedBy;
     }
 }

@@ -3,7 +3,9 @@ package com.marco.scmexc.services;
 import com.marco.scmexc.models.domain.Comment;
 import com.marco.scmexc.models.domain.Material;
 import com.marco.scmexc.models.domain.SmxUser;
+import com.marco.scmexc.models.exceptions.CommentNotFoundException;
 import com.marco.scmexc.models.exceptions.MaterialNotFoundException;
+import com.marco.scmexc.models.exceptions.UserNotFoundException;
 import com.marco.scmexc.models.requests.CommentRequest;
 import com.marco.scmexc.repository.CommentRepository;
 import com.marco.scmexc.repository.MaterialRepository;
@@ -49,6 +51,32 @@ public class CommentService {
         comment.setDownvotes(0);
         comment.setDatePosted(ZonedDateTime.now());
         return this.commentRepository.save(comment);
+    }
+
+    public boolean incUpVotes(Long commentID,Long userID) {
+        SmxUser user = this.userRepository.findById(userID).orElseThrow(()-> new UserNotFoundException(userID));
+        Comment comment = this.commentRepository.findById(commentID).orElseThrow(()-> new CommentNotFoundException(commentID));
+        if(!comment.getUpVotedBy().contains(user)){
+            int upVotes = comment.getUpvotes()+1;
+            comment.getUpVotedBy().add(user);
+            comment.setUpvotes(upVotes);
+            this.commentRepository.save(comment);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean incDownVotes(Long commentID,Long userID) {
+        SmxUser user = this.userRepository.findById(userID).orElseThrow(()-> new UserNotFoundException(userID));
+        Comment comment = this.commentRepository.findById(commentID).orElseThrow(()-> new CommentNotFoundException(commentID));
+        if(!comment.getDownVotedBy().contains(user)){
+            int downVotes = comment.getDownvotes()+1;
+            comment.getDownVotedBy().add(user);
+            comment.setDownvotes(downVotes);
+            this.commentRepository.save(comment);
+            return true;
+        }
+        return false;
     }
 
 }
