@@ -86,6 +86,5 @@ public class AnswerController {
         Answer answer = this.service.getCorrectAnswer(questionID);
         return AnswerResponse.of(answer.getId(), answer.getQuestion().getDescription(), answer.getAnswer(),
                 answer.getUpVotes(), answer.getDownVotes(), answer.getAnsweredBy().getEmail(), answer.getDatePosted());
-
     }
 }

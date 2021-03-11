@@ -6,6 +6,7 @@ import org.springframework.data.annotation.CreatedDate;
 import javax.persistence.*;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(schema = "public", name = "materials")
@@ -53,6 +54,24 @@ public class Material {
     @JsonIgnore
     @OneToMany(mappedBy = "material")
     private List<Item> items;
+
+    @ManyToMany
+    @JoinTable(
+            name = "upVotedMaterials",
+            joinColumns = @JoinColumn(name = "material_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<SmxUser> upVotedBy;
+
+    @ManyToMany
+    @JoinTable(
+            name = "downVotedMaterials",
+            joinColumns = @JoinColumn(name = "material_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    private Set<SmxUser> downVotedBy;
+
+
 
     @JsonIgnore
     public List<Comment> getComments() {
@@ -149,5 +168,21 @@ public class Material {
 
     public void setItems(List<Item> items) {
         this.items = items;
+    }
+
+    public Set<SmxUser> getUpVotedBy() {
+        return upVotedBy;
+    }
+
+    public Set<SmxUser> getDownVotedBy() {
+        return downVotedBy;
+    }
+
+    public void setDownVotedBy(Set<SmxUser> downVotedBy) {
+        this.downVotedBy = downVotedBy;
+    }
+
+    public void setUpVotedBy(Set<SmxUser> upVotedBy) {
+        this.upVotedBy = upVotedBy;
     }
 }
