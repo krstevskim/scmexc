@@ -20,6 +20,10 @@ export class MaterialService {
     return this.http.get<Material[]>(`${this.url}/all/approved/${courseId}`)
   }
 
+  getAllMaterialsByCourseId(courseId: number): Observable<Material[]> {
+    return this.http.get<Material[]>(`${this.url}/all/${courseId}`)
+  }
+
   getMaterialById(id: number) : Observable<Material> {
     return this.http.get<Material>(`${this.url}/${id}`);
   }
@@ -44,11 +48,11 @@ export class MaterialService {
   }
 
   unpublish(materialId: number): Observable<string> {
-    return this.http.post<string>(`${this.url}/unpublish/${materialId}`, null);
+    return this.http.post<string>(`${this.url}/${materialId}/unpublish`, null);
   }
 
   publish(materialId: number): Observable<string> {
-    return this.http.post<string>(`${this.url}/publish/${materialId}`, null);
+    return this.http.post<string>(`${this.url}/${materialId}/publish`, null);
   }
 
   upload(materialId:number, file: File): Observable<HttpEvent<any>> {
@@ -84,5 +88,13 @@ export class MaterialService {
         .set('q', query)
         .set('course', course)
     })
+  }
+
+  upvoteMaterial(materialId: number): Observable<string> {
+    return this.http.post<string>(`${this.url}/${materialId}/upvote`, null);
+  }
+
+  downvoteMaterial(materialId: number): Observable<string> {
+    return this.http.post<string>(`${this.url}/${materialId}/downvote`, null);
   }
 }

@@ -15,10 +15,12 @@ public interface MaterialMapper {
     List<MaterialResponse> findAll();
     List<MaterialResponse> findAllApprovedMaterialsByCourseId(Long id);
     List<MaterialResponse> findAllPendingMaterialsByCourseId(Long id);
+    List<MaterialResponse> findAllMaterialsByCourseId(Long id);
     List<MaterialResponse> findAllPendingMaterials();
     MaterialResponse findById(Long id);
     MaterialResponse save(MaterialRequest materialRequest, UserPrincipal userPrincipal);
-    MaterialResponse approve(Long materialID,UserPrincipal userPrincipal);
+    MaterialResponse publish(Long id,UserPrincipal userPrincipal);
+    MaterialResponse unpublish(Long id,UserPrincipal userPrincipal);
     Page<Material> getAllMaterialsPaged(String searchQuery, Long course, Pageable pageable, UserPrincipal userPrincipal);
 
 }

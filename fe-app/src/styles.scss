@@ -6,10 +6,46 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .bg-img {
-  background-image: url("./assets/lightpaperfibers_@2X.png") ;
-  background-size: cover;
+  //background-image: url("./assets/main-page-bg.jpg");
+  //background-size: cover;
+  //background-repeat: no-repeat;
+  //background-color: #EAEAEA;
+  background: #ebebeb url("./assets/main-page-bg-4.png") 0 0 no-repeat;
+
+  //background-color: #E5E5E5;
+  //background-image: linear-gradient(
+  //    to bottom, rgba(0,0,0,0) 0%, #E5E5E5 100%
+  //), url("./assets/main-page-bg.jpg");
+  //background-repeat: no-repeat;
+
 }
 
+.main-page-bg {
+  background-image: url("./assets/main-page-bg.jpg") !important; ;
+  background-size: cover !important;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  min-height: 100%;
+  min-width: 1024px;
+
+  /* Set up proportionate scaling */
+  width: 100%;
+  height: auto;
+
+  /* Set up positioning */
+  position: absolute;
+  top: 60px;
+  left: 0;
+}
+
+.margin-left-auto {
+  margin-left: auto ;
+}
+
+.margin-right-auto{
+  margin-right: auto;
+}
 
 .flex-row {
   display: flex;
@@ -48,4 +84,21 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   max-width: 960px;
   flex-direction: column;
   align-items: center;
+}
+
+//.mat-card {
+//  background: #f8f8f8;
+//}
+
+.mat-card {
+  border-radius: 25px !important;
+}
+
+.mat-dialog-container {
+  border-radius: 25px !important;
+
+}
+
+.on-top {
+  z-index: 10;
 }

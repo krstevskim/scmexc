@@ -57,13 +57,14 @@ export class MenuComponent implements OnInit {
   }
 
   hasRole(role: Role) {
-    return true;
-    // return this.roleAuthenticatorService.hasRole(role);
+    // return true;
+    return this.roleAuthenticatorService.hasRole(role);
   }
 
   hasAnyRole(roles: Role[]) {
-    return true;
-    // return this.roleAuthenticatorService.hasAnyRole(roles)
+    // return true;
+
+    return this.roleAuthenticatorService.hasAnyRole(roles)
   }
 
   isAuthenticated() {

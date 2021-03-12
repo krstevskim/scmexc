@@ -55,6 +55,11 @@ public class MaterialController {
         return materialMapper.findAllPendingMaterialsByCourseId(courseId);
     }
 
+    @GetMapping("/all/{courseId}")
+    public List<MaterialResponse> getAllMaterialsByCourse(@PathVariable Long courseId){
+        return materialMapper.findAllMaterialsByCourseId(courseId);
+    }
+
     @GetMapping("/all/pending")
     public List<MaterialResponse> getAllPendingMaterials(){
         return materialMapper.findAllPendingMaterials();
@@ -70,10 +75,16 @@ public class MaterialController {
         return materialMapper.save(request, userPrincipal);
     }
 
-    @PostMapping("/approve")
-    public MaterialResponse approveMaterial(@RequestParam Long materialID, @CurrentUser UserPrincipal userPrincipal){
-        return materialMapper.approve(materialID,userPrincipal);
+    @PostMapping("/{id}/publish")
+    public MaterialResponse approveMaterial(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal){
+        return materialMapper.publish(id,userPrincipal);
     }
+
+    @PostMapping("/{id}/unpublish")
+    public MaterialResponse unpublishMaterial(@PathVariable Long id, @CurrentUser UserPrincipal userPrincipal) {
+        return materialMapper.unpublish(id, userPrincipal);
+    }
+
     @PostMapping("/{id}/addFile")
     public ResponseEntity<String> addFile(@PathVariable Long id, @RequestParam MultipartFile file) {
        String message ;

@@ -9,8 +9,8 @@
       <button mat-flat-button color="primary" (click)="downloadFile(item)">Download</button>
     </div>
 
-      <div  *ngIf="item.type == itemTypes.IMAGE">
-        <img matCardImage class="" [src]="item.url" [alt]="item.name">
+      <div class="flex-row" *ngIf="item.type == itemTypes.IMAGE">
+        <img class="image-max-width" [src]="item.url" [alt]="item.name">
       </div>
       <div class="flex-row row-reverse">
       <button mat-flat-button color="warn" class="button-spacing"  (click)="deleteItem(item)">Delete</button>

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Material} from "../../../interfaces/material/material.interface";
 import {AuthenticationService} from "../../../services/user-auth/authentication.service";
 import {User} from "../../../interfaces/user/User";
@@ -8,6 +8,8 @@ import {Role} from "../../../interfaces/user/Role";
 import {Observable} from "rxjs";
 import {MaterialService} from "../../../services/material.service";
 import {Router} from "@angular/router";
+import {NotifierService} from "angular-notifier";
+import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'material',
@@ -16,18 +18,26 @@ import {Router} from "@angular/router";
 })
 export class MaterialView implements OnInit {
 
-  @Input() material: Material;
+  @Input() materialId: number;
   @Input() canOpenFull: boolean;
   @Input() courseId: number;
+  @Input() material: Material;
   user: User;
+  @Output() refresh: EventEmitter<boolean> = new EventEmitter();
+  material$: Observable<Material>
+
   constructor(
     private roleAuthenticatorService: RoleAuthenticatorService,
     private userService: UserService,
     private service: MaterialService,
-    private router: Router) { }
+    private notifierService: NotifierService,
+    private router: Router) {
+  }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
+    this.material$ = this.service.getMaterialById(this.materialId != null ? this.materialId : this.material.id)
+    this.loadMaterial();
   }
 
   hasAnyRole(roles: Role[]) {
@@ -38,14 +48,49 @@ export class MaterialView implements OnInit {
     return this.hasAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR]);
   }
 
-
-  unpublishMaterial() {
-
+  loadMaterial() {
+    this.material$.pipe(shareReplay(1)).subscribe(el => this.material = el);
   }
 
+  unpublishMaterial() {
+    let matId = this.materialId != null ? this.materialId : this.material.id;
+    this.service.unpublish(matId).subscribe(it => {
+      this.notifierService.notify('success', 'Successfully unpublished material');
+      this.refresh.emit(true);
+    }, error => {
+      this.notifierService.notify('error', 'Error unpublishing material.')
+    })
+  }
+
+
   openFullPage() {
-    if(this.canOpenFull) {
+    if (this.canOpenFull) {
       this.router.navigate(['/courses', this.courseId, 'material', this.material.id]);
+    }
+  }
+
+  upvoteMaterial(material: Material) {
+    this.service.upvoteMaterial(material.id).subscribe(el => {
+      this.notifierService.notify('success', 'Liked material');
+      this.loadMaterial()
+    }, error => {
+      this.notifierService.notify('error', error.error);
+    })
+  }
+
+  downvoteMaterial(material: Material) {
+    this.service.downvoteMaterial(material.id).subscribe(el => {
+      this.notifierService.notify('success', 'Disliked material');
+      this.loadMaterial()
+    }, error => {
+      this.notifierService.notify('error', error.error);
+    })
+  }
+
+  get editUrl() {
+    let matId = this.materialId != null ? this.materialId : this.material.id;
+    if(matId != null) {
+      return '/courses/' + this.courseId + '/material/create/' +matId.toString();
     }
   }
 }

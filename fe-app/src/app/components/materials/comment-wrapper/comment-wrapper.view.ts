@@ -5,6 +5,7 @@ import {AuthenticationService} from "../../../services/user-auth/authentication.
 import {CommentService} from "../../../services/comment.service";
 import {NotifierService} from "angular-notifier";
 import {Observable} from "rxjs";
+import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'comment-wrapper',
@@ -16,6 +17,7 @@ export class CommentWrapperView implements OnInit {
   @Input() materialId: number;
   commentForm: FormGroup;
   comments$: Observable<Comment[]>;
+  comments: Comment[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,6 +34,10 @@ export class CommentWrapperView implements OnInit {
 
   get f() {
     return this.commentForm.controls;
+  }
+
+  loadComments() {
+    this.comments$.pipe(shareReplay(1)).subscribe(el => this.comments = el);
   }
 
   submit() {
