@@ -82,15 +82,32 @@ public class MaterialService {
         return this.materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
     }
 
-    public Material approve(Long materialID, UserPrincipal userPrincipal){
-        // sredi exceptions posle
+    public Material publish(Long materialID, UserPrincipal userPrincipal){
         Material material = materialRepository.findById(materialID).orElseThrow(()-> new MaterialNotFoundException(materialID));
         SmxUser user = userRepository.findById(userPrincipal.getId()).orElseThrow(()->new UserNotFoundException(userPrincipal.getId()));
-        if(material != null && user != null){
+        if(canPublishOrUnpublishMaterial(material, user)){
             material.setApprovedBy(user);
             material.setPublished(true);
         }
         return materialRepository.save(material);
+    }
+
+    public Material unpublish(Long materialID, UserPrincipal userPrincipal){
+        Material material = materialRepository.findById(materialID).orElseThrow(()-> new MaterialNotFoundException(materialID));
+        SmxUser user = userRepository.findById(userPrincipal.getId()).orElseThrow(()->new UserNotFoundException(userPrincipal.getId()));
+        if(canPublishOrUnpublishMaterial(material, user)){
+            material.setApprovedBy(null);
+            material.setPublished(false);
+        }
+        return materialRepository.save(material);
+    }
+
+    private boolean canPublishOrUnpublishMaterial(Material material, SmxUser user ) {
+        return user.getRole().equals(Role.SUPER_ADMIN) ||
+                user.getRole().equals(Role.ADMIN) ||
+                (user.getRole().equals(Role.MODERATOR) &&
+                        material.getCourse().getCourseModerators()
+                                .stream().anyMatch(el -> el.getId().equals(user.getId())));
     }
 
     public Material addItem(Long materialID,MultipartFile file) throws IOException {
@@ -123,7 +140,7 @@ public class MaterialService {
     public Boolean canUserAccessEditMaterial(Long materialId, UserPrincipal userPrincipal) {
         if(userPrincipal.hasRole(Role.ADMIN) || userPrincipal.hasRole(Role.SUPER_ADMIN) || userPrincipal.hasRole(Role.MODERATOR)) return  true;
         Material material = materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
-        return material.getCreatedBy().getUsername() == userPrincipal.getUsername();
+        return material.getCreatedBy().getUsername().equals(userPrincipal.getUsername());
     }
 
     public Material addQuestion(AddQuestionRequest request) {

@@ -33,11 +33,12 @@
   <p>
     <mat-form-field appearance="outline" class="full-width-input">
       <mat-label>Input Course description</mat-label>
-      <input matInput
+      <textarea matInput
+                rows="5"
              id="description"
              name="description"
              placeholder="Course description"
-             formControlName="description">
+                formControlName="description"></textarea>
       <mat-icon matPrefix>person</mat-icon>
       <mat-error *ngIf="f.description.invalid && f.description.touched">You must input a description for the course.</mat-error>
     </mat-form-field>

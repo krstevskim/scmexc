@@ -52,6 +52,14 @@ public class MaterialMapperImpl implements MaterialMapper {
     }
 
     @Override
+    public List<MaterialResponse> findAllMaterialsByCourseId(Long id) {
+        return materialService.getAllMaterialsByCourse(id)
+                .stream()
+                .map(this::mapMaterialToMaterialResponse)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<MaterialResponse> findAllPendingMaterials() {
         return materialService.findAll()
                 .stream()
@@ -72,8 +80,13 @@ public class MaterialMapperImpl implements MaterialMapper {
     }
 
     @Override
-    public MaterialResponse approve(Long materialID, UserPrincipal userPrincipal) {
-        return mapMaterialToMaterialResponse(materialService.approve(materialID,userPrincipal));
+    public MaterialResponse publish(Long id, UserPrincipal userPrincipal) {
+        return mapMaterialToMaterialResponse(materialService.publish(id,userPrincipal));
+    }
+
+    @Override
+    public MaterialResponse unpublish(Long id, UserPrincipal userPrincipal) {
+        return mapMaterialToMaterialResponse(materialService.unpublish(id,userPrincipal));
     }
 
     @Override

@@ -1,7 +1,8 @@
-<div class="login-form">
-  <div class="text-center">
-    <h2>Log In</h2>
-  </div>
+<mat-card class="card-width">
+  <mat-card-title class="text-center">
+    <h2>Log in</h2>
+  </mat-card-title>
+<mat-card-content>
   <form class="" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
 
     <p>
@@ -41,6 +42,6 @@
     <div class="register-text">
       <p routerLink="/register">Click here to register</p>
     </div>
-    <hr>
   </form>
-</div>
+</mat-card-content>
+</mat-card>

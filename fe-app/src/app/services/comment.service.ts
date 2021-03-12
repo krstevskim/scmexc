@@ -20,4 +20,12 @@ export class CommentService {
     return this.http.get<Comment[]>(`${this.url}/all/${materialId}`);
   }
 
+
+  upvoteComment(commentId: number): Observable<string> {
+    return this.http.post<string>(`${this.url}/${commentId}/upvote`, null);
+  }
+
+  downvoteComment(commentId: number): Observable<string> {
+    return this.http.post<string>(`${this.url}/${commentId}/downvote`, null);
+  }
 }

@@ -15,11 +15,12 @@ export class RoleAuthenticatorService {
     }
 
     hasRole(role: Role) {
-        return (this.currentUser.role === role)
+        return this.currentUser ? (this.currentUser.role === role): false
     }
 
     hasAnyRole(roles: Role[]) {
-        return (roles.includes(this.currentUser.role))
+
+        return this.currentUser ? (roles.includes(this.currentUser.role)): false
     }
 
 }

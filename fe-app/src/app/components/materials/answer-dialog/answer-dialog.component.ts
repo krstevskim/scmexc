@@ -22,7 +22,6 @@ export class AnswerDialogComponent implements OnInit {
   correctAnswer: Answer;
   answerForm: FormGroup;
   currentUser: User;
-  answersSub$: BehaviorSubject<Answer[]>;
   answers: Answer[];
 
   constructor(private answerService: AnswerService,

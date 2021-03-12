@@ -47,6 +47,9 @@ import {UserEditComponent} from './components/user/user-edit/user-edit.component
 import {ChangePasswordComponent} from './components/user/change-password/change-password.component';
 import {AnswerDialogComponent} from './components/materials/answer-dialog/answer-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { MainPageComponent } from './components/main-page/main-page.component';
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {CommonModule} from "@angular/common";
 
 const customNotifierOptions: NotifierOptions = {
   position: {
@@ -110,9 +113,14 @@ const customNotifierOptions: NotifierOptions = {
     MaterialPageComponent,
     UserEditComponent,
     ChangePasswordComponent,
-    AnswerDialogComponent
+    AnswerDialogComponent,
+    MainPageComponent
   ],
   imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
@@ -124,9 +132,6 @@ const customNotifierOptions: NotifierOptions = {
     MatGridListModule,
     MatRippleModule,
     MatInputModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
     MatExpansionModule,
     MatPaginatorModule,
     MatSortModule,
@@ -135,7 +140,8 @@ const customNotifierOptions: NotifierOptions = {
     MatSelectModule,
     NgxMatFileInputModule,
     MatProgressBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatSlideToggleModule
   ],
   providers: [AuthenticationService,
     UserService,

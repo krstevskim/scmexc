@@ -14,6 +14,7 @@ import {MaterialPageComponent} from "./components/materials/material-page/materi
 import {MaterialEditGuard} from "./guards/material-edit.guard";
 import {UserEditComponent} from "./components/user/user-edit/user-edit.component";
 import {ChangePasswordComponent} from "./components/user/change-password/change-password.component";
+import {MainPageComponent} from "./components/main-page/main-page.component";
 
 const routes: Routes = [
   {
@@ -107,12 +108,12 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'courses',
+    component: MainPageComponent,
     pathMatch: 'full'
   },
   {
     path: '**',
-    redirectTo: '/courses',
+    redirectTo: '',
     pathMatch: 'full'
   }
 ];

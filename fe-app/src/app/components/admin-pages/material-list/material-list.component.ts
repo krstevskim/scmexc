@@ -10,6 +10,7 @@ import {MaterialService} from "../../../services/material.service";
 import {CourseService} from "../../../services/course.service";
 import {Material} from "../../../interfaces/material/material.interface";
 import {Option} from "../../../interfaces/option.interface";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'material-list',
@@ -32,7 +33,8 @@ export class MaterialListComponent implements OnInit, AfterViewInit {
 
   constructor(private materialService: MaterialService,
               private router: Router,
-              private courseService: CourseService) {
+              private courseService: CourseService,
+              private notifierService: NotifierService) {
   }
 
   ngOnInit(): void {
@@ -74,11 +76,21 @@ export class MaterialListComponent implements OnInit, AfterViewInit {
   }
 
   publish(material: Material) {
-    console.log("published", material)
+    this.materialService.publish(material.id).subscribe(it => {
+      this.notifierService.notify('success', 'Successfully published material');
+      this.loadMaterials()
+    }, error => {
+      this.notifierService.notify('error', 'Error publishing material.')
+    })
   }
 
   unPublish(material: Material) {
-    console.log("unpublished", material)
+    this.materialService.unpublish(material.id).subscribe(it => {
+      this.notifierService.notify('success', 'Successfully unpublished material');
+      this.loadMaterials()
+    }, error => {
+      this.notifierService.notify('error', 'Error unpublishing material.')
+    })
   }
 
   courseValueChange(event:any) {
