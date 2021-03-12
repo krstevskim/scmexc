@@ -20,24 +20,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 }
 
-.main-page-bg {
-  background-image: url("./assets/main-page-bg.jpg") !important; ;
-  background-size: cover !important;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  min-height: 100%;
-  min-width: 1024px;
-
-  /* Set up proportionate scaling */
-  width: 100%;
-  height: auto;
-
-  /* Set up positioning */
-  position: absolute;
-  top: 60px;
-  left: 0;
-}
 
 .margin-left-auto {
   margin-left: auto ;
