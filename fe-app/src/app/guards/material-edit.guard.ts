@@ -21,20 +21,19 @@ export class MaterialEditGuard implements CanActivate {
         next: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
         const materialId = +next.paramMap.get('matId');
-        if(this.matchAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN])) return true;
+        if(this.matchAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN, Role.ROLE_MODERATOR])) return true;
         return this.materialService.canAccessMaterial(materialId).pipe(map(el=> {
           if(el) {
             return true;
           }
         }, catchError(err => {
           //FIX NAVIGATION!!!
-          this.router.navigate(['/courses']);
+          this.router.navigate(['/']);
           return of(false);
         })))
     }
 
     private matchAnyRole(roles: Role[]): boolean {
-      console.log(this.userService.getCurrentUser())
       return roles.filter(el => this.userService.getCurrentUser().role == el).length != 0;
     }
 

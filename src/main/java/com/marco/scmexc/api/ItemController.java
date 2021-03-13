@@ -47,9 +47,9 @@ public class ItemController {
     }
 
     @DeleteMapping("/{itemID}/delete")
-    public ResponseEntity<String> deleteItem(@PathVariable Long itemID) {
+    public ResponseEntity deleteItem(@PathVariable Long itemID) {
         this.itemService.deleteItemByID(itemID);
-        return ResponseEntity.status(HttpStatus.OK).body("Item has been Deleted!!!");
+        return ResponseEntity.ok().build();
 
     }
     // post ili put ??

@@ -39,8 +39,8 @@ export class MaterialService {
       .post<string>(`${this.url}/${materialId}/addFile`, formData);
   }
 
-  deleteItem(itemId: number) :Observable<any> {
-    return this.http.delete(`${this.url}/items/${itemId}`);
+  deleteItem(itemId: number) :Observable<string> {
+    return this.http.delete<string>(`api/items/${itemId}/delete`);
   }
 
   addQuestion(request): Observable<string> {

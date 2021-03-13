@@ -30,4 +30,4 @@
   </form>
 </mat-card>
 
-<item-create-wrapper *ngIf="material" class="flex-column width" [material]="material" [items]="material.items"></item-create-wrapper>
+<item-create-wrapper *ngIf="material" class="flex-column width" [material]="material" [items]="material.items" (refresh)="loadMaterial()"></item-create-wrapper>

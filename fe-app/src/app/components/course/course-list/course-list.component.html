@@ -5,7 +5,7 @@
     <input [(ngModel)]="search" (ngModelChange)="searchInputChange($event)" matInput placeholder="Search courses..">
     <mat-icon matSuffix>search</mat-icon>
   </mat-form-field>
-    <button mat-flat-button type="button" class="new-course-btn" color="primary" routerLink="/courses/create">New Course</button>
+    <button *ngIf="canAddCourse" mat-flat-button type="button" class="new-course-btn" color="primary" routerLink="/courses/create">New Course</button>
   </div>
 </div>
 

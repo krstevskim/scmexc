@@ -2,7 +2,7 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <div class="row align-center text-center" *ngFor="let item of navItems" >
+  <div class="row text-center" *ngFor="let item of navItems" >
   <button mat-menu-item *ngIf="item.canAccess" [routerLink]="item.route">
     <span class="material-icons icon-width icon-margin">{{item.icon}}</span>
     <span class="margin-top-bot">{{item.name}}</span>

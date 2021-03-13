@@ -41,13 +41,16 @@ export class CoursePageComponent implements OnInit {
       this.courseId = +params['id'];
       this.service.getCourseById(this.courseId).subscribe(el => {
         this.course = el;
-        this.canShowAll = this.roleAuthService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]) || this.course.moderators.filter(el => el.id = this.user.id).length > 0;
+        console.log(this.course);
+        console.log(this.user);
+        this.canShowAll = this.roleAuthService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]) || this.course.moderators.filter(el => el.id == this.user.id).length > 0;
       })
       this.materials$ = this.materialService.getMaterialsByCourseId(this.courseId);
       this.refreshMaterials();
     });
 
   }
+
 
 
   showAllMaterials() {
@@ -69,6 +72,6 @@ export class CoursePageComponent implements OnInit {
   }
 
   get materialCreateUrl() {
-    return `/courses/${this.courseId}/materials/create`;
+    return `/courses/${this.courseId}/material/create`;
   }
 }

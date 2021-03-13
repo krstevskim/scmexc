@@ -1,10 +1,10 @@
 <div class="flex-row">
   <h2 [class.hover]="canOpenFull" (click)="openFullPage()" >{{material?.title}}</h2>
-  <div  *ngIf="hasUnPublishPermission"  class="push flex-row">
-  <button mat-icon-button class="push" (click)="unpublishMaterial()">
+  <div class="push flex-row">
+  <button *ngIf="hasUnPublishPermission"  mat-icon-button class="push" (click)="unpublishMaterial()">
     <mat-icon class="dislike">block</mat-icon>
   </button>
-  <div >
+  <div *ngIf="canEditMaterial">
     <button mat-icon-button [routerLink]="editUrl">
       <span class="material-icons">mode_edit</span>
     </button>
