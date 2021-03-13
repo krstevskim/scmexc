@@ -140,15 +140,17 @@ public class MaterialService {
     public Boolean canUserAccessEditMaterial(Long materialId, UserPrincipal userPrincipal) {
         if(userPrincipal.hasRole(Role.ADMIN) || userPrincipal.hasRole(Role.SUPER_ADMIN) || userPrincipal.hasRole(Role.MODERATOR)) return  true;
         Material material = materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
-        return material.getCreatedBy().getUsername().equals(userPrincipal.getUsername());
+        return material.getCreatedBy().getId().equals(userPrincipal.getId());
     }
 
     public Material addQuestion(AddQuestionRequest request) {
         Material material = this.materialRepository.findById(request.materialID).orElseThrow(()->new MaterialNotFoundException(request.materialID));
-        Question question = new Question();
+        Item item = request.itemID != null ?
+                this.itemRepository.findById(request.itemID)
+                        .orElseThrow(() -> new ItemNotFoundException(request.itemID)) : new Item();
+        Question question = item.getQuestion() != null ? item.getQuestion() : new Question();
         question.setDescription(request.description);
         question = this.questionRepository.save(question);
-        Item item = new Item();
         item.setQuestion(question);
         item.setMaterial(material);
         item.setType(Type.QUESTION);

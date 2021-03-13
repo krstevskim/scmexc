@@ -86,12 +86,12 @@ public class MaterialController {
     }
 
     @PostMapping("/{id}/addFile")
-    public ResponseEntity<String> addFile(@PathVariable Long id, @RequestParam MultipartFile file) {
+    public ResponseEntity addFile(@PathVariable Long id, @RequestParam MultipartFile file) {
        String message ;
         try {
              service.addItem(id, file);
             message = "Uploaded the file successfully: " + file.getOriginalFilename();
-            return ResponseEntity.status(HttpStatus.OK).body(message);
+            return ResponseEntity.ok().build();
         } catch (Exception e) {
             message = "Could not upload the file: " + file.getOriginalFilename() + "!";
             return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED).body(message);
@@ -100,9 +100,9 @@ public class MaterialController {
     }
 
     @PostMapping("/addQuestion")
-    public ResponseEntity<String> addQuestion(@RequestBody AddQuestionRequest request){
+    public ResponseEntity addQuestion(@RequestBody AddQuestionRequest request){
         service.addQuestion(request);
-        return  ResponseEntity.status(HttpStatus.OK).body("Question has been added");
+        return  ResponseEntity.ok().build();
     }
 
     @PostMapping("can-access/{id}")

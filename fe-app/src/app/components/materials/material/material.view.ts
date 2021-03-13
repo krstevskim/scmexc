@@ -25,7 +25,7 @@ export class MaterialView implements OnInit {
   user: User;
   @Output() refresh: EventEmitter<boolean> = new EventEmitter();
   material$: Observable<Material>
-
+  canEditMaterial = false;
   constructor(
     private roleAuthenticatorService: RoleAuthenticatorService,
     private userService: UserService,
@@ -37,6 +37,7 @@ export class MaterialView implements OnInit {
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
     this.material$ = this.service.getMaterialById(this.materialId != null ? this.materialId : this.material.id)
+
     this.loadMaterial();
   }
 
@@ -49,7 +50,10 @@ export class MaterialView implements OnInit {
   }
 
   loadMaterial() {
-    this.material$.pipe(shareReplay(1)).subscribe(el => this.material = el);
+    this.material$.pipe(shareReplay(1)).subscribe(el => {
+      this.material = el
+      this.canEditMaterial = this.hasAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR]) || this.material.createdBy === this.user.username;
+    });
   }
 
   unpublishMaterial() {

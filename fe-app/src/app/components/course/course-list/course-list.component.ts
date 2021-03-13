@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Course} from "../../../interfaces/course.interface";
 import {Observable} from "rxjs";
 import {CourseService} from "../../../services/course.service";
+import {RoleAuthenticatorService} from "../../../services/user-auth/role-authenticator.service";
+import {Role} from "../../../interfaces/user/Role";
 
 @Component({
   selector: 'app-course-list',
@@ -14,7 +16,9 @@ export class CourseListComponent implements OnInit {
   courses: Course[] = [];
   displayedCourses: Course[];
   search: string = '';
-  constructor(private _service: CourseService) {  }
+  canAddCourse = false;
+  constructor(private _service: CourseService,
+              private roleAuth: RoleAuthenticatorService) {  }
 
   ngOnInit(): void {
     this.$courses = this._service.getAllCourses();
@@ -22,6 +26,7 @@ export class CourseListComponent implements OnInit {
       this.courses = el;
       console.log(el);
       this.displayedCourses =this.courses;
+      this.canAddCourse = this.roleAuth.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]);
     });
   }
 

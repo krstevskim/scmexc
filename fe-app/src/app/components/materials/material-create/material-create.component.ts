@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {Item} from "../../../interfaces/material/item.interface";
 import {Material} from "../../../interfaces/material/material.interface";
 import {ActivatedRoute, Route, Router} from "@angular/router";
 import {MaterialService} from "../../../services/material.service";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {NotifierService} from "angular-notifier";
+import {Observable} from "rxjs";
 
 @Component({
   selector: 'app-material-create',
@@ -17,7 +18,7 @@ export class MaterialCreateComponent implements OnInit {
   materialId: number;
   materialForm: FormGroup;
   courseId: number;
-
+  material$: Observable<Material>;
   constructor(private router: Router,
               private route: ActivatedRoute,
               private service: MaterialService,
@@ -29,24 +30,22 @@ export class MaterialCreateComponent implements OnInit {
       title: ['', Validators.required],
       description: ['', Validators.required]
     });
-    // this.route.queryParams.subscribe(params => {
-    //   if(params['courseId']) {
-    //     //should be mandatory!
-    //     this.courseId = +params['courseId'];
-    //   }
-    // })
     this.route.params.subscribe(params => {
-      console.log(params);
       if(params['matId']) {
         this.materialId = +params['matId'];
-        this.service.getMaterialById(this.materialId).subscribe(el => {
-          this.material = el;
-          this.materialForm.patchValue(el);
-        });
+        this.material$ = this.service.getMaterialById(this.materialId);
+        this.loadMaterial();
       }
       if(params['id']) {
         this.courseId = +params['id'];
       }
+    });
+  }
+
+  loadMaterial() {
+    this.material$.subscribe(el => {
+      this.material = el;
+      this.materialForm.patchValue(el);
     });
   }
 
@@ -64,6 +63,9 @@ export class MaterialCreateComponent implements OnInit {
     materialData.courseId = this.courseId;
     this.service.addOrUpdateMaterial(materialData).subscribe(el => {
       this.notifierService.notify('success', 'Material saved.');
+      if(!this.materialId) {
+        this.router.navigate([`${el.id}`], {relativeTo: this.route});
+      }
       //success
     }, error => {
       this.notifierService.notify('error', 'Error saving material.');
