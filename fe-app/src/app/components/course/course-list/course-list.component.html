@@ -11,7 +11,7 @@
 
 <div class="flex-wrap">
 <mat-card class="card-size" *ngFor="let course of displayedCourses"  [routerLink]="course.id">
-  <mat-card-title>{{course.name}} {{course.code}} ({{course.id}})</mat-card-title>
+  <mat-card-title>{{course.name}} {{course.code}}</mat-card-title>
   <mat-card-content class="card-content">
     {{course.description}}
   </mat-card-content>

@@ -28,3 +28,11 @@
 .button-spacing {
   margin-left:25px;
 }
+
+.like-dislike {
+  transition:all 200ms;
+  &:hover {
+    font-size: 32px;
+    cursor: pointer;
+  }
+}

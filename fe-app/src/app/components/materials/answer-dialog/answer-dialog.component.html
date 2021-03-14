@@ -17,7 +17,7 @@
         <button class="button-spacing" mat-icon-button (click)="downVoteAnswer(answer)" type="button"><span class="material-icons icon-width">thumb_down_alt</span>
           <span>{{answer.downVotes}}</span>
         </button>
-        <button *ngIf="canSelectUsefulAnswer()" class="button-spacing" mat-icon-button type="button" (click)="selectUsefulAnswer(answer)"><span class="material-icons icon-width">star</span>
+        <button *ngIf="canSelectMostUsefulAnswer" class="button-spacing" mat-icon-button type="button" (click)="selectUsefulAnswer(answer)"><span class="material-icons icon-width">star</span>
         </button>
       </div>
     </div>

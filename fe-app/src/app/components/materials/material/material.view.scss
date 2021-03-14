@@ -13,6 +13,15 @@
 .like {
   color: green;
 
+  transition:all 200ms;
+  &:hover {
+    font-size: 32px;
+    cursor: pointer;
+  }
+}
+
+.like-dislike {
+  transition:all 200ms;
   &:hover {
     font-size: 32px;
     cursor: pointer;
@@ -22,6 +31,15 @@
 .dislike {
   color: red;
 
+  transition:all 200ms;
+  &:hover {
+    font-size: 32px;
+    cursor: pointer;
+  }
+}
+
+.edit-icon {
+  transition:all 200ms;
   &:hover {
     font-size: 32px;
     cursor: pointer;

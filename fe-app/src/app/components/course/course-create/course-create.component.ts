@@ -53,6 +53,7 @@ export class CourseCreateComponent implements OnInit {
     courseData.id = this.courseId;
     this._service.addOrUpdateCourse(courseData).subscribe(el => {
       this._notifierService.notify('success', 'Course saved.');
+      this._router.navigate(['/courses']);
       //success
     }, error => {
       this._notifierService.notify('error', 'Error saving course.');

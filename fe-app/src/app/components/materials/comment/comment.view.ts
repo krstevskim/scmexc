@@ -12,7 +12,7 @@ export class CommentView implements OnInit {
 
   @Input() comment: Comment;
   constructor(private service: CommentService, private notifierService: NotifierService) { }
-  @Output() refresh: EventEmitter<boolean>;
+  @Output() refresh: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   ngOnInit(): void {
   }
@@ -24,6 +24,7 @@ export class CommentView implements OnInit {
   upvoteComment(comment) {
     this.service.upvoteComment(comment.id).subscribe(el => {
       this.notifierService.notify('success', 'Liked Comment');
+      this.refreshComments()
     }, error => {
       this.notifierService.notify('error', error.error);
     });
@@ -32,6 +33,7 @@ export class CommentView implements OnInit {
   downvoteComment(comment) {
     this.service.downvoteComment(comment.id).subscribe(el => {
       this.notifierService.notify('success', 'Downvoted Comment');
+      this.refreshComments()
     }, error => {
       this.notifierService.notify('error', error.error);
     });

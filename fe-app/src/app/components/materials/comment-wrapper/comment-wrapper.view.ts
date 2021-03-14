@@ -30,6 +30,7 @@ export class CommentWrapperView implements OnInit {
       description: ['', [Validators.required]]
     });
     this.comments$ = this.service.getAllCommentsByMaterialId(this.materialId);
+    this.loadComments();
   }
 
   get f() {

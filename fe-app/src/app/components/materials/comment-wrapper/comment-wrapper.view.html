@@ -1,5 +1,4 @@
 <div class="flex-column">
-  <a >Show all comments</a>
   <div class="comment-margin"  *ngFor="let comment of comments" >
   <comment [comment]="comment" (refresh)="loadComments()"></comment>
   </div>

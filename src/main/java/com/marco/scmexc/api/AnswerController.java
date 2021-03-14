@@ -28,7 +28,7 @@ public class AnswerController {
     @PostMapping("/addAnswer")
     public ResponseEntity<String> addAnswer(@CurrentUser UserPrincipal user, @RequestBody AnswerRequest request) {
         this.service.addAnswer(request, user.getId());
-        return ResponseEntity.status(HttpStatus.OK).body("Your answer has been added!!!");
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/question/{questionID}")
@@ -38,13 +38,13 @@ public class AnswerController {
                     return AnswerResponse.of(answer.getId(), answer.getQuestion().getDescription(),
                             answer.getAnswer(), answer.getUpVotes(), answer.getDownVotes(), answer.getAnsweredBy().getEmail(), answer.getDatePosted());
                 }).collect(Collectors.toList());
-        return ResponseEntity.status(HttpStatus.OK).body(answerResponses);
+        return ResponseEntity.ok(answerResponses);
     }
 
     @PostMapping("/{answerID}/upvote")
     public ResponseEntity<String> incUpVotes(@PathVariable Long answerID, @CurrentUser UserPrincipal userPrincipal) {
         boolean success = this.service.incUpVotes(answerID, userPrincipal.getId());
-        return success ? ResponseEntity.status(HttpStatus.OK).build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already Upvoted.");
+        return success ? ResponseEntity.ok().build() : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Already Upvoted.");
     }
 
     @PostMapping("/{answerID}/downvote")
