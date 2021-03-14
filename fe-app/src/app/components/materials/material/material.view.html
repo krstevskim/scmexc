@@ -1,12 +1,17 @@
 <div class="flex-row">
   <h2 [class.hover]="canOpenFull" (click)="openFullPage()" >{{material?.title}}</h2>
   <div class="push flex-row">
-  <button *ngIf="hasUnPublishPermission"  mat-icon-button class="push" (click)="unpublishMaterial()">
-    <mat-icon class="dislike">block</mat-icon>
+    <div *ngIf='hasUnPublishPermission'>
+  <button *ngIf="material.published"  mat-icon-button class="push" (click)="unpublishMaterial()">
+    <span class="material-icons dislike">block</span>
   </button>
+      <button *ngIf="!material.published"  mat-icon-button class="push" (click)="publishMaterial()">
+        <span class="material-icons like">publish</span>
+      </button>
+    </div>
   <div *ngIf="canEditMaterial">
     <button mat-icon-button [routerLink]="editUrl">
-      <span class="material-icons">mode_edit</span>
+      <span class="material-icons edit-icon">mode_edit</span>
     </button>
   </div>
   </div>
@@ -17,11 +22,11 @@
 <mat-card-footer class="mat-card-footer">
   <div class="flex-row">
     <div class="push">
-      <button mat-icon-button (click)="upvoteMaterial(material)" type="button"><span class="material-icons icon-width">thumb_up_alt</span>
+      <button mat-icon-button (click)="upvoteMaterial(material)" type="button"><span class="material-icons like-dislike icon-width">thumb_up_alt</span>
         <span>{{material?.upVotes}}</span>
       </button>
       <button class="button-spacing" mat-icon-button (click)="downvoteMaterial(material)" type="button"><span
-        class="material-icons icon-width">thumb_down_alt</span>
+        class="material-icons like-dislike icon-width">thumb_down_alt</span>
         <span>{{material?.downVotes}}</span>
       </button>
     </div>

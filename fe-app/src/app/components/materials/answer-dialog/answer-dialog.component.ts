@@ -23,7 +23,7 @@ export class AnswerDialogComponent implements OnInit {
   answerForm: FormGroup;
   currentUser: User;
   answers: Answer[];
-
+  canSelectMostUsefulAnswer: boolean = false;
   constructor(private answerService: AnswerService,
               private builder: FormBuilder,
               private notifierService: NotifierService,
@@ -36,7 +36,7 @@ export class AnswerDialogComponent implements OnInit {
     this.answerForm = this.builder.group({
       answer: ['', Validators.required]
     });
-
+    this.canSelectUsefulAnswer();
     this.answers$ = this.answerService.getAnswersByQuestion(this.data.questionId);
     this.loadAnswers();
     this.answerService.getMostUserfulAnswerByQuestionId(this.data.questionId).subscribe(el => {
@@ -67,7 +67,7 @@ export class AnswerDialogComponent implements OnInit {
   }
 
   canSelectUsefulAnswer() {
-    return this.roleService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR, Role.ROLE_ADMIN]) || this.data.postedBy.id == this.currentUser.id;
+    this.canSelectMostUsefulAnswer = this.roleService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR, Role.ROLE_ADMIN]) || this.data.postedBy.id == this.currentUser.id;
   }
 
   loadAnswers() {

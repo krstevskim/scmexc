@@ -8,10 +8,10 @@
       <span>Date posted: {{comment.datePosted | date: 'dd-mm-yyyy H:m'}}</span>
     </div>
     <div class="push">
-      <button mat-icon-button (click)="upvoteComment(comment)" type="button"><span class="material-icons icon-width">thumb_up_alt</span>
+      <button mat-icon-button (click)="upvoteComment(comment)" type="button"><span class="material-icons like-dislike icon-width">thumb_up_alt</span>
         <span>{{comment.upVotes}}</span>
       </button>
-      <button class="button-spacing" mat-icon-button (click)="downvoteComment(comment)" type="button"><span class="material-icons icon-width">thumb_down_alt</span>
+      <button class="button-spacing" mat-icon-button (click)="downvoteComment(comment)" type="button"><span class="material-icons  like-dislike icon-width">thumb_down_alt</span>
         <span>{{comment.downVotes}}</span>
       </button>
     </div>

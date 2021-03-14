@@ -21,7 +21,13 @@ export class MaterialView implements OnInit {
   @Input() materialId: number;
   @Input() canOpenFull: boolean;
   @Input() courseId: number;
-  @Input() material: Material;
+  @Input() set material(mat: Material){
+    this._material = mat;
+  };
+  private _material: Material;
+  get material() {
+    return this._material;
+  }
   user: User;
   @Output() refresh: EventEmitter<boolean> = new EventEmitter();
   material$: Observable<Material>
@@ -51,7 +57,7 @@ export class MaterialView implements OnInit {
 
   loadMaterial() {
     this.material$.pipe(shareReplay(1)).subscribe(el => {
-      this.material = el
+      this._material = el
       this.canEditMaterial = this.hasAnyRole([Role.ROLE_ADMIN, Role.ROLE_SUPER_ADMIN, Role.ROLE_MODERATOR]) || this.material.createdBy === this.user.username;
     });
   }
@@ -88,6 +94,16 @@ export class MaterialView implements OnInit {
       this.loadMaterial()
     }, error => {
       this.notifierService.notify('error', error.error);
+    })
+  }
+
+  publishMaterial() {
+    let matId = this.materialId != null ? this.materialId : this.material.id;
+    this.service.publish(matId).subscribe(it => {
+      this.notifierService.notify('success', 'Successfully published material');
+      this.refresh.emit(true);
+    }, error => {
+      this.notifierService.notify('error', 'Error publishing material.')
     })
   }
 
