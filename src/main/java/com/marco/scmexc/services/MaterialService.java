@@ -10,13 +10,17 @@ import org.apache.catalina.User;
 import org.springframework.beans.support.PagedListHolder;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.management.relation.InvalidRoleInfoException;
 import java.io.IOException;
 import java.time.ZonedDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MaterialService {
@@ -53,13 +57,43 @@ public class MaterialService {
     }
 
     public Page<Material> getAllMaterialsPaged(Pageable pageable, String searchQuery, Long course, UserPrincipal userPrincipal) {
+        SmxUser createdBy = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new UserNotFoundException(userPrincipal.getId()));
+        Role role = createdBy.getRole();
         String sq = searchQuery.equals("") ? null : searchQuery;
-        if(sq != null && course != null){
-            return materialRepository.findAllByTitleAndCourse_id(sq, course, pageable);
-        } else if(sq != null) {
-            return materialRepository.findAllByTitle(sq, pageable);
-        } else if(course != null) return materialRepository.findAllByCourse_id(course, pageable);
-        else return materialRepository.findAll(pageable);
+        if(Role.ADMIN.equals(role.name()) || Role.SUPER_ADMIN.equals(role.name())){
+            if(sq != null && course != null){
+                return materialRepository.findAllByTitleAndCourse_id(sq, course, pageable);
+            } else if(sq != null) {
+                return materialRepository.findAllByTitle(sq, pageable);
+            } else if(course != null) {
+                return materialRepository.findAllByCourse_id(course, pageable);
+            } else {
+                return materialRepository.findAll(pageable);
+            }
+        }else if(Role.BASIC.equals(role.name())){
+            if(sq != null && course != null){
+                return materialRepository.findAllByTitleAndCourse_idAndCreatedBy(sq, course,createdBy, pageable);
+            } else if(sq != null) {
+                return materialRepository.findAllByTitleAndCreatedBy(sq,createdBy,pageable);
+            } else if(course != null) {
+                return materialRepository.findAllByCourse_idAndCreatedBy(course,createdBy, pageable);
+            } else {
+                return materialRepository.findAll(pageable);
+            }
+        }else if(Role.MODERATOR.equals(role.name())){
+            List<Course> coursesList = createdBy.getModeratingCourses().stream().collect(Collectors.toList());
+            if(sq != null && course != null){
+                return materialRepository.findAllByTitleAndCourse_idAndCourseIn(sq, course,coursesList, pageable);
+            } else if(sq != null) {
+                return materialRepository.findAllByTitleAndCourseIn(sq,coursesList,pageable);
+            } else if(course != null) {
+                return materialRepository.findAllByCourse_idAndCourseIn(course,coursesList, pageable);
+            } else {
+                return materialRepository.findAll(pageable);
+            }
+        }
+        return null;
+        // throw new InvalidUserRoleException();
     }
 
     public Material save(MaterialRequest materialRequest, UserPrincipal userPrincipal){
