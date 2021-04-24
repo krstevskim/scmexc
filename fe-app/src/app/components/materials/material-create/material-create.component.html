@@ -26,7 +26,7 @@
         </mat-error>
       </mat-form-field>
     </p>
-    <button mat-flat-button color="primary" type="submit">Save</button>
+    <button mat-flat-button color="primary" [disabled]="materialForm.invalid" type="submit">Save</button>
   </form>
 </mat-card>
 

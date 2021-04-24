@@ -73,6 +73,16 @@ export class MaterialView implements OnInit {
   }
 
 
+  publishMaterial() {
+    let matId = this.materialId != null ? this.materialId : this.material.id;
+    this.service.publish(matId).subscribe(it => {
+      this.notifierService.notify('success', 'Successfully published material');
+      this.refresh.emit(true);
+    }, error => {
+      this.notifierService.notify('error', 'Error publishing material.')
+    })
+  }
+
   openFullPage() {
     if (this.canOpenFull) {
       this.router.navigate(['/courses', this.courseId, 'material', this.material.id]);
@@ -94,16 +104,6 @@ export class MaterialView implements OnInit {
       this.loadMaterial()
     }, error => {
       this.notifierService.notify('error', error.error);
-    })
-  }
-
-  publishMaterial() {
-    let matId = this.materialId != null ? this.materialId : this.material.id;
-    this.service.publish(matId).subscribe(it => {
-      this.notifierService.notify('success', 'Successfully published material');
-      this.refresh.emit(true);
-    }, error => {
-      this.notifierService.notify('error', 'Error publishing material.')
     })
   }
 

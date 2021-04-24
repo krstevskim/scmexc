@@ -19,7 +19,6 @@ export class AdminGuard implements CanActivate {
     }
 
     private matchAnyRole(roles: Role[]): boolean {
-      console.log(this.userService.getCurrentUser())
       return roles.filter(el => this.userService.getCurrentUser().role == el).length != 0;
     }
 }

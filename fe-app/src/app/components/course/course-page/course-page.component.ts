@@ -31,18 +31,14 @@ export class CoursePageComponent implements OnInit {
               private materialService: MaterialService,
               private userService: UserService,
               private roleAuthService: RoleAuthenticatorService) {
-    console.log("INIT")
   }
 
   ngOnInit(): void {
     this.user = this.userService.getCurrentUser();
     this.route.params.subscribe(params => {
-      console.log(params);
       this.courseId = +params['id'];
       this.service.getCourseById(this.courseId).subscribe(el => {
         this.course = el;
-        console.log(this.course);
-        console.log(this.user);
         this.canShowAll = this.roleAuthService.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]) || this.course.moderators.filter(el => el.id == this.user.id).length > 0;
       })
       this.materials$ = this.materialService.getMaterialsByCourseId(this.courseId);

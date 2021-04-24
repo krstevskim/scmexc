@@ -8,7 +8,6 @@ import {BehaviorSubject} from "rxjs";
 import {MaterialService} from "../../../services/material.service";
 import {Material} from "../../../interfaces/material/material.interface";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {MaxSizeValidator} from "@angular-material-components/file-input";
 
 @Component({
   selector: 'item-create-wrapper',
@@ -30,6 +29,7 @@ export class ItemCreateWrapperComponent implements OnInit {
   progress:number;
   newItemEmitter: BehaviorSubject<Item>;
   @Output() refresh: EventEmitter<boolean> = new EventEmitter<boolean>();
+  canUpload: boolean = false;
 
   constructor(private builder: FormBuilder,
               private router: Router,
@@ -42,11 +42,10 @@ export class ItemCreateWrapperComponent implements OnInit {
     this.emptyEdit()
     this.initForm();
     this.fileControl = new FormControl(this.fileToUpload, [
-      Validators.required,
-      MaxSizeValidator(16 * 1024)
-    ])
+      Validators.required])
     this.fileControl.valueChanges.subscribe((files: any) => {
       this.fileToUpload = files;
+      this.canUpload = this.fileToUpload.size < 33554432;
     })
   }
 
@@ -71,7 +70,6 @@ export class ItemCreateWrapperComponent implements OnInit {
       this.uploadFileToActivity();
     }
     if(this.newItemType == ItemType.QUESTION) {
-      console.log('here')
       let request = this.itemForm.value;
       request.materialID = this.material.id;
       request.itemID = this.currentEditItem.itemID;
@@ -80,7 +78,6 @@ export class ItemCreateWrapperComponent implements OnInit {
         this.emptyEdit()
         this.refresh.emit(true);
       }, error => {
-        console.log(error);
         this._notifierService.notify('error', 'Error saving question.');
       });
     }
@@ -93,7 +90,6 @@ export class ItemCreateWrapperComponent implements OnInit {
   uploadFileToActivity() {
     if(this.fileToUpload != null) {
       this.service.upload(this.material.id, this.fileToUpload).subscribe(event => {
-
         if (event.type === HttpEventType.UploadProgress) {
          this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
@@ -101,7 +97,6 @@ export class ItemCreateWrapperComponent implements OnInit {
           this.emptyEdit();
         }
       }, error => {
-        console.log(error);
       });
     }
   }
@@ -124,7 +119,6 @@ export class ItemCreateWrapperComponent implements OnInit {
       this._notifierService.notify('success', 'Successfully deleted item.');
       this.refresh.emit(true);
     }, error => {
-      console.log(error);
       this._notifierService.notify('error', error.error);
     });
   }

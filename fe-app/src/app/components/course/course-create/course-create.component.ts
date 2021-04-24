@@ -31,7 +31,6 @@ export class CourseCreateComponent implements OnInit {
     });
 
     this._route.params.subscribe(params => {
-      console.log(params);
       if(params['id']) {
         this.courseId = +params['id'];
         this._service.getCourseById(this.courseId).subscribe(el => {
@@ -53,7 +52,7 @@ export class CourseCreateComponent implements OnInit {
     courseData.id = this.courseId;
     this._service.addOrUpdateCourse(courseData).subscribe(el => {
       this._notifierService.notify('success', 'Course saved.');
-      this._router.navigate(['/courses']);
+      this._router.navigate(["/courses"]);
       //success
     }, error => {
       this._notifierService.notify('error', 'Error saving course.');

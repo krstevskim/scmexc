@@ -30,7 +30,6 @@ public class CourseController {
     }
 
     @PostMapping("/add")
-    @PreAuthorize("hasAnyAuthority('SUPER_ADMIN', 'ADMIN')")
     public CourseResponse addNewCourse(@RequestBody CourseRequest request){
         return mapper.addNewCourse(request);
     }

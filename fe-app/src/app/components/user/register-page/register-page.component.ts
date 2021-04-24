@@ -67,8 +67,7 @@ export class RegisterPageComponent implements OnInit {
     this.authService.registerUser(newUser).subscribe(
       success => {
         this.notifierService.notify('success', 'Registered.');
-        this.router.navigate(['/courses']).then(
-          () => console.log("registered"));
+        this.router.navigate(['/courses'])
       },
       error => {
         console.error(error);

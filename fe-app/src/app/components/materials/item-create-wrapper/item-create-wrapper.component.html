@@ -40,18 +40,16 @@
             </textarea>
             <mat-error *ngIf="f.description.invalid && f.description.touched">You must input a question</mat-error>
           </mat-form-field>
-<!--          STYLE-->
           <button [disabled]="f.description.invalid" mat-flat-button class="margin-left-auto" color="primary" type="submit">
           Save
         </button>
         </div>
 
         <div class="align-center" *ngIf="newItemType == itemTypes.FILE || newItemType == itemTypes.IMAGE">
-          <!--          <mat-form-field appearance="outline" class="full-width-input">-->
           <ngx-mat-file-input class="file-input-width margin-left-right-auto" [formControl]="fileControl" color="primary"></ngx-mat-file-input>
           <mat-progress-bar class="file-input-width margin-left-right-auto progress-bar" mode="determinate" [value]="progress"></mat-progress-bar>
-<!--          sTYLE-->
-          <button [disabled]="!fileToUpload" mat-flat-button class="margin-left-auto" color="primary" type="submit">
+          <p class="margin-left-right-auto">Max file size: 32MB</p>
+          <button [disabled]="!canUpload" mat-flat-button class="margin-left-auto" color="primary" type="submit">
             Save
           </button>
         </div>

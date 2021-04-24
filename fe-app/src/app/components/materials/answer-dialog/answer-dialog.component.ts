@@ -93,7 +93,6 @@ export class AnswerDialogComponent implements OnInit {
   }
 
   upVoteAnswer(answer: Answer) {
-    console.log(answer);
     this.answerService.upVoteAnswer(answer.id).subscribe(el => {
       this.notifierService.notify('success', 'Upvoted');
       this.loadAnswers();

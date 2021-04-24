@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../../services/user-auth/authentication.service";
+import {NotifierService} from "angular-notifier";
 
 @Component({
   selector: 'app-login-page',
@@ -12,6 +13,7 @@ export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
+    private notifierService: NotifierService,
     private authService: AuthenticationService) { }
 
   ngOnInit(): void {
@@ -27,18 +29,16 @@ export class LoginPageComponent implements OnInit {
   onSubmit() {
 
     if (!this.loginForm.valid) {
-      // this.notifierService.notify('error', NotifierMessages.ALL_FIELDS_REQUIRED);
-      console.log("invalid form")
+      this.notifierService.notify('error', "Please enter all details.");
       return;
     }
 
     const loginData = this.loginForm.value;
-    // this.notifierService.notify('info', 'Logging in, please wait...');
+    this.notifierService.notify('info', 'Logging in, please wait...');
     this.authService.authenticate(loginData.email, loginData.password).subscribe(
       sucess => window.location.href = '/',
       error => {
-        // this.notifierService.notify('error', 'Your error or username is invalid.');
-        console.log(error)
+        this.notifierService.notify('error', 'Your error or username is invalid.');
       }
     );
 

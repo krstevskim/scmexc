@@ -53,6 +53,7 @@ export class ChangePasswordComponent implements OnInit {
     this.authService.changePassword(passwordPayload).subscribe(
       success => {
         this.notifierService.notify('success', 'Successfully updated password');
+        this.router.navigate(["/update-user"]);
       },
       error => {
         console.error(error);

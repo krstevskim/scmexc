@@ -44,7 +44,7 @@
     </mat-form-field>
   </p>
   <p class="text-center">
-    <button class="btn-width" mat-flat-button color="primary" type="submit">Save</button>
+    <button class="btn-width" [disabled]="courseForm.invalid " mat-flat-button color="primary" type="submit">Save</button>
   </p>
 </form>
   </mat-card-content>

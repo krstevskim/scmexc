@@ -59,17 +59,17 @@ export class UserEditComponent implements OnInit {
         if (params['id']) {
           this.userId = +params['id'];
           this.userService.getUserById(this.userId).subscribe(el => {
-            this.userToUpdate = el;
-            this.userForm.patchValue(this.userToUpdate);
+            this.userForm.patchValue(el);
             this.userService.getModeratingCoursesByUserId(this.userId)
               .pipe(map(el => el.map(option => option.id)))
               .subscribe(el => {
-                console.log("moderating", el);
                 this.userForm.controls.moderatingCourses.patchValue(el);
               })
             this.selectedRole = el.role;
             this.hasRoleChangePermission = true;
           })
+        } else {
+          this.userForm.patchValue(this.currentUser);
         }
       });
     } else {
@@ -88,7 +88,6 @@ export class UserEditComponent implements OnInit {
 
   onSubmit() {
     let newUser = this.userForm.value;
-    console.log(newUser)
     this.authService.changeDetails(newUser).subscribe(
       success => {
         this.notifierService.notify('success', 'Successfully updated user details');

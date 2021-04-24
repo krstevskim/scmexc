@@ -24,7 +24,6 @@ export class CourseListComponent implements OnInit {
     this.$courses = this._service.getAllCourses();
     this.$courses.subscribe(el => {
       this.courses = el;
-      console.log(el);
       this.displayedCourses =this.courses;
       this.canAddCourse = this.roleAuth.hasAnyRole([Role.ROLE_SUPER_ADMIN, Role.ROLE_ADMIN]);
     });
