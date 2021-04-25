@@ -8,7 +8,7 @@
     <div class="flex-row align-center">
       <div class="flex-column">
         <span>Posted by: {{answer.answeredBy}}</span>
-        <span>Date posted: {{answer.time | date: 'dd-mm-yyyy H:m'}}</span>
+        <span>Date posted: {{answer.time | date: 'dd-MM-yyyy H:m'}}</span>
       </div>
       <div class="push">
         <button mat-icon-button (click)="upVoteAnswer(answer)" type="button"><span class="material-icons icon-width">thumb_up_alt</span>

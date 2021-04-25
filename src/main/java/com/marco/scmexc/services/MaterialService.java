@@ -60,7 +60,7 @@ public class MaterialService {
         SmxUser createdBy = userRepository.findById(userPrincipal.getId()).orElseThrow(() -> new UserNotFoundException(userPrincipal.getId()));
         Role role = createdBy.getRole();
         String sq = searchQuery.equals("") ? null : searchQuery;
-        if(Role.ADMIN.equals(role.name()) || Role.SUPER_ADMIN.equals(role.name())){
+        if(Role.ADMIN.equals(role) || Role.SUPER_ADMIN.equals(role)){
             if(sq != null && course != null){
                 return materialRepository.findAllByTitleAndCourse_id(sq, course, pageable);
             } else if(sq != null) {
@@ -70,7 +70,7 @@ public class MaterialService {
             } else {
                 return materialRepository.findAll(pageable);
             }
-        }else if(Role.BASIC.equals(role.name())){
+        }else if(Role.BASIC.equals(role)){
             if(sq != null && course != null){
                 return materialRepository.findAllByTitleAndCourse_idAndCreatedBy(sq, course,createdBy, pageable);
             } else if(sq != null) {
@@ -80,7 +80,7 @@ public class MaterialService {
             } else {
                 return materialRepository.findAll(pageable);
             }
-        }else if(Role.MODERATOR.equals(role.name())){
+        }else if(Role.MODERATOR.equals(role)){
             List<Course> coursesList = createdBy.getModeratingCourses().stream().collect(Collectors.toList());
             if(sq != null && course != null){
                 return materialRepository.findAllByTitleAndCourse_idAndCourseIn(sq, course,coursesList, pageable);
@@ -93,7 +93,6 @@ public class MaterialService {
             }
         }
         return null;
-        // throw new InvalidUserRoleException();
     }
 
     public Material save(MaterialRequest materialRequest, UserPrincipal userPrincipal){
@@ -112,7 +111,6 @@ public class MaterialService {
     }
 
     public Material findById(Long materialId){
-        //TODO exception
         return this.materialRepository.findById(materialId).orElseThrow(()->new MaterialNotFoundException(materialId));
     }
 
